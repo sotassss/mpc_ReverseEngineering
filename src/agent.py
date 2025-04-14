@@ -8,6 +8,7 @@ from src.nodes.script_analysis_node import ScriptAnalysisNode
 from src.nodes.document_orchestration_node import DocumentOrchestrationNode
 from src.nodes.document_generation_node import DocumentGenerationNode
 from src.nodes.consistency_check_node import ConsistencyCheckNode
+from src.model_types import ScriptAnalysisResults, Sections, GeneratedDocument
 
 class ReverseEngine:
     def __init__(self, llm, db, k=10, maximum_iteration=3):
@@ -47,12 +48,18 @@ class ReverseEngine:
         )
 
         # グラフのコンパイル
-        return workflow.compile
+        return workflow.compile()
     
     def run(self, source_files: list[str]) -> GeneratedDocument:
         # Stateの初期化
-        initial_state = State(source_files=source_files)
-
+        initial_state = State(source_files=source_files,
+                              script_analysis_results=ScriptAnalysisResults(),
+                              sections=Sections(title="ドキュメント", sections=[]),
+                              document=GeneratedDocument(title="ドキュメント", documents=[]),
+                              check_result=False, 
+                              feedback="", 
+                              iteration=0)
+        
         # グラフの実行
         final_state = self.graph.invoke(initial_state)
 
@@ -63,9 +70,9 @@ class ReverseEngine:
         print("ソースコードの解析を開始します...")
         print(f"対象ファイル数: {len(state.source_files)}")
 
-        script_amalysis_result = self.script_analysis_node.run(state.source_files)
+        script_analysis_result = self.script_analysis_node.run(state.source_files)
         return {
-            "script_amalysis_results": script_amalysis_result
+             "script_analysis_results": script_analysis_result
         }
     
     # DocumentOrchestrationNode

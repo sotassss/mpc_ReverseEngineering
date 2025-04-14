@@ -61,7 +61,11 @@ class ScriptAnalysisNode:
         results = chain.batch_as_completed(texts)
 
         # ドキュメントをベクトルストアに追加
-        docs = [Document(page_content=result.detail_explanation, metadata={"file_path": result.file_path}) for result in results]
+        docs = [
+            Document(page_content=result.detail_explanation, metadata={"file_path": file_path})
+            for file_path, result in results
+        ]
+
         uuids = [str(uuid4()) for _ in range(len(docs))]
 
         self.db.add_documents(documents=docs, ids=uuids)
