@@ -49,4 +49,7 @@ python src/main.py
 ## 必要環境
 
 - Python 3.10+
-- OpenAI API キー 
+- OpenAI API キー
+
+## ステート図
+<img width="564" alt="Image" src="https://github.com/user-attachments/assets/5951dc9b-32cc-4215-be94-b7afb28217a3" />
