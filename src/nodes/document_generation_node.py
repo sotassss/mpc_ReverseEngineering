@@ -62,5 +62,5 @@ class DocumentGenerationNode:
         """
         retrieverから取得したcontextを整形する関数
         """
-        contents = "\n\n".join([f"パス: {doc.metadata["file_path"]}\n内容:\n{doc.page_content}" for doc in docs])
+        contents = "\n\n".join([f"パス: {doc.metadata['file_path']}\n内容:\n{doc.page_content}" for doc in docs])
         return contents

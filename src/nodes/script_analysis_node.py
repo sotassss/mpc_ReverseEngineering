@@ -11,7 +11,7 @@ from src.utils.file_utiles import is_sensitive_file, extract_text
 class ScriptAnalysisNode:
     def __init__(self, db, llm):
         self.db = db
-        self.llm = llm.with_structured_ouutput(ScriptAnalysisResult)
+        self.llm = llm.with_structured_output(ScriptAnalysisResult)
         self.config = load_config()
         
     def run(self, source_files: list[str]) -> ScriptAnalysisResults:

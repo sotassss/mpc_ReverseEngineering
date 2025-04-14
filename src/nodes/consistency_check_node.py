@@ -4,7 +4,7 @@ from src.model_types import EvaluationResult, GeneratedDocument
 
 class ConsistencyCheckNode:
     def __init__(self, llm):
-        self.llm = llm.with_structured_ouutput(EvaluationResult)
+        self.llm = llm.with_structured_output(EvaluationResult)
 
     def run(self, documents: GeneratedDocument) -> EvaluationResult:
         """
