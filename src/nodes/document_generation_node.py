@@ -46,12 +46,12 @@ class DocumentGenerationNode:
         } | prompt | self.llm | StrOutputParser()
 
         # セクションごとに並列処理(出力がリストになるように注意)
-        results = chain.batch_as_completed([
+        results = list(chain.batch_as_completed([
             {
                 "section_name": s.section_name, 
                 "section_description": s.section_description
             } for s in sections.sections
-        ])
+        ]))
         documents = [doc for _, doc in results]
 
         return GeneratedDocument(
