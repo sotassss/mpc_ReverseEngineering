@@ -29,9 +29,17 @@ def write_output_md(output):
                 title = title.lstrip('#').strip()
             doc_titles.append((i, title))
     
-    # 目次項目を追加
+    # 目次項目を追加（番号を除去）
     for i, title in doc_titles:
-        toc.append(f"{i}. [{title}](#{i}-{title.lower().replace(' ', '-')})\n")
+        # タイトルからすでに含まれている数字や記号を取り除く
+        clean_title = title
+        # 先頭の数字とピリオドのパターン（例：「1. 」）を削除
+        if clean_title.strip() and clean_title[0].isdigit():
+            parts = clean_title.strip().split('.', 1)
+            if len(parts) > 1 and parts[0].isdigit():
+                clean_title = parts[1].strip()
+        
+        toc.append(f"{i}. [{clean_title}](#{i}-{clean_title.lower().replace(' ', '-').replace('.', '').replace('(', '').replace(')', '')})\n")
     
     toc.append("\n---\n\n")
     
@@ -41,9 +49,19 @@ def write_output_md(output):
         if doc:
             # セクション番号を追加
             title = doc_titles[i-1][1]
-            # エラーが発生していた行の修正
+            
+            # タイトルから既存の番号を削除
+            clean_title = title
+            if clean_title.strip() and clean_title[0].isdigit():
+                parts = clean_title.strip().split('.', 1)
+                if len(parts) > 1 and parts[0].isdigit():
+                    clean_title = parts[1].strip()
+            
+            # ドキュメントの内容を取得
             doc_content = doc.split('\n', 1)[1] if '\n' in doc else ''
-            content.append(f"## {i}. {title}\n\n{doc_content}\n\n")
+            
+            # セクションヘッダーを追加
+            content.append(f"## {i}. {clean_title}\n\n{doc_content}\n\n")
     
     # 目次と内容を結合して書き込み
     with open(output_filepath, "w", encoding="utf-8") as file:
