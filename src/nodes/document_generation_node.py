@@ -45,18 +45,20 @@ class DocumentGenerationNode:
             "context": itemgetter("section_description") | self.retriever | self._format_contents
         } | prompt | self.llm | StrOutputParser()
 
-        # セクションごとに並列処理
-        documents = chain.batch_as_completed([
+        # セクションごとに並列処理(出力がリストになるように注意)
+        results = chain.batch_as_completed([
             {
                 "section_name": s.section_name, 
                 "section_description": s.section_description
             } for s in sections.sections
         ])
+        documents = [doc for _, doc in results]
 
-        return GeneratedDocument({
-            "title": sections.title, 
-            "documents": documents
-        })
+        return GeneratedDocument(
+            title=sections.title, 
+            documents=documents
+        )
+
     
     def _format_contents(self, docs):
         """

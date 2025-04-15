@@ -13,7 +13,7 @@ def main():
     # ソースコードのリストを入力
 
     llm = ChatOpenAI(model="gpt-4o-mini")
-    embeddings = OpenAIEmbeddings(model="text-emmbedding-3-small")
+    embeddings = OpenAIEmbeddings(model="text-embedding-3-small")
     db = Chroma(
         collection_name="example_collection",
         embedding_function=embeddings,
