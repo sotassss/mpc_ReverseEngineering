@@ -2,7 +2,6 @@ from langchain_openai import ChatOpenAI, OpenAIEmbeddings
 from langchain_chroma import Chroma
 from src.agent import ReverseEngine
 from dotenv import load_dotenv
-from src.utils.write_output_pdf import write_output_pdf
 from src.utils.write_output_md import write_output_md
 
 
@@ -30,7 +29,6 @@ def main():
     output = agent.run(source_files=source_files) # ドキュメントが出力
 
     write_output_md(output) # ドキュメントをMarkdown形式で保存
-    write_output_pdf(output) # ドキュメントをPDF形式で保存
 
 
 if __name__ == "__main__":
