@@ -13,8 +13,10 @@ def write_output_md(output):
     output_filepath = os.path.join(save_directory, output_filename)
 
     with open(output_filepath, "w", encoding="utf-8") as file:
-        file.write(f"# {output.title}\n\n")
+        file.write(f"{output.title}\n\n")
         for i, doc in enumerate(output.documents, 1):
+            # print(output.title)
+            # file.write(f"# {i} {output.title}\n\n")
             file.write(f"{doc}\n\n")
 
     print(f"ドキュメントが {output_filepath} に保存されました。")
