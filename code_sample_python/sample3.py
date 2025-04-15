@@ -1,10 +1,8 @@
-# sample3.py
-# 数のリストを合計する
+from sample1 import add
+from sample2 import multiply
 
-numbers = [3, 7, 1, 8, 4]
-total = 0
+x = 5
+y = 3
 
-for num in numbers:
-    total += num
-
-print("合計は:", total)
+print("和:", add(x, y))
+print("積:", multiply(x, y))
