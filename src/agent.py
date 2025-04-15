@@ -11,7 +11,7 @@ from src.nodes.consistency_check_node import ConsistencyCheckNode
 from src.model_types import ScriptAnalysisResults, Sections, GeneratedDocument
 
 class ReverseEngine:
-    def __init__(self, llm, db, k=10, maximum_iteration=3):
+    def __init__(self, llm, db, k=10, maximum_iteration=2):
         self.maximum_iteration = maximum_iteration
         # ノードの初期化
         self.script_analysis_node = ScriptAnalysisNode(db=db, llm=llm)

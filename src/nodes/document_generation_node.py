@@ -1,6 +1,8 @@
 from langchain_core.prompts import ChatPromptTemplate
 from langchain_core.output_parsers import StrOutputParser
 from operator import itemgetter
+from concurrent.futures import ThreadPoolExecutor, as_completed
+from typing import List
 
 from src.model_types import Sections, GeneratedDocument
 
@@ -9,7 +11,7 @@ class DocumentGenerationNode:
         self.llm = llm
         self.db = db
         self.retriever = db.as_retriever(k=k)
-
+    
     def run(self, sections: Sections) -> GeneratedDocument:
         """
         各セクションのドキュメントを生成するノード、生成の際にはベクトルストアから取得したスクリプト情報を参照する
@@ -45,21 +47,47 @@ class DocumentGenerationNode:
             "context": itemgetter("section_description") | self.retriever | self._format_contents
         } | prompt | self.llm | StrOutputParser()
 
-        # セクションごとに並列処理(出力がリストになるように注意)
-        results = list(chain.batch_as_completed([
-            {
-                "section_name": s.section_name, 
-                "section_description": s.section_description
-            } for s in sections.sections
-        ]))
-        documents = [doc for _, doc in results]
-
+        # ThreadPoolExecutorを使用して並列処理しつつ順序を保持する
+        documents = self._process_sections_parallel(chain, sections.sections)
+        
         return GeneratedDocument(
-            title=sections.title, 
+            title=sections.title,
             documents=documents
         )
-
     
+    def _process_sections_parallel(self, chain, sections_list):
+        """
+        ThreadPoolExecutorを使用してセクションを並列処理しながら順番を保持する
+        """
+        # セクションごとの処理を関数化
+        def process_section(index_and_section):
+            index, section = index_and_section
+            input_data = {
+                "section_name": section.section_name,
+                "section_description": section.section_description
+            }
+            output = chain.invoke(input_data)
+            return index, output
+        
+        # 結果を格納するリスト（インデックス付き）
+        results = [None] * len(sections_list)
+        
+        # ThreadPoolExecutorで並列処理
+        with ThreadPoolExecutor() as executor:
+            # タスクをサブミット（インデックス付き）
+            future_to_index = {
+                executor.submit(process_section, (i, section)): i
+                for i, section in enumerate(sections_list)
+            }
+            
+            # 完了したタスクから結果を取得
+            for future in as_completed(future_to_index):
+                index, result = future.result()
+                results[index] = result
+        
+        # リストには既に順序通りに結果が格納されている
+        return results
+        
     def _format_contents(self, docs):
         """
         retrieverから取得したcontextを整形する関数

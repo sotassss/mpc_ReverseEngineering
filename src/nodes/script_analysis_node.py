@@ -73,4 +73,4 @@ class ScriptAnalysisNode:
         self.db.add_documents(documents=docs, ids=uuids)
 
         # ScriptAnalysisResults型として結果を返す
-        return ScriptAnalysisResults(summaries=results)
+        return results
