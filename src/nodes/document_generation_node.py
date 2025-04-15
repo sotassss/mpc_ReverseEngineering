@@ -31,7 +31,6 @@ class DocumentGenerationNode:
                     "あなたは以下に指定される仕様書のセクションのライティングを担当します。\n"
                     "なるべく詳細なドキュメントを作成するようにしてください。ただし、ソースコードの情報から判断できない主張は行わないでください。\n"
                     "仕様書はマークダウン形式で記述し、文頭には必ず見出しとしてセクション名を含めてください。 \n"
-                    "見出しの前に「セクション1」や「セクション2」などの番号は付けないでください。\n"
                     "内容の指示に従って、ソースコードの内容をもとに詳細で包括的な仕様書を作成してください。\n\n"
                     "セクション名: {section_name}\n"
                     "内容の指示: {section_description}\n\n"
@@ -56,6 +55,7 @@ class DocumentGenerationNode:
             documents=documents
         )
     
+    #  並列処理の実装
     def _process_sections_parallel(self, chain, sections_list):
         """
         ThreadPoolExecutorを使用してセクションを並列処理しながら順番を保持する

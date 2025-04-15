@@ -9,6 +9,7 @@ from src.nodes.document_orchestration_node import DocumentOrchestrationNode
 from src.nodes.document_generation_node import DocumentGenerationNode
 from src.nodes.consistency_check_node import ConsistencyCheckNode
 from src.model_types import ScriptAnalysisResults, Sections, GeneratedDocument
+from src.utils.proxy_on_off import handle_proxy_request
 
 class ReverseEngine:
     def __init__(self, llm, db, k=10, maximum_iteration=2):
@@ -67,6 +68,7 @@ class ReverseEngine:
     
     # ScriptAnalysisNode
     def _analyze_scripts(self, state: State):
+        handle_proxy_request()  # プロキシ設定を自動で切り替える処理
         print("ソースコードの解析を開始します...")
         print(f"対象ファイル数: {len(state.source_files)}")
 
@@ -77,6 +79,7 @@ class ReverseEngine:
     
     # DocumentOrchestrationNode
     def _generate_sections(self, state: State):
+        handle_proxy_request()  # プロキシ設定を自動で切り替える処理
         if state.iteration < 1:
             print("ドキュメントの構成を作成しています...")
         else:
@@ -94,6 +97,7 @@ class ReverseEngine:
     
     # DocumentGenerationNode
     def _generate_document(self, state: State):
+        handle_proxy_request()  # プロキシ設定を自動で切り替える処理
         print("ドキュメントを作成しています...")
         document = self.document_generation_node.run(state.sections)
         return {
@@ -102,6 +106,7 @@ class ReverseEngine:
     
     # ConsistencyCheckNode
     def _check_consistency(self, state: State):
+        handle_proxy_request()  # プロキシ設定を自動で切り替える処理
         print("生成したドキュメントをチェックしています")
         evaluation_result = self.consistency_check_node.run(state.document)
         return {

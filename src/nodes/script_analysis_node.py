@@ -72,5 +72,4 @@ class ScriptAnalysisNode:
         uuids = [str(uuid4()) for _ in range(len(docs))]
         self.db.add_documents(documents=docs, ids=uuids)
 
-        # ScriptAnalysisResults型として結果を返す
         return results

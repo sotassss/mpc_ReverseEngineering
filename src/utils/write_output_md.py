@@ -15,6 +15,6 @@ def write_output_md(output):
     with open(output_filepath, "w", encoding="utf-8") as file:
         file.write(f"# {output.title}\n\n")
         for i, doc in enumerate(output.documents, 1):
-            file.write(f"## セクション {i}\n\n{doc}\n\n")
+            file.write(f"{doc}\n\n")
 
     print(f"ドキュメントが {output_filepath} に保存されました。")
