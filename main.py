@@ -5,7 +5,6 @@ from dotenv import load_dotenv
 from src.utils.write_output_md import write_output_md
 
 
-
 load_dotenv()
 
 def main():
