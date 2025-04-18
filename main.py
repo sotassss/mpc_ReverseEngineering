@@ -2,18 +2,17 @@ from langchain_openai import ChatOpenAI, OpenAIEmbeddings
 from langchain_chroma import Chroma
 from src.agent import ReverseEngine
 from dotenv import load_dotenv
+from src.utils.collect_all_files import collect_all_files
 from src.utils.write_output_md import write_output_md
 
 
 load_dotenv()
 
 def main():
-    # ソースコードのリストを入力
-    source_files = [
-    "C:/Users/1109685/Documents/Maxi/code_sample_python/sample1.py",
-    "C:/Users/1109685/Documents/Maxi/code_sample_python/sample2.py",
-    "C:/Users/1109685/Documents/Maxi/code_sample_python/sample3.py",
-    ]
+    # ソースコードが格納されているフォルダのパス
+    source_folder = "code_sample_python"
+
+    source_files = collect_all_files(source_folder) 
     
     llm = ChatOpenAI(model="gpt-4o-mini")
     embeddings = OpenAIEmbeddings(model="text-embedding-3-small")
