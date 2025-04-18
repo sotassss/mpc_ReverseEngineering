@@ -10,7 +10,7 @@ load_dotenv()
 
 def main():
     # ソースコードが格納されているフォルダのパス
-    source_folder = "code_sample_python"
+    source_folder = "code/code_sample_cbl"
 
     source_files = collect_all_files(source_folder) 
     
