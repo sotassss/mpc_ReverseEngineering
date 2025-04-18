@@ -28,6 +28,7 @@ class ScriptAnalysisNode:
         for source in source_files:
             if is_sensitive_file(source, self.config):
                 text = "センシティブなファイルのため内容は非表示です。" # センシティブな内容を含む場合は内容を表示しない
+                # print(text)
             else:
                 text = extract_text(source) # ファイルからテキストを抽出
                 if text:
@@ -47,6 +48,7 @@ class ScriptAnalysisNode:
                     "以下のソースコードの簡単な概要と詳細な説明を作成してください。\n\n"
                     "詳細な説明には各関数や変数の詳細な役割や定義などを含め、全体の処理内容も分かりやすいようにまとめてください。\n"
                     "簡単な概要については、簡潔にそのソースコードの役割を説明するようにしてください。\n\n"
+                    "「センシティブなファイルのため内容は非表示です。」と書かれているものは、推測をせずに、非表示としてください。\n\n"
                     "ファイルパス: {path}\n\n"
                     "# ソースコード\n"
                     "{text}"
