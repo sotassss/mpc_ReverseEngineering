@@ -1,3 +1,5 @@
+ # フォルダ内のすべてのファイルをリスト化
+
 import os
 import glob
 
