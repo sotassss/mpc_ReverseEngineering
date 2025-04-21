@@ -2,6 +2,8 @@ import os
 import chardet
 import fnmatch
 from charset_normalizer import from_bytes
+from src.utils.split_chunk import intelligent_split
+
 
 def is_sensitive_file(file_path: str, config: dict) -> bool:
     """
@@ -61,4 +63,6 @@ def extract_text(file_path):
     except UnicodeDecodeError as e:
         print(f"デコード中にエラーが発生しました: {e}")
         return None
-    return text
+    # return text
+    chunks = intelligent_split(text)
+    return chunks
