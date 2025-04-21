@@ -36,7 +36,11 @@ class ScriptAnalysisNode:
                 continue
                 
             text = extract_text(source)
-            text_tokens=encoding.encode(text)
+            # テキストのトークン数を取得
+            if text:
+                text_tokens=encoding.encode(text)
+            else:
+                text_tokens=[]
 
             # None の場合または空文字列の場合はスキップ
             if text is None or not text:
@@ -53,21 +57,11 @@ class ScriptAnalysisNode:
             if is_sensitive_content:
                 continue
                 
-            # 長すぎるファイルはスキップ
-            if text_tokens > MAX_TOKENS:
+            # トークン数制限に達するファイルをスキップ
+            if len(text_tokens) > MAX_TOKENS:
                 print(f"⚠ ファイルが長すぎるためスキップ: {source} (トークン数：{len(text_tokens)})")
                 continue
 
-            # ファイル拡張子のチェックを追加
-            file_ext = source.split('.')[-1].lower()
-            # バイナリファイルや大きなアセットファイルはスキップ
-            if file_ext in ['dae', 'obj', 'stl', 'fbx', 'blend', 'bin']:
-                print(f"⚠ アセットファイルのためスキップ: {source}")
-                texts.append({
-                    "text": f"3Dモデルファイル({file_ext})のため内容は処理しません。", 
-                    "path": source
-                })
-                continue
             texts.append({"text": text, "path": source})
 
         prompt = ChatPromptTemplate.from_messages(
