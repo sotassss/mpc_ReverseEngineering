@@ -38,7 +38,7 @@ class ScriptAnalysisNode:
             text = extract_text(source)
             # テキストのトークン数を取得
             if text:
-                text_tokens=encoding.encode(text)
+                text_tokens=encoding.encode(text,allowed_special={"<|endoftext|>"})
             else:
                 text_tokens=[]
 
@@ -88,60 +88,60 @@ class ScriptAnalysisNode:
         chain = prompt | self.llm
 
         ##################################手法1: バッチ処理を使用して並列処理##################################
-        # results = list(chain.batch([text for text in texts]))   # ジェネレータを直接リストに変換
+        results = list(chain.batch([text for text in texts]))   # ジェネレータを直接リストに変換
         
-        # # ファイルパスと結果を対応付ける
-        # file_paths = [item["path"] for item in texts]
+        # ファイルパスと結果を対応付ける
+        file_paths = [item["path"] for item in texts]
         
-        # # ドキュメントをベクトルストアに追加
-        # docs = [
-        #     Document(page_content=result.detail_explanation, metadata={"file_path": file_path})
-        #     for file_path, result in zip(file_paths, results)
-        # ]
+        # ドキュメントをベクトルストアに追加
+        docs = [
+            Document(page_content=result.detail_explanation, metadata={"file_path": file_path})
+            for file_path, result in zip(file_paths, results)
+        ]
 
-        # uuids = [str(uuid4()) for _ in range(len(docs))]
-        # self.db.add_documents(documents=docs, ids=uuids)
+        uuids = [str(uuid4()) for _ in range(len(docs))]
+        self.db.add_documents(documents=docs, ids=uuids)
 
-        # return results
+        return results
     
 
         ##################################手法2:トークン制限回避のため直列処理##################################
-        results = []
-        docs = []
-        uuids = []
+        # results = []
+        # docs = []
+        # uuids = []
         
-        # 各ファイルを個別に処理
-        for idx,text_item in enumerate(texts,start=1):
-            try:
-                # 個別にLLMを呼び出し
-                result = chain.invoke(text_item)
-                results.append(result)
+        # # 各ファイルを個別に処理
+        # for idx,text_item in enumerate(texts,start=1):
+        #     try:
+        #         # 個別にLLMを呼び出し
+        #         result = chain.invoke(text_item)
+        #         results.append(result)
                 
-                # ドキュメントを作成
-                doc = Document(
-                    page_content=result.detail_explanation, 
-                    metadata={"file_path": text_item["path"]}
-                )
-                docs.append(doc)
-                uuids.append(str(uuid4()))
+        #         # ドキュメントを作成
+        #         doc = Document(
+        #             page_content=result.detail_explanation, 
+        #             metadata={"file_path": text_item["path"]}
+        #         )
+        #         docs.append(doc)
+        #         uuids.append(str(uuid4()))
                 
-                print(f"✓ 処理完了({idx}/{len(texts)}): {text_item['path']}")
+        #         print(f"✓ 処理完了({idx}/{len(texts)}): {text_item['path']}")
                 
-            except Exception as e:
-                print(f"⚠ ファイル処理中にエラー発生({idx}/{len(texts)}): {text_item['path']}")
-                print(f"エラー内容: {str(e)}")
+        #     except Exception as e:
+        #         print(f"⚠ ファイル処理中にエラー発生({idx}/{len(texts)}): {text_item['path']}")
+        #         print(f"エラー内容: {str(e)}")
                 
-                # エラーが発生した場合はエラー情報を含む結果を作成
-                fallback_result = ScriptAnalysisResult(
-                    summary=f"処理エラー: {text_item['path']}",
-                    detail_explanation=f"このファイルの処理中にエラーが発生しました: {str(e)}",
-                    file_path=text_item["path"],  
-                    short_summary=f"処理エラー"
-                )
-                results.append(fallback_result)
+        #         # エラーが発生した場合はエラー情報を含む結果を作成
+        #         fallback_result = ScriptAnalysisResult(
+        #             summary=f"処理エラー: {text_item['path']}",
+        #             detail_explanation=f"このファイルの処理中にエラーが発生しました: {str(e)}",
+        #             file_path=text_item["path"],  
+        #             short_summary=f"処理エラー"
+        #         )
+        #         results.append(fallback_result)
         
-        # 処理したドキュメントがあればベクトルストアに追加
-        if docs:
-            self.db.add_documents(documents=docs, ids=uuids)
+        # # 処理したドキュメントがあればベクトルストアに追加
+        # if docs:
+        #     self.db.add_documents(documents=docs, ids=uuids)
         
-        return results
+        # return results

@@ -2,6 +2,8 @@ from langchain_openai import ChatOpenAI, OpenAIEmbeddings
 from langchain_chroma import Chroma
 from src.agent import ReverseEngine
 from dotenv import load_dotenv
+import os
+import shutil
 from src.utils.collect_all_files import collect_all_files
 from src.utils.write_output_md import write_output_md
 
@@ -10,10 +12,14 @@ load_dotenv()
 
 def main():
     # ソースコードが格納されているフォルダのパス
-    # source_folder = "code/code_git_ROS"
-    # source_folder = "code/code_sample_python"
-    source_folder = "code/code_cbl"
+    # source_folder = "code/code_git_excel_analysis"
+    source_folder = "code/code_sample_python"
+    # source_folder = "code/code_cbl"
 
+    # chromaデータベースを初期化
+    CHROMA_DIR = "./chroma_langchain_db"
+    if os.path.exists(CHROMA_DIR):
+        shutil.rmtree(CHROMA_DIR)
     source_files = collect_all_files(source_folder) 
     
     llm = ChatOpenAI(model="gpt-4o-mini")
