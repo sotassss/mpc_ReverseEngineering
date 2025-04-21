@@ -48,7 +48,7 @@ def extract_text(file_path):
     """
     encoding, rawdata = guess_encoding(file_path)
     if not encoding:
-        print("エンコーディングを検出できませんでした。")
+        print("{file_path}：エンコーディングを検出できませんでした。")
         return None
     try:
         text = rawdata.decode(encoding)

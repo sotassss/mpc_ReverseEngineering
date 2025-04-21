@@ -2,11 +2,16 @@ import re
 from uuid import uuid4
 from langchain_core.prompts import ChatPromptTemplate
 from langchain_core.documents import Document
+import tiktoken
 
 from src.model_types import ScriptAnalysisResult, ScriptAnalysisResults
 
 from src.utils.config import load_config
 from src.utils.file_utiles import is_sensitive_file, extract_text
+
+MAX_TOKENS=120_000
+
+encoding=tiktoken.encoding_for_model("gpt-4o-mini")
 
 class ScriptAnalysisNode:
     def __init__(self, db, llm):
@@ -27,14 +32,42 @@ class ScriptAnalysisNode:
         # LLMにパスワード情報などをアップロードしないようにするための処理
         for source in source_files:
             if is_sensitive_file(source, self.config):
-                text = "センシティブなファイルのため内容は非表示です。" # センシティブな内容を含む場合は内容を表示しない
-                # print(text)   # デバッグ用
-            else:
-                text = extract_text(source) # ファイルからテキストを抽出
-                if text:
-                    for pattern in self.config.get("sensitive_content_patterns", []):
-                        if re.search(pattern, text, re.IGNORECASE):
-                            text = "センシティブなファイルのため内容は非表示です。"
+                texts.append({"text": "センシティブなファイルのため内容は非表示です。", "path": source})
+                continue
+                
+            text = extract_text(source)
+            text_tokens=encoding.encode(text)
+
+            # None の場合または空文字列の場合はスキップ
+            if text is None or not text:
+                continue
+                
+            # センシティブな内容のフィルタリング
+            is_sensitive_content = False
+            for pattern in self.config.get("sensitive_content_patterns", []):
+                if re.search(pattern, text, re.IGNORECASE):
+                    texts.append({"text": "センシティブなファイルのため内容は非表示です。", "path": source})
+                    is_sensitive_content = True
+                    break
+                    
+            if is_sensitive_content:
+                continue
+                
+            # 長すぎるファイルはスキップ
+            if text_tokens > MAX_TOKENS:
+                print(f"⚠ ファイルが長すぎるためスキップ: {source} (トークン数：{len(text_tokens)})")
+                continue
+
+            # ファイル拡張子のチェックを追加
+            file_ext = source.split('.')[-1].lower()
+            # バイナリファイルや大きなアセットファイルはスキップ
+            if file_ext in ['dae', 'obj', 'stl', 'fbx', 'blend', 'bin']:
+                print(f"⚠ アセットファイルのためスキップ: {source}")
+                texts.append({
+                    "text": f"3Dモデルファイル({file_ext})のため内容は処理しません。", 
+                    "path": source
+                })
+                continue
             texts.append({"text": text, "path": source})
 
         prompt = ChatPromptTemplate.from_messages(
@@ -60,19 +93,61 @@ class ScriptAnalysisNode:
         # chainの定義
         chain = prompt | self.llm
 
-        # ジェネレータを直接リストに変換
-        results = list(chain.batch([text for text in texts]))
+        ##################################手法1: バッチ処理を使用して並列処理##################################
+        # results = list(chain.batch([text for text in texts]))   # ジェネレータを直接リストに変換
         
-        # ファイルパスと結果を対応付ける
-        file_paths = [item["path"] for item in texts]
+        # # ファイルパスと結果を対応付ける
+        # file_paths = [item["path"] for item in texts]
         
-        # ドキュメントをベクトルストアに追加
-        docs = [
-            Document(page_content=result.detail_explanation, metadata={"file_path": file_path})
-            for file_path, result in zip(file_paths, results)
-        ]
+        # # ドキュメントをベクトルストアに追加
+        # docs = [
+        #     Document(page_content=result.detail_explanation, metadata={"file_path": file_path})
+        #     for file_path, result in zip(file_paths, results)
+        # ]
 
-        uuids = [str(uuid4()) for _ in range(len(docs))]
-        self.db.add_documents(documents=docs, ids=uuids)
+        # uuids = [str(uuid4()) for _ in range(len(docs))]
+        # self.db.add_documents(documents=docs, ids=uuids)
 
+        # return results
+    
+
+        ##################################手法2:トークン制限回避のため直列処理##################################
+        results = []
+        docs = []
+        uuids = []
+        
+        # 各ファイルを個別に処理
+        for idx,text_item in enumerate(texts,start=1):
+            try:
+                # 個別にLLMを呼び出し
+                result = chain.invoke(text_item)
+                results.append(result)
+                
+                # ドキュメントを作成
+                doc = Document(
+                    page_content=result.detail_explanation, 
+                    metadata={"file_path": text_item["path"]}
+                )
+                docs.append(doc)
+                uuids.append(str(uuid4()))
+                
+                print(f"✓ 処理完了({idx}/{len(texts)}): {text_item['path']}")
+                
+            except Exception as e:
+                print(f"⚠ ファイル処理中にエラー発生({idx}/{len(texts)}): {text_item['path']}")
+                print(f"エラー内容: {str(e)}")
+                
+                # エラーが発生した場合はエラー情報を含む結果を作成
+                fallback_result = ScriptAnalysisResult(
+                    summary=f"処理エラー: {text_item['path']}",
+                    detail_explanation=f"このファイルの処理中にエラーが発生しました: {str(e)}",
+                    file_path=text_item["path"],  
+                    short_summary=f"処理エラー"
+                )
+                results.append(fallback_result)
+        
+        # 処理したドキュメントがあればベクトルストアに追加
+        if docs:
+            self.db.add_documents(documents=docs, ids=uuids)
+        
         return results
