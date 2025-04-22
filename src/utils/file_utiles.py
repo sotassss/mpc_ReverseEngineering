@@ -3,7 +3,10 @@ import chardet
 import fnmatch
 from charset_normalizer import from_bytes
 from src.utils.split_chunk import intelligent_split
+from src.utils.config import load_config
 
+# 設定を読み込む
+config = load_config()
 
 def is_sensitive_file(file_path: str, config: dict) -> bool:
     """
@@ -55,7 +58,8 @@ def extract_text(file_path):
     except UnicodeDecodeError as e:
         print(f"デコード中にエラーが発生しました: {e}")
         return None
+    max_tokens = config.get("llm", {}).get("split_max_tokens",30000)
     # return text
-    chunks = intelligent_split(text,max_tokens=30000)
+    chunks = intelligent_split(text,max_tokens=max_tokens)
     # print(f"ファイル: {file_path}、チャンク数: {len(chunks)}")
     return chunks

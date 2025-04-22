@@ -8,9 +8,7 @@ from src.model_types import ScriptAnalysisResult, ScriptAnalysisResults
 
 from src.utils.config import load_config
 from src.utils.file_utiles import is_sensitive_file, extract_text
-
-MAX_TOKENS=120_000
-
+ 
 encoding=tiktoken.encoding_for_model("gpt-4o-mini")
 
 class ScriptAnalysisNode:
