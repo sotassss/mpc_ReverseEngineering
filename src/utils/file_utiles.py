@@ -21,13 +21,26 @@ def is_sensitive_file(file_path: str, config: dict) -> bool:
     file_name = os.path.basename(file_path)
 
     patterns = config.get("sensitive_patterns", [])
-    # print(f"チェック対象パターン数: {len(patterns)}")
     
     for pattern in patterns:
         if fnmatch.fnmatch(file_name.lower(), pattern.lower()):
             # print(f"※ センシティブファイル検出 : {file_name} → {pattern}")
             return True
     return False
+
+def check_extension(file_path: str, config: dict) -> bool:
+    """
+    ファイルがセンシティブかどうかを判定する
+    Args:
+        file_path: ファイルパス
+        config: 設定パラメータ
+    Returns:
+        bool: configにある拡張子の場合はTrue
+    """
+    _, ext = os.path.splitext(file_path)
+    ext = ext.lstrip(".").lower()
+    extension_list = config.get("extension_check", [])
+    return ext in extension_list
 
 def guess_encoding(file_path):
     """

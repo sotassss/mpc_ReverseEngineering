@@ -23,7 +23,7 @@ def load_config(config_path: str = "config.yml") -> Dict[str, Any]:
            "model": "gpt-4",  # 使用するLLMモデル
            "temperature": 0.0,  # 生成の多様性（低いほど決定的）
            "max_tokens": 2000,  # 生成する最大トークン数
-           "split_max_tokens": 500 # 分割する最大トークン数
+           "split_max_tokens": 5000 # 分割する最大トークン数
        },
        "consistency_check": {
            "max_rejections": 3,  # 否定の最大回数
@@ -63,7 +63,12 @@ def load_config(config_path: str = "config.yml") -> Dict[str, Any]:
            "ACCESS_TOKEN",  # アクセストークン
            "PRIVATE_KEY",  # 秘密鍵
            "-----BEGIN"  # 鍵や証明書の開始マーカー
-       ]
+       ],
+        "extension_check":[  # 拡張子のチェック, モデリングなどに要する巨大ファイルを削除
+            "dae",  # DAEファイル
+            "fbx",  # FBXファイル
+            "urdf",  # URDFファイル
+        ]
    }
    try:
        # 設定ファイルが存在する場合は読み込む

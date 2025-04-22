@@ -14,8 +14,8 @@ def main():
     # ソースコードが格納されているフォルダのパス
     # source_folder = "code/code_git_ROS"
     # source_folder = "code/code_git_langchain"
-    source_folder = "code/code_sample_python"
-    # source_folder = "code/code_cbl"
+    # source_folder = "code/code_sample_python"
+    source_folder = "code/code_cbl"
 
     # chromaデータベースを初期化
     CHROMA_DIR = "./chroma_langchain_db"

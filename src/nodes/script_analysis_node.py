@@ -7,7 +7,7 @@ import tiktoken
 from src.model_types import ScriptAnalysisResult, ScriptAnalysisResults
 
 from src.utils.config import load_config
-from src.utils.file_utiles import is_sensitive_file, extract_text
+from src.utils.file_utiles import is_sensitive_file, extract_text, check_extension
 
 from dotenv import load_dotenv
 
@@ -33,6 +33,12 @@ class ScriptAnalysisNode:
 
         # LLMにパスワード情報などをアップロードしないようにするための処理
         for idx, source in enumerate(source_files):
+            # 拡張子の確認
+            if check_extension(source, self.config):
+                print(f"{idx + 1}/{len(source_files)} ※ スキップ  ファイル：{source} (拡張子により対象外)")
+                continue
+            
+            # センシティブなファイルかの確認
             if is_sensitive_file(source, self.config):
                 texts.append({"text": "センシティブなファイルのため内容は非表示です。", "path": source})
                 print(f"{idx + 1}/{len(source_files)} ※ スキップ  ファイル：{source} (センシティブな内容が含まれるファイル)")
