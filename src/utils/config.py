@@ -20,7 +20,7 @@ def load_config(config_path: str = "config.yml") -> Dict[str, Any]:
        "output_dir": "./output",  # 出力ディレクトリ
        "chroma_db_path": "./chroma_db",  # ベクトルDBのパス
        "llm": {
-           "model": "gpt-4",  # 使用するLLMモデル
+           "model": "gpt-4.1-nano",  # 使用するLLMモデル
            "temperature": 0.0,  # 生成の多様性（低いほど決定的）
            "max_tokens": 2000,  # 生成する最大トークン数
            "split_max_tokens": 5000 # 分割する最大トークン数
