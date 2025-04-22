@@ -23,7 +23,7 @@ def load_config(config_path: str = "config.yml") -> Dict[str, Any]:
            "model": "gpt-4",  # 使用するLLMモデル
            "temperature": 0.0,  # 生成の多様性（低いほど決定的）
            "max_tokens": 2000,  # 生成する最大トークン数
-           "split_max_tokens": 3000 # 分割する最大トークン数
+           "split_max_tokens": 500 # 分割する最大トークン数
        },
        "consistency_check": {
            "max_rejections": 3,  # 否定の最大回数

@@ -8,6 +8,10 @@ from src.model_types import ScriptAnalysisResult, ScriptAnalysisResults
 
 from src.utils.config import load_config
 from src.utils.file_utiles import is_sensitive_file, extract_text
+
+from dotenv import load_dotenv
+
+load_dotenv()
  
 encoding=tiktoken.encoding_for_model("gpt-4o-mini")
 
@@ -38,6 +42,7 @@ class ScriptAnalysisNode:
 
             # None の場合または空リストの場合はスキップ
             if not chunks:
+                print(f"{idx + 1}/{len(source_files)} ※ エラー    ファイル：{source} (エンコーディングを検出できないファイル)")
                 continue
 
             # 各チャンクに対してセンシティブチェック
