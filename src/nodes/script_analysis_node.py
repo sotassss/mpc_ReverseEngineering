@@ -30,39 +30,38 @@ class ScriptAnalysisNode:
         texts = []
 
         # LLMにパスワード情報などをアップロードしないようにするための処理
-        for source in source_files:
+        for idx, source in enumerate(source_files):
             if is_sensitive_file(source, self.config):
                 texts.append({"text": "センシティブなファイルのため内容は非表示です。", "path": source})
+                print(f"{idx + 1}/{len(source_files)} ※ スキップ  ファイル：{source} (センシティブな内容が含まれるファイル)")
                 continue
-                
-            text = extract_text(source)
-            # テキストのトークン数を取得
-            if text:
-                text_tokens=encoding.encode(text,allowed_special={"<|endoftext|>"})
-            else:
-                text_tokens=[]
 
-            # None の場合または空文字列の場合はスキップ
-            if text is None or not text:
+            chunks = extract_text(source)
+
+            # None の場合または空リストの場合はスキップ
+            if not chunks:
                 continue
-                
-            # センシティブな内容のフィルタリング
+
+            # 各チャンクに対してセンシティブチェック
             is_sensitive_content = False
-            for pattern in self.config.get("sensitive_content_patterns", []):
-                if re.search(pattern, text, re.IGNORECASE):
-                    texts.append({"text": "センシティブなファイルのため内容は非表示です。", "path": source})
-                    is_sensitive_content = True
+            for chunk in chunks:
+                for pattern in self.config.get("sensitive_content_patterns", []):
+                    if re.search(pattern, chunk, re.IGNORECASE):
+                        texts.append({"text": "センシティブなファイルのため内容は非表示です。", "path": source})
+                        is_sensitive_content = True
+                        break
+                if is_sensitive_content:
                     break
-                    
+
             if is_sensitive_content:
-                continue
-                
-            # トークン数制限に達するファイルをスキップ
-            if len(text_tokens) > MAX_TOKENS:
-                print(f"⚠ ファイルが長すぎるためスキップ: {source} (トークン数：{len(text_tokens)})")
+                print(f"{idx + 1}/{len(source_files)} ※ スキップ  ファイル：{source} (センシティブな内容が含まれるファイル)")
                 continue
 
-            texts.append({"text": text, "path": source})
+            print(f"{idx + 1}/{len(source_files)} ✔ 処理完了  ファイル: {source}（分割数: {len(chunks)})")
+
+            # チャンクごとに追加（順序保持）
+            for chunk in chunks:
+                texts.append({"text": chunk, "path": source})
 
         prompt = ChatPromptTemplate.from_messages(
             [

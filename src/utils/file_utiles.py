@@ -17,20 +17,12 @@ def is_sensitive_file(file_path: str, config: dict) -> bool:
     # ファイル名パターンのチェック
     file_name = os.path.basename(file_path)
 
-    # デバッグ用
-    # hardcoded_patterns = ["*.pfx", "*.p12", "config*.yml", "*.env"]
-    # for pattern in hardcoded_patterns:
-    #     if fnmatch.fnmatch(file_name, pattern):
-    #         print(f"センシティブファイル検出 (ハードコード): {file_name} → {pattern}")
-    #         return True
-        
     patterns = config.get("sensitive_patterns", [])
     # print(f"チェック対象パターン数: {len(patterns)}")
     
     for pattern in patterns:
-        # print(f"パターンチェック: '{file_name.lower()}' と '{pattern.lower()}'")
         if fnmatch.fnmatch(file_name.lower(), pattern.lower()):
-            print(f"※ センシティブファイル検出 : {file_name} → {pattern}")
+            # print(f"※ センシティブファイル検出 : {file_name} → {pattern}")
             return True
     return False
 
@@ -64,5 +56,6 @@ def extract_text(file_path):
         print(f"デコード中にエラーが発生しました: {e}")
         return None
     # return text
-    chunks = intelligent_split(text)
+    chunks = intelligent_split(text,max_tokens=30000)
+    # print(f"ファイル: {file_path}、チャンク数: {len(chunks)}")
     return chunks

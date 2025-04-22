@@ -1,8 +1,15 @@
+# テキストを文脈を考慮して分割する
+
 import re
+import tiktoken
 import os
 
+encoding=tiktoken.encoding_for_model("gpt-4o-mini")
+# トークン数をカウントする関数
+def count_tokens(text):
+    return len(encoding.encode(text))  # tiktokenのエンコード方法に基づくトークン数計算
 
-def intelligent_split(text, max_tokens=1000):
+def intelligent_split(text, max_tokens):
     """
     テキストを文脈を考慮して適切に分割する関数
     
@@ -13,15 +20,19 @@ def intelligent_split(text, max_tokens=1000):
     Returns:
         list: 分割されたテキストのリスト
     """
+    
     # クラス定義、関数定義、段落などの区切りを検出するパターン
     class_pattern = re.compile(r'^\s*class\s+\w+[\s\S]*?(?=^\s*class\s+\w+|\Z)', re.MULTILINE)
     function_pattern = re.compile(r'^\s*def\s+\w+[\s\S]*?(?=^\s*def\s+\w+|^\s*class\s+\w+|\Z)', re.MULTILINE)
     paragraph_pattern = re.compile(r'.*?(?:\n\s*\n|$)', re.DOTALL)
+
+    # まず全体のトークン数を確認し、超えていれば分割
+    if count_tokens(text) <= max_tokens:
+        return [text]
     
-    # まずクラスベースで分割を試みる
+    # 1. クラス単位で分割を試みる
     class_matches = list(class_pattern.finditer(text))
     if class_matches:
-        # クラス単位で分割
         chunks = []
         last_end = 0
         
@@ -34,19 +45,14 @@ def intelligent_split(text, max_tokens=1000):
             
             # クラス本体を追加
             class_text = match.group()
-            
-            # クラスが大きい場合はさらに関数単位で分割
-            if len(class_text.split()) > max_tokens * 1.5:
-                # クラス宣言行を取得
+            if count_tokens(class_text) > max_tokens * 1.5:
+                # クラスが大きすぎる場合は関数単位でさらに分割
                 class_lines = class_text.split('\n')
                 class_declaration = class_lines[0]
                 class_body = '\n'.join(class_lines[1:])
-                
-                # 関数単位で分割
                 method_chunks = split_by_functions(class_body)
                 
                 if method_chunks:
-                    # クラス宣言を最初のチャンクに追加
                     method_chunks[0] = class_declaration + '\n' + method_chunks[0]
                     chunks.extend(method_chunks)
                 else:
@@ -62,24 +68,33 @@ def intelligent_split(text, max_tokens=1000):
             if remaining_text.strip():
                 chunks.append(remaining_text)
     else:
-        # クラスがない場合は関数単位で分割
+        # 2. クラスがない場合は関数単位で分割
         chunks = split_by_functions(text)
         
-        # 関数もない場合は段落単位で分割
+        # 3. 関数もない場合は段落単位で分割
         if len(chunks) <= 1:
             chunks = split_by_paragraphs(text, max_tokens)
     
-    # チャンクのサイズをチェックし、大きすぎる場合はさらに分割
+    # 4. チャンクのサイズをチェックし、大きすぎる場合はさらに分割（段落または文単位）
     final_chunks = []
     for chunk in chunks:
-        if len(chunk.split()) > max_tokens * 1.5:
+        if count_tokens(chunk) > max_tokens * 1.5:
             # 大きいチャンクをさらに分割（段落単位）
             sub_chunks = split_by_paragraphs(chunk, max_tokens)
             final_chunks.extend(sub_chunks)
         else:
             final_chunks.append(chunk)
     
+    # 最終的に文単位で分割
+    if final_chunks:
+        smallest_chunks = []
+        for chunk in final_chunks:
+            sub_chunks = split_into_sentences(chunk)
+            smallest_chunks.extend(sub_chunks)
+        return smallest_chunks
+    
     return final_chunks
+
 
 def split_by_functions(text):
     """関数単位でテキストを分割"""
@@ -125,7 +140,7 @@ def split_by_paragraphs(text, max_tokens):
             continue
         
         # 段落のトークン数を概算（簡易的に単語数で計算）
-        paragraph_tokens = len(paragraph.split())
+        paragraph_tokens = count_tokens(paragraph)
         
         # この段落を追加するとトークン制限を超える場合
         if current_token_count + paragraph_tokens > max_tokens and current_chunk:
