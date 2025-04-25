@@ -13,9 +13,9 @@ load_dotenv()
 def main():
     # ソースコードが格納されているフォルダのパス
     # source_folder = "code/code_git_ROS"
-    source_folder = "code/code_git_langchain"
+    # source_folder = "code/code_git_langchain"
     # source_folder = "code/code_sample_python"
-    # source_folder = "code/code_cbl"
+    source_folder = "code/code_cbl"
 
     # chromaデータベースを初期化
     CHROMA_DIR = "./chroma_langchain_db"
@@ -24,7 +24,7 @@ def main():
     source_files = collect_all_files(source_folder) 
     
     # llm = ChatOpenAI(model="gpt-4.1-nano")
-    llm = ChatOpenAI(model="gpt-4o")
+    llm = ChatOpenAI(model="gpt-4o-mini")
     embeddings = OpenAIEmbeddings(model="text-embedding-3-small")
     db = Chroma(
         collection_name="example_collection",
