@@ -99,6 +99,7 @@ class ReverseEngine:
     def _generate_document(self, state: State):
         handle_proxy_request()  # プロキシ設定を自動で切り替える処理
         print("ドキュメントを作成しています...")
+        self.document_generation_node.set_summaries(state.script_analysis_results)
         document = self.document_generation_node.run(state.sections)
         return {
             "document": document
