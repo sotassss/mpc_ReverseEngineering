@@ -1,22 +1,24 @@
 import json
+from langchain.embeddings import OpenAIEmbeddings
 from dotenv import load_dotenv
 from langchain_openai import ChatOpenAI
 from langchain.embeddings import OpenAIEmbeddings
 from langchain_core.prompts import ChatPromptTemplate
 from langchain_core.runnables import RunnableLambda, RunnablePassthrough
+from langchain_chroma import Chroma
+from typing import Dict, Any
+
+load_dotenv()
 
 # LLM、埋め込みモデルを初期化
 llm = ChatOpenAI(model="gpt-4o-mini")
 embeddings = OpenAIEmbeddings(model="text-embedding-3-small")
 
-# グローバル変数
-db = None
-full_document_content = ""
+# (1)RAGを使ったチェーンの作成
+def create_rag_chain(db: Chroma, top_k: int = 2) -> str:
 
-# RAG用のチェーン
-def create_rag_chain():
     def retrieve_context(query):
-        search_results = db.similarity_search(query, k=2)
+        search_results = db.similarity_search(query, k=top_k)
         context = "\n".join([result.page_content for result in search_results])
         return {"context": context, "query": query}
     
@@ -39,8 +41,10 @@ def create_rag_chain():
     chain = retriever | prompt | llm
     return chain
 
-# LLM用のチェーン
-def create_llm_chain():
+
+
+# (2)LLMを用いたチェーンの作成
+def create_llm_chain() -> str:
     prompt = ChatPromptTemplate.from_messages([
         (
             "system",
@@ -56,8 +60,10 @@ def create_llm_chain():
     chain = prompt | llm
     return chain
 
-# LC用のチェーン
-def create_lc_chain():
+
+
+# (3)Large Context（LC）を用いたチェーンの作成
+def create_lc_chain(full_document_content: str) -> str:
     def add_full_context(query_dict):
         return {"full_context": full_document_content, "query": query_dict["query"]}
     
@@ -78,7 +84,9 @@ def create_lc_chain():
     chain = RunnablePassthrough() | RunnableLambda(add_full_context) | prompt | llm
     return chain
 
-# ルーター用のチェーン
+
+
+# どの回答方法を利用するかを選択する関数
 def create_router_chain():
     router_prompt = ChatPromptTemplate.from_messages([
         (
@@ -119,3 +127,49 @@ def create_router_chain():
     
     chain = router_prompt | llm | RunnableLambda(parse_router_response)
     return chain
+        
+
+
+# ルーターでルートを決定し、適切なチェーンに接続
+def create_self_routing_chain(db: Chroma, full_document_content: str) -> str:
+    router_chain = create_router_chain()
+    rag_chain = create_rag_chain(db)
+    llm_chain = create_llm_chain()
+    lc_chain = create_lc_chain(full_document_content)
+    
+    def route_to_chain(inputs):
+        query = inputs["query"]
+        route_info = router_chain.invoke({"query": query})
+        
+        route = route_info["route"].upper()
+        reasoning = route_info["reasoning"]
+        
+        if route == "RAG":
+            answer = rag_chain.invoke(query)
+            return {"answer": answer, "method": "RAG (関連部分検索)", "reasoning": reasoning}
+        
+        elif route == "LC":
+            answer = lc_chain.invoke({"query": query})
+            return {"answer": answer, "method": "LC (文書全体文脈)", "reasoning": reasoning}
+        
+        else:  # LLM
+            answer = llm_chain.invoke({"query": query})
+            return {"answer": answer, "method": "LLM (一般知識)", "reasoning": reasoning}
+    
+    chain = RunnablePassthrough() | RunnableLambda(route_to_chain)
+    return chain
+
+
+
+# メインの処理
+def answer_with_self_route(query: str, db, full_document_content) -> Dict[str, Any]:
+    chain = create_self_routing_chain(db, full_document_content)
+    result = chain.invoke({"query": query})
+    
+    return {
+        "query": query,
+        "answer": result["answer"],
+        "method": result["method"],
+        "reasoning": result["reasoning"]
+    }
+
