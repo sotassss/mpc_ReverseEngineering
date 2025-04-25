@@ -1,9 +1,11 @@
 # モジュールのインポート
 import json
+from langchain.embeddings import OpenAIEmbeddings
 from dotenv import load_dotenv
 from langchain_openai import ChatOpenAI
 from langchain.embeddings import OpenAIEmbeddings
 from langchain_core.prompts import ChatPromptTemplate
+from langchain_chroma import Chroma
 from typing import Literal, Dict, Any
 
 from RAG_utils.pdf_loader import pdf_loader
@@ -15,19 +17,10 @@ load_dotenv()
 llm = ChatOpenAI(model="gpt-4o-mini")
 embeddings = OpenAIEmbeddings(model="text-embedding-3-small")
 
-# グローバル変数
-db = None
-full_document_content = ""  
 
+# (1)RAGを使った回答
+def answer_RAG(query: str, db: Chroma, top_k: int = 2) -> str:
 
-
-# (1) RAGを使った回答
-def answer_RAG(query: str, top_k: int = 2) -> str:
-    global db
-    
-    if db is None:
-        return "エラー: データベースが初期化されていません"
-    
     search_results = db.similarity_search(query, k=top_k)
     
     # 検索結果からドキュメントをまとめる
@@ -37,8 +30,7 @@ def answer_RAG(query: str, top_k: int = 2) -> str:
     prompt = ChatPromptTemplate.from_messages([
         (
             "system",
-            "あなたはチャットボットの回答作成者です。与えられた文脈に基づいて質問に回答してください。"
-            "文脈に情報がない場合は「その情報は文脈にありません」と回答してください。"
+            "あなたはチャットボットの回答作成者です。与えられた文脈に基づいて質問に回答してください。"          
         ),
         (
             "human",
@@ -53,7 +45,7 @@ def answer_RAG(query: str, top_k: int = 2) -> str:
 
 
 
-# (2) LLMを用いた回答
+# (2)LLMを用いた回答
 def answer_LLM(query: str) -> str:
     prompt = ChatPromptTemplate.from_messages([
         (
@@ -72,9 +64,8 @@ def answer_LLM(query: str) -> str:
 
 
 
-# (3) Large Context（LC）を用いた回答
-def answer_LC(query: str) -> str:
-    global full_document_content
+# (3)Large Context（LC）を用いた回答
+def answer_LC(query: str, full_document_content: str) -> str:
     
     if not full_document_content:
         return "エラー: ドキュメントが読み込まれていません"
@@ -83,8 +74,7 @@ def answer_LC(query: str) -> str:
     prompt = ChatPromptTemplate.from_messages([
         (
             "system",
-            "あなたはチャットボットの回答作成者です。与えられた文書全体を文脈として質問に回答してください。"
-            "文脈に情報がない場合は「その情報は文書内にありません」と回答してください。"
+            "あなたはチャットボットの回答作成者です。与えられた文書全体を文脈として質問に回答してください"
         ),
         (
             "human",
@@ -144,9 +134,8 @@ def classify_query(query: str) -> Dict[str, Any]:
             return {"reasoning": "自動抽出", "route": "LLM"}
         
 
-
 # メインの回答生成関数（セルフルーティングを使用）
-def answer_with_self_route(query: str) -> Dict[str, Any]:
+def answer_with_self_route(query: str, db: Chroma, full_document_content: str) -> Dict[str, Any]:
     # 質問のタイプを分類
     classification = classify_query(query)
     route = classification.get("route", "LLM")
@@ -154,42 +143,28 @@ def answer_with_self_route(query: str) -> Dict[str, Any]:
     
     # 分類に基づいて適切な回答方法を選択
     if route.upper() == "RAG":
-        answer = answer_RAG(query)
+        answer = answer_RAG(query,db)
         method = "RAG (関連部分検索）"
     elif route.upper() == "LC":
-        answer = answer_LC(query)
+        answer = answer_LC(query, full_document_content)
         method = "LC (文書全体文脈）"
     else:
         answer = answer_LLM(query)
         method = "LLM (一般知識）"
-    
+
+    # 回答がエラーメッセージの場合（文字列の場合）
+    if isinstance(answer, str):
+        answer_text = answer
+    else:
+        # LangChainの応答オブジェクトの場合
+        answer_text = answer.content if hasattr(answer, "content") else str(answer)
+
     # 結果を返す
     return {
         "query": query,
-        "answer": answer,
+        "answer": answer_text,
         "method": method,
         "reasoning": reasoning
     }
 
 
-
-# 実行
-if __name__ == "__main__":
-    pdf_path = "sample2.pdf"
-    query = "江戸幕府が成立したのはいつ"
-    
-    # PDFをロード
-    pdf_loader(pdf_path)
-    
-    # セルフルーティングで回答生成
-    result = answer_with_self_route(query)
-    
-    # 結果を表示
-    print(f"質問: {result['query']}")
-    print(f"回答方法: {result['method']}")
-    print(f"理由: {result['reasoning']}")
-    print(f"回答: {result['answer'].content}")
-else:
-    # 対話モードでの実行用
-    pdf_path = "sample2.pdf"
-    pdf_loader(pdf_path)

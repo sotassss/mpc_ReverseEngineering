@@ -7,8 +7,6 @@ from langchain.text_splitter import RecursiveCharacterTextSplitter
 from langchain.embeddings import OpenAIEmbeddings
 from langchain.schema import Document
 from langchain_chroma import Chroma
-from langchain_core.prompts import ChatPromptTemplate
-
 
 def pdf_loader(pdf_path: str, persist_directory: str = "./chroma_langchain_db") -> Chroma:
     global db, full_document_content
@@ -63,4 +61,4 @@ def pdf_loader(pdf_path: str, persist_directory: str = "./chroma_langchain_db") 
     # db.persist()  # データベースを永続化が必要な場合はコメントを外す
     print(f"{pdf_path}が保存されました")
     
-    return db
+    return db, full_document_content
