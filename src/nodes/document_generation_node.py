@@ -1,7 +1,6 @@
 from langchain_core.prompts import ChatPromptTemplate
 from langchain_core.output_parsers import StrOutputParser
 from operator import itemgetter
-from concurrent.futures import ThreadPoolExecutor, as_completed
 from langchain_chroma import Chroma
 from langchain_core.runnables import RunnableLambda, RunnablePassthrough
 
@@ -31,44 +30,65 @@ class DocumentGenerationNode:
         Returns:
             生成されたドキュメント
         """
-
-        # 各種チェーンを作成
+        # 各セクションのルーティング判断を一括実行
+        section_inputs = [
+            {
+                "section_name": section.section_name,
+                "section_description": section.section_description
+            }
+            for section in sections.sections
+        ]
+        
+        # 1. ルーティング判断をバッチ処理
         router_chain = self._create_router_chain()
+        routing_results = router_chain.batch(section_inputs)
+        
+        # 2. セクションごとに適切なチェーンを選択
+        rag_inputs = []
+        lc_inputs = []
+        routing_map = {}  # 元の順序を保持するためのマップ
+        
+        for i, (section_input, route_result) in enumerate(zip(section_inputs, routing_results)):
+            if "全体を見る必要あり" in route_result:
+                print(f" - {section_input['section_name']} : LC")
+                lc_inputs.append((i, section_input))
+            else:
+                print(f" - {section_input['section_name']} : RAG")
+                rag_inputs.append((i, section_input))
+        
+        # 3. RAG チェーンと LC チェーンをバッチ処理で並列実行
         rag_chain = self._create_rag_chain()
         lc_chain = self._create_lc_chain(self.summaries)
         
-        # セクションをルーティングして処理する関数
-        def route_and_process_section(section_data):
-            """
-            セクションをルーティングして適切なチェーンで処理する
-            Args:
-                section_data: セクション情報
-            Returns:
-                生成されたドキュメント
-            """
-            # ルーターでセクションを評価
-            route_result = router_chain.invoke({
-                "section_name": section_data["section_name"],
-                "section_description": section_data["section_description"]
-            })
-            
-            # ルーターの結果に基づいてチェーンを選択
-            if "全体を見る必要あり" in route_result:
-                # 全体を見る必要がある場合は LC チェーンを使用
-                print(f"{section_data['section_name']} : LC")
-                return lc_chain.invoke(section_data)
-            else:
-                # それ以外の場合は RAG チェーンを使用
-                print(f"{section_data['section_name']} : RAG")
-                return rag_chain.invoke(section_data)
+        # バッチ処理実行
+        rag_results = self._batch_process_with_indices(rag_chain, [input_data for _, input_data in rag_inputs]) if rag_inputs else []
+        lc_results = self._batch_process_with_indices(lc_chain, [input_data for _, input_data in lc_inputs]) if lc_inputs else []
         
-        # ThreadPoolExecutorを使用して並列処理しつつ順序を保持する
-        documents = self._process_sections_with_routing(route_and_process_section, sections.sections)
+        # 4. 結果を元の順序に戻す
+        results = [None] * len(sections.sections)
+        
+        for (i, _), result in zip(rag_inputs, rag_results):
+            results[i] = result
+            
+        for (i, _), result in zip(lc_inputs, lc_results):
+            results[i] = result
         
         return GeneratedDocument(
             title=sections.title,
-            documents=documents
+            documents=results
         )
+    
+    def _batch_process_with_indices(self, chain, inputs):
+        """
+        チェーンをバッチ処理で実行する
+        
+        Args:
+            chain: 実行するチェーン
+            inputs: 入力データのリスト
+        Returns:
+            結果のリスト
+        """
+        return list(chain.batch(inputs))
     
     # ルーターのチェーン
     def _create_router_chain(self):
@@ -125,10 +145,18 @@ class DocumentGenerationNode:
             )
         ])
 
+        def get_context(input_data):
+            """検索結果を取得して整形する関数"""
+            docs = self.retriever.invoke(input_data["section_description"])
+            return self._format_contents(docs)
+        
+        # コンテキスト取得をバッチ処理対応に変更
+        retriever_chain = RunnableLambda(get_context)
+        
         chain = {
             "section_name": itemgetter("section_name"),
             "section_description": itemgetter("section_description"),
-            "context": itemgetter("section_description") | self.retriever | self._format_contents
+            "context": RunnableLambda(lambda x: retriever_chain.invoke(x))
         } | prompt | self.llm | StrOutputParser()
         
         return chain
@@ -174,46 +202,6 @@ class DocumentGenerationNode:
         chain = RunnablePassthrough() | RunnableLambda(add_summaries) | prompt | self.llm | StrOutputParser()
         
         return chain
-    
-    def _process_sections_with_routing(self, route_and_process_func, sections_list):
-        """
-        ThreadPoolExecutorを使用してセクションをルーティングしながら並列処理し、順番を保持する
-        
-        Args:
-            route_and_process_func: ルーティングと処理を行う関数
-            sections_list: セクションのリスト
-        Returns:
-            処理結果のリスト（順序通り）
-        """
-        # セクションごとの処理を関数化
-        def process_section(index_and_section):
-            index, section = index_and_section
-            input_data = {
-                "section_name": section.section_name,
-                "section_description": section.section_description
-            }
-            # 指定された関数でルーティングと処理を実行
-            output = route_and_process_func(input_data)
-            return index, output
-        
-        # 結果を格納するリスト（インデックス付き）
-        results = [None] * len(sections_list)
-        
-        # ThreadPoolExecutorで並列処理
-        with ThreadPoolExecutor() as executor:
-            # タスクをサブミット（インデックス付き）
-            future_to_index = {
-                executor.submit(process_section, (i, section)): i
-                for i, section in enumerate(sections_list)
-            }
-            
-            # 完了したタスクから結果を取得
-            for future in as_completed(future_to_index):
-                index, result = future.result()
-                results[index] = result
-        
-        # リストには既に順序通りに結果が格納されている
-        return results
         
     def _format_contents(self, docs):
         """
