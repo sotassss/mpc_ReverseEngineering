@@ -34,7 +34,7 @@ def main():
 
     agent = ReverseEngine(llm=llm, db=db, k=10, maximum_iteration=3)
 
-    output = agent.run(source_files=source_files) # ドキュメントの出力
+    output = agent.run(source_files=source_files) 
 
     write_output_md(output) # ドキュメントをMarkdown形式で保存
 
