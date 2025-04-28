@@ -32,13 +32,9 @@ class DocumentGenerationNode:
             生成されたドキュメント
         """
 
-        # ルーターチェーンを作成
+        # 各種チェーンを作成
         router_chain = self._create_router_chain()
-        
-        # RAG チェーンを作成
         rag_chain = self._create_rag_chain()
-        
-        # LCチェーンを作成
         lc_chain = self._create_lc_chain(self.summaries)
         
         # セクションをルーティングして処理する関数
@@ -59,11 +55,11 @@ class DocumentGenerationNode:
             # ルーターの結果に基づいてチェーンを選択
             if "全体を見る必要あり" in route_result:
                 # 全体を見る必要がある場合は LC チェーンを使用
-                print(f"{section_data["section_name"]} : LC")
+                print(f"{section_data['section_name']} : LC")
                 return lc_chain.invoke(section_data)
             else:
                 # それ以外の場合は RAG チェーンを使用
-                print(f"{section_data["section_name"]} : RAG")
+                print(f"{section_data['section_name']} : RAG")
                 return rag_chain.invoke(section_data)
         
         # ThreadPoolExecutorを使用して並列処理しつつ順序を保持する
@@ -117,6 +113,7 @@ class DocumentGenerationNode:
                 "あなたは以下に指定される仕様書のセクションのライティングを担当します。\n"
                 "なるべく詳細なドキュメントを作成するようにしてください。ただし、ソースコードの情報から判断できない主張は行わないでください。\n"
                 "仕様書はマークダウン形式で記述し、文頭には必ず見出しとしてセクション名を含めてください。 \n"
+                "図を記述したい場合は mermaid 形式で記述してください。 \n"
                 "「センシティブなファイルのため内容は非表示です。」と書かれているものは、推測をせずに非表示としてください。\n\n"
                 "一般的な内容を推測して記述してはいけません。\n\n"
                 "センシティブなファイルの内容は記述しないでください。説明も不要です。\n\n"
@@ -154,12 +151,13 @@ class DocumentGenerationNode:
                 "あなたは以下に指定される仕様書のセクションのライティングを担当します。\n"
                 "なるべく詳細なドキュメントを作成するようにしてください。ただし、ソースコードの情報から判断できない主張は行わないでください。\n"
                 "仕様書はマークダウン形式で記述し、文頭には必ず見出しとしてセクション名を含めてください。 \n"
+                "図を記述したい場合は mermaid 形式で記述してください。 \n"
                 "要約の書類を丁寧に網羅するようにしてください。\n\n" 
                 "センシティブなファイルの内容は記述しないでください。説明も不要です。\n\n"
                 "内容の指示に従って、ソースコードの内容をもとに詳細で包括的な仕様書を作成してください。\n\n"
                 "セクション名: {section_name}\n"
                 "内容の指示: {section_description}\n\n"
-                "各ソースコードの内容: \n"
+                "各章の要約: \n"
                 "{summaries_content}"
             )
         ])
