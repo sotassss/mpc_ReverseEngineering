@@ -8,6 +8,7 @@ from src.model_types import ScriptAnalysisResult, ScriptAnalysisResults
 
 from src.utils.config import load_config
 from src.utils.file_utiles import is_sensitive_file, extract_text, check_extension
+from src.utils.proxy_on_off import handle_proxy_request
 
 from dotenv import load_dotenv
 
@@ -96,11 +97,23 @@ class ScriptAnalysisNode:
         chain = prompt | self.llm
 
         ##################################手法1: バッチ処理を使用して並列処理##################################
-        results = list(chain.batch([text for text in texts]))   # ジェネレータを直接リストに変換
-        
+        # バッチサイズを設定してバッチ処理を実行
+        BATCH_SIZE = 50  # 一度に処理するファイル数を調整
+
+        results = []
+        # テキストをバッチに分割して処理
+        for i in range(0, len(texts), BATCH_SIZE):
+            handle_proxy_request()  # プロキシ設定を自動で切り替える処理
+            batch_texts = texts[i:i + BATCH_SIZE]
+            print(f"バッチ処理中: {i+1}〜{min(i+BATCH_SIZE, len(texts))}/{len(texts)}")
+            
+            # バッチ処理の実行
+            batch_results = list(chain.batch([text for text in batch_texts]))
+            results.extend(batch_results)
+
         # ファイルパスと結果を対応付ける
         file_paths = [item["path"] for item in texts]
-        
+
         # ドキュメントをベクトルストアに追加
         docs = [
             Document(page_content=result.detail_explanation, metadata={"file_path": file_path})
@@ -111,7 +124,6 @@ class ScriptAnalysisNode:
         self.db.add_documents(documents=docs, ids=uuids)
 
         return results
-    
 
         ##################################手法2:トークン制限回避のため直列処理##################################
         # results = []

@@ -1,10 +1,10 @@
 from langchain_core.prompts import ChatPromptTemplate
-from langchain_core.output_parsers import StrOutputParser
+from langchain_core.output_parsers import StrOutputParser, PydanticOutputParser
 from operator import itemgetter
 from langchain_chroma import Chroma
 from langchain_core.runnables import RunnableLambda, RunnablePassthrough
 
-from src.model_types import Sections, GeneratedDocument
+from src.model_types import Sections, GeneratedDocument, RoutingDecision
 from src.model_types import ScriptAnalysisResults, Sections
 
 class DocumentGenerationNode:
@@ -13,6 +13,7 @@ class DocumentGenerationNode:
         self.db = db
         self.retriever = db.as_retriever(k=k)
         self.summaries = None  # 初期化時はNone、後で設定する
+        self.routing_decisions = {}  # 各セクションの判断理由を保存
     
     def set_summaries(self, summaries: ScriptAnalysisResults):
         """
@@ -21,6 +22,14 @@ class DocumentGenerationNode:
             summaries: スクリプト解析結果
         """
         self.summaries = summaries
+    
+    def get_routing_decisions(self):
+        """
+        各セクションのルーティング判断結果を取得する
+        Returns:
+            ルーティング判断結果の辞書
+        """
+        return self.routing_decisions
     
     def run(self, sections: Sections) -> GeneratedDocument:
         """
@@ -46,14 +55,20 @@ class DocumentGenerationNode:
         # 2. セクションごとに適切なチェーンを選択
         rag_inputs = []
         lc_inputs = []
-        routing_map = {}  # 元の順序を保持するためのマップ
         
         for i, (section_input, route_result) in enumerate(zip(section_inputs, routing_results)):
-            if "全体を見る必要あり" in route_result:
-                print(f" - {section_input['section_name']} : LC")
+            section_name = section_input["section_name"]
+            
+            # ルーティング判断結果と理由を保存
+            self.routing_decisions[section_name] = route_result
+            
+            if route_result.decision == "全体を見る必要あり":
+                print(f" - {section_name} : LC ")
+                # print(f" - {section_name} : LC (理由: {route_result.reasoning})")
                 lc_inputs.append((i, section_input))
             else:
-                print(f" - {section_input['section_name']} : RAG")
+                print(f" - {section_name} : RAG ")
+                # print(f" - {section_name} : RAG (理由: {route_result.reasoning})")
                 rag_inputs.append((i, section_input))
         
         # 3. RAG チェーンと LC チェーンをバッチ処理で並列実行
@@ -90,10 +105,11 @@ class DocumentGenerationNode:
         """
         return list(chain.batch(inputs))
     
-    # ルーターのチェーン
+    # ルーターのチェーン - 判断理由を含むように改善
     def _create_router_chain(self):
         """
         セクションごとに適切なチェーンを決定するルーターチェーンを作成
+        判断理由も含めた構造化データを返す
         
         Returns:
             ルーターチェーン
@@ -102,21 +118,32 @@ class DocumentGenerationNode:
             (
                 "system",
                 "あなたは与えられたセクションの内容に基づいて、全体を見る必要があるかどうかを判断する専門家です。"
+                "判断結果と共に、その理由も説明してください。"
             ),
             (
                 "human",
                 "以下のセクション名と内容の指示に基づいて、このセクションを生成するために全体を見る必要があるかどうかを判断してください。\n\n"
                 "セクション名: {section_name}\n"
                 "内容の指示: {section_description}\n\n"
-                "もし全体像を把握する必要があるセクション（例：「概要」「アーキテクチャ」「設計方針」など）であれば、「全体を見る必要あり」と回答してください。\n"
-                "もし特定のコンポーネントやモジュールに焦点を当てたセクションであれば、「部分的な情報で十分」と回答してください。\n\n"
-                "回答は「全体を見る必要あり」または「部分的な情報で十分」のいずれかのみを返してください。"
+                "以下の判断基準を参考にしてください：\n"
+                "- 「全体を見る必要あり」：概要、アーキテクチャ全体、設計方針、システム間の関係性、全体像を理解する必要がある場合\n"
+                "- 「部分的な情報で十分」：特定のコンポーネント、モジュール、関数に焦点を当てた内容、局所的な情報のみで説明可能な場合\n\n"
+                "出力は以下のJSON形式で返してください：\n"
+                "```\n"
+                "{{\n"
+                '  "decision": "全体を見る必要あり" または "部分的な情報で十分",\n'
+                '  "reasoning": "判断理由の説明"\n'
+                "}}\n"
+                "```"
             )
         ])
         
-        chain = prompt | self.llm | StrOutputParser()
+        # PydanticOutputParserを使用して構造化データを返す
+        parser = PydanticOutputParser(pydantic_object=RoutingDecision)
+        
+        chain = prompt | self.llm | parser
         return chain
-    
+        
     # RAGを利用したチェーン
     def _create_rag_chain(self):
         """
@@ -209,3 +236,21 @@ class DocumentGenerationNode:
         """
         contents = "\n\n".join([f"パス: {doc.metadata['file_path']}\n内容:\n{doc.page_content}" for doc in docs])
         return contents
+
+    def generate_routing_report(self):
+        """
+        セクションのルーティング判断レポートを生成する
+        Returns:
+            ルーティングレポート文字列
+        """
+        if not self.routing_decisions:
+            return "ルーティング判断のレポートはまだ生成されていません。"
+            
+        report = "# セクションルーティング判断レポート\n\n"
+        report += "| セクション名 | 判断結果 | 判断理由 |\n"
+        report += "|------------|---------|--------|\n"
+        
+        for section_name, decision in self.routing_decisions.items():
+            report += f"| {section_name} | {decision.decision} | {decision.reasoning} |\n"
+            
+        return report

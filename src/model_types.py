@@ -1,5 +1,6 @@
 from typing import List
 from pydantic import BaseModel, Field
+from typing import Literal
 
 
 # LLMの出力制限用のデータモデル定義
@@ -26,3 +27,7 @@ class GeneratedDocument(BaseModel):
 class EvaluationResult(BaseModel):
     result: bool = Field(..., description="内容が十分かどうかの判定結果")
     feedback: str = Field(..., description="セクション作成者へのフィードバック")
+
+class RoutingDecision(BaseModel):
+    decision: Literal["全体を見る必要あり", "部分的な情報で十分"] = Field(description="セクションの処理方法の判断")
+    reasoning: str = Field(description="判断の理由説明")

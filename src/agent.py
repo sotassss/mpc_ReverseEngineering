@@ -1,4 +1,5 @@
 from typing import Any
+import time
 from langgraph.graph import END, StateGraph
 
 from src.state import  State
@@ -12,13 +13,14 @@ from src.model_types import ScriptAnalysisResults, Sections, GeneratedDocument
 from src.utils.proxy_on_off import handle_proxy_request
 
 class ReverseEngine:
-    def __init__(self, llm, db, k=10, maximum_iteration=2):
+    def __init__(self, llm, db, k=10, maximum_iteration=2, wait_time=0.5):
         self.maximum_iteration = maximum_iteration
         # ノードの初期化
         self.script_analysis_node = ScriptAnalysisNode(db=db, llm=llm)
         self.document_orchestration_node = DocumentOrchestrationNode(llm=llm)
         self.document_generation_node = DocumentGenerationNode(llm=llm, db=db, k=k)
         self.consistency_check_node = ConsistencyCheckNode(llm=llm)
+        self.wait_time = wait_time
 
         # グラフの作成
         self.graph = self._create_graph()
@@ -98,6 +100,7 @@ class ReverseEngine:
     # DocumentGenerationNode
     def _generate_document(self, state: State):
         handle_proxy_request()  # プロキシ設定を自動で切り替える処理
+        time.sleep(self.wait_time)
         print("ドキュメントを作成しています...")
         self.document_generation_node.set_summaries(state.script_analysis_results)
         document = self.document_generation_node.run(state.sections)
@@ -108,6 +111,7 @@ class ReverseEngine:
     # ConsistencyCheckNode
     def _check_consistency(self, state: State):
         handle_proxy_request()  # プロキシ設定を自動で切り替える処理
+        time.sleep(self.wait_time)
         print("生成したドキュメントをチェックしています")
         evaluation_result = self.consistency_check_node.run(state.document)
         return {

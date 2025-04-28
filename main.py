@@ -12,9 +12,9 @@ load_dotenv()
 
 def main():
     # ソースコードが格納されているフォルダのパス
-    # source_folder = "code/code_git_ROS"
+    source_folder = "code/code_git_ROS"
     # source_folder = "code/code_git_langchain"
-    source_folder = "code/code_sample_python"
+    # source_folder = "code/code_sample_python"
     # source_folder = "code/code_cbl"
 
     # chromaデータベースを初期化
@@ -23,8 +23,8 @@ def main():
         shutil.rmtree(CHROMA_DIR)
     source_files = collect_all_files(source_folder) 
     
-    # llm = ChatOpenAI(model="gpt-4.1-nano")
-    llm = ChatOpenAI(model="gpt-4o-mini")
+    llm = ChatOpenAI(model="gpt-4.1-nano-2025-04-14")
+    # llm = ChatOpenAI(model="gpt-4o-mini")
     embeddings = OpenAIEmbeddings(model="text-embedding-3-small")
     db = Chroma(
         collection_name="example_collection",
@@ -32,7 +32,7 @@ def main():
         persist_directory="./chroma_langchain_db",
     )
 
-    agent = ReverseEngine(llm=llm, db=db, k=10, maximum_iteration=3)
+    agent = ReverseEngine(llm=llm, db=db, k=10, maximum_iteration=3, wait_time=0.5)
 
     output = agent.run(source_files=source_files) 
 
