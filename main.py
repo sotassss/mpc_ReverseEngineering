@@ -6,15 +6,16 @@ import os
 import shutil
 from src.utils.collect_all_files import collect_all_files
 from src.utils.write_output_md import write_output_md
+from src.utils.md_to_pdf import convert_md_to_pdf
 
 
 load_dotenv()
 
 def main():
     # ソースコードが格納されているフォルダのパス
-    source_folder = "code/code_git_ROS"
+    # source_folder = "code/code_git_ROS"
     # source_folder = "code/code_git_langchain"
-    # source_folder = "code/code_sample_python"
+    source_folder = "code/code_sample_python"
     # source_folder = "code/code_cbl"
 
     # chromaデータベースを初期化
@@ -36,8 +37,11 @@ def main():
 
     output = agent.run(source_files=source_files) 
 
-    write_output_md(output) # ドキュメントをMarkdown形式で保存
+    # Markdownファイルとして保存
+    md_file = write_output_md(output)
 
+    # PDFファイルとして保存
+    convert_md_to_pdf(md_file)
 
 if __name__ == "__main__":
     main()

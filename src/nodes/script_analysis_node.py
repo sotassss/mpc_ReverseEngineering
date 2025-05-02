@@ -85,7 +85,6 @@ class ScriptAnalysisNode:
                     "詳細な説明には各関数や変数の詳細な役割や定義などを含め、全体の処理内容も分かりやすいようにまとめてください。\n"
                     "簡単な概要については、簡潔にそのソースコードの役割を説明するようにしてください。\n\n"
                     "「センシティブなファイルのため内容は非表示です。」と書かれているものは、推測をせずに、非表示と記述してください。\n\n"
-                    "一般的な内容を推測して記述してはいけません。\n\n"
                     "ファイルパス: {path}\n\n"
                     "# ソースコード\n"
                     "{text}"
@@ -98,32 +97,93 @@ class ScriptAnalysisNode:
 
         ##################################手法1: バッチ処理を使用して並列処理##################################
         # バッチサイズを設定してバッチ処理を実行
-        BATCH_SIZE = 50  # 一度に処理するファイル数を調整
+        # BATCH_SIZE = 50  # 一度に処理するファイル数を調整
 
-        results = []
-        # テキストをバッチに分割して処理
-        for i in range(0, len(texts), BATCH_SIZE):
-            handle_proxy_request()  # プロキシ設定を自動で切り替える処理
-            batch_texts = texts[i:i + BATCH_SIZE]
-            print(f"バッチ処理中: {i+1}〜{min(i+BATCH_SIZE, len(texts))}/{len(texts)}")
+        # results = []
+        # # テキストをバッチに分割して処理
+        # for i in range(0, len(texts), BATCH_SIZE):
+        #     handle_proxy_request()  # プロキシ設定を自動で切り替える処理
+        #     batch_texts = texts[i:i + BATCH_SIZE]
+        #     print(f"バッチ処理中: {i+1}〜{min(i+BATCH_SIZE, len(texts))}/{len(texts)}")
             
-            # バッチ処理の実行
-            batch_results = list(chain.batch([text for text in batch_texts]))
-            results.extend(batch_results)
+        #     # バッチ処理の実行
+        #     batch_results = list(chain.batch([text for text in batch_texts]))
+        #     results.extend(batch_results)
 
-        # ファイルパスと結果を対応付ける
-        file_paths = [item["path"] for item in texts]
+        # # ファイルパスと結果を対応付ける
+        # file_paths = [item["path"] for item in texts]
 
-        # ドキュメントをベクトルストアに追加
+        # # ドキュメントをベクトルストアに追加
+        # docs = [
+        #     Document(page_content=result.detail_explanation, metadata={"file_path": file_path})
+        #     for file_path, result in zip(file_paths, results)
+        # ]
+
+        # uuids = [str(uuid4()) for _ in range(len(docs))]
+        # self.db.add_documents(documents=docs, ids=uuids)
+
+        # return results
+    
+
+        ##################################手法2:トークン数を計算してバッチ処理##################################
+        MAX_PROMPT_TOKENS = 100000  # GPT-4.1-nanoの場合
+        results = []
+        batch = []
+        batch_tokens = 0
+
+        def count_tokens(text):
+            return len(encoding.encode(text["text"]))
+
+        file_paths = []
+
+        # 全体の進捗表示
+        total_texts = len(texts)
+
+        for idx, text in enumerate(texts):
+            text_tokens = count_tokens(text)
+
+            # トークン上限を超える場合は一度送信
+            if batch_tokens + text_tokens > MAX_PROMPT_TOKENS:
+                if batch:
+                    try:
+                        handle_proxy_request()
+                        print(f"バッチ処理中: {len(batch)}件 (合計トークン数: {batch_tokens})")
+                        batch_results = list(chain.batch(batch))
+                        results.extend(batch_results)
+                        file_paths.extend([item["path"] for item in batch])
+                    except Exception as e:
+                        print(f"※ バッチ送信中にエラー: {e}")
+                    batch = []
+                    batch_tokens = 0
+
+            batch.append(text)
+            batch_tokens += text_tokens
+
+            # 進捗表示
+            progress = (idx + 1) / total_texts * 100
+            print(f"バッチ処理進捗: {idx + 1}/{total_texts}件 完了 ({progress:.2f}%)")
+
+        # 最後のバッチを処理
+        if batch:
+            try:
+                handle_proxy_request()
+                print(f"バッチ処理中: {len(batch)}件 (合計トークン数: {batch_tokens})")
+                batch_results = list(chain.batch(batch))
+                results.extend(batch_results)
+                file_paths.extend([item["path"] for item in batch])
+            except Exception as e:
+                print(f"※ バッチ送信中にエラー: {e}")
+
+        # ベクトルストアに保存
         docs = [
             Document(page_content=result.detail_explanation, metadata={"file_path": file_path})
             for file_path, result in zip(file_paths, results)
         ]
-
         uuids = [str(uuid4()) for _ in range(len(docs))]
         self.db.add_documents(documents=docs, ids=uuids)
 
         return results
+
 
         ##################################手法2:トークン制限回避のため直列処理##################################
         # results = []

@@ -96,3 +96,4 @@ def write_output_md(output):
         file.write("".join(content))
     
     print(f"ドキュメントが {output_filepath} に保存されました。")
+    return output_filepath
