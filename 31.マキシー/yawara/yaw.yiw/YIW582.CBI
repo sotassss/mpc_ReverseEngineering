@@ -1,8 +1,0 @@
-[Compile Options]
-ALPHAL=No
-DLOAD=Yes
-FORMLIB="P:\yawara\yaw\obj";"P:\yawara\yaw.yiw\OBJ"
-LIB="P:\cbl"
-SRF=VAR,VAR
-[IN/OF Libraries]
-XFDLIB="P:\cbl"
