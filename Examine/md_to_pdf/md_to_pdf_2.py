@@ -3,10 +3,13 @@
 
 import argparse
 import os
+import re
 from pathlib import Path
 import markdown2
 import pdfkit
 import tempfile
+import uuid
+import sys
 from bs4 import BeautifulSoup
 
 def convert_md_to_pdf(input_file, output_file=None, style=None):
@@ -17,16 +20,31 @@ def convert_md_to_pdf(input_file, output_file=None, style=None):
     
     print(f"Converting {input_file} to {output_file}...")
     
-    # wkhtmltopdfのパスを明示的に指定
-    config = pdfkit.configuration(wkhtmltopdf=r'C:\Program Files\wkhtmltopdf\bin\wkhtmltopdf.exe')
+    # wkhtmltopdfのパスを自動検出または明示的に指定
+    config = None
+    if sys.platform == 'win32':
+        wk_path = r'C:\Program Files\wkhtmltopdf\bin\wkhtmltopdf.exe'
+        if os.path.exists(wk_path):
+            config = pdfkit.configuration(wkhtmltopdf=wk_path)
     
     # Markdown ファイルを読み込む
     with open(input_file, 'r', encoding='utf-8') as f:
         md_content = f.read()
     
+    # Mermaid コードブロックを一時的なプレースホルダーに置き換える
+    mermaid_blocks = []
+    def replace_mermaid(match):
+        block_id = f"mermaid-{uuid.uuid4()}"
+        mermaid_code = match.group(1).strip()
+        mermaid_blocks.append((block_id, mermaid_code))
+        return f"\n\n<div id='{block_id}' class='mermaid'>{mermaid_code}</div>\n\n"
+    
+    # Mermaid コードブロックを検出して処理
+    processed_md = re.sub(r'```mermaid\s*(.*?)\s*```', replace_mermaid, md_content, flags=re.DOTALL)
+    
     # Markdown を HTML に変換（拡張機能付き）
     html_content = markdown2.markdown(
-        md_content,
+        processed_md,
         extras=[
             'fenced-code-blocks',  # コードブロックサポート
             'tables',              # テーブルサポート
@@ -60,10 +78,11 @@ def convert_md_to_pdf(input_file, output_file=None, style=None):
     <html>
     <head>
         <meta charset="utf-8">
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>{os.path.basename(input_file)}</title>
         <style>
             body {{
-                font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+                font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Hiragino Sans", "Noto Sans CJK JP", "Yu Gothic", sans-serif;
                 line-height: 1.6;
                 padding: 20px;
                 max-width: 800px;
@@ -175,18 +194,19 @@ def convert_md_to_pdf(input_file, output_file=None, style=None):
                 vertical-align: super;
             }}
             
+            /* mermaidダイアグラムのスタイル */
+            .mermaid {{
+                text-align: center;
+                margin: 20px 0;
+                background-color: #f6f8fa;
+                padding: 10px;
+                border-radius: 5px;
+                overflow: auto;
+            }}
+            
             /* ユーザー指定のスタイル */
             {custom_css}
         </style>
-        <script type="text/x-mathjax-config">
-            MathJax.Hub.Config({{
-                tex2jax: {{
-                    inlineMath: [['$','$'], ['\\\\(','\\\\)']],
-                    processEscapes: true
-                }}
-            }});
-        </script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-AMS_HTML"></script>
     </head>
     <body>
         {str(soup)}
@@ -200,7 +220,7 @@ def convert_md_to_pdf(input_file, output_file=None, style=None):
         f.write(complete_html)
     
     try:
-        # wkhtmltopdfのオプション
+        # HTMLをPDFに変換
         options = {
             'page-size': 'A4',
             'margin-top': '10mm',
@@ -211,13 +231,21 @@ def convert_md_to_pdf(input_file, output_file=None, style=None):
             'no-outline': None,
             'quiet': '',
             'enable-local-file-access': '',
+            # JavaScriptを無効化して静的変換に切り替え
+            'disable-javascript': '',
         }
         
         # HTMLをPDFに変換
-        pdfkit.from_file(temp_html_file, output_file, options=options, configuration=config)
+        if config:
+            pdfkit.from_file(temp_html_file, output_file, options=options, configuration=config)
+        else:
+            pdfkit.from_file(temp_html_file, output_file, options=options)
         
         print(f"Conversion completed: {output_file}")
         return output_file
+    except Exception as e:
+        print(f"Error: {e}")
+        raise
     finally:
         # 一時ファイルを削除
         if os.path.exists(temp_html_file):
@@ -225,7 +253,7 @@ def convert_md_to_pdf(input_file, output_file=None, style=None):
 
 
 def main():
-    parser = argparse.ArgumentParser(description='Markdown to PDF converter')
+    parser = argparse.ArgumentParser(description='Markdown to PDF converter with Mermaid support')
     parser.add_argument('input', help='Input markdown file')
     parser.add_argument('-o', '--output', help='Output PDF file')
     parser.add_argument('-s', '--style', help='Additional CSS file for styling')

@@ -130,27 +130,28 @@ class ScriptAnalysisNode:
         results = []
         batch = []
         batch_tokens = 0
+        file_paths = []
+        total_texts = len(texts)
+        file_paths = []
+        processed_count = 0  # 処理済件数を追跡
 
         def count_tokens(text):
             return len(encoding.encode(text["text"]))
 
-        file_paths = []
-
-        # 全体の進捗表示
-        total_texts = len(texts)
-
         for idx, text in enumerate(texts):
             text_tokens = count_tokens(text)
 
-            # トークン上限を超える場合は一度送信
             if batch_tokens + text_tokens > MAX_PROMPT_TOKENS:
                 if batch:
                     try:
                         handle_proxy_request()
-                        print(f"バッチ処理中: {len(batch)}件 (合計トークン数: {batch_tokens})")
+                        # print(f"バッチ処理中: {len(batch)}件 (合計トークン数: {batch_tokens})")
                         batch_results = list(chain.batch(batch))
                         results.extend(batch_results)
                         file_paths.extend([item["path"] for item in batch])
+                        processed_count += len(batch)
+                        progress = processed_count / total_texts * 100
+                        print(f"バッチ処理進捗: {processed_count}/{total_texts}件 完了 ({progress:.2f}%)")
                     except Exception as e:
                         print(f"※ バッチ送信中にエラー: {e}")
                     batch = []
@@ -158,10 +159,6 @@ class ScriptAnalysisNode:
 
             batch.append(text)
             batch_tokens += text_tokens
-
-            # 進捗表示
-            progress = (idx + 1) / total_texts * 100
-            print(f"バッチ処理進捗: {idx + 1}/{total_texts}件 完了 ({progress:.2f}%)")
 
         # 最後のバッチを処理
         if batch:
@@ -171,6 +168,9 @@ class ScriptAnalysisNode:
                 batch_results = list(chain.batch(batch))
                 results.extend(batch_results)
                 file_paths.extend([item["path"] for item in batch])
+                processed_count += len(batch)
+                progress = processed_count / total_texts * 100
+                print(f"バッチ処理進捗: {processed_count}/{total_texts}件 完了 ({progress:.2f}%)")
             except Exception as e:
                 print(f"※ バッチ送信中にエラー: {e}")
 
@@ -183,6 +183,7 @@ class ScriptAnalysisNode:
         self.db.add_documents(documents=docs, ids=uuids)
 
         return results
+
 
 
         ##################################手法2:トークン制限回避のため直列処理##################################
