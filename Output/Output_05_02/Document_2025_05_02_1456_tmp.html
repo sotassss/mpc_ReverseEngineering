@@ -1,0 +1,1044 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Document_2025_05_02_1456.md</title>
+<meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+
+<style>
+/* https://github.com/microsoft/vscode/blob/master/extensions/markdown-language-features/media/markdown.css */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+body {
+	font-family: var(--vscode-markdown-font-family, -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif);
+	font-size: var(--vscode-markdown-font-size, 14px);
+	padding: 0 26px;
+	line-height: var(--vscode-markdown-line-height, 22px);
+	word-wrap: break-word;
+}
+
+#code-csp-warning {
+	position: fixed;
+	top: 0;
+	right: 0;
+	color: white;
+	margin: 16px;
+	text-align: center;
+	font-size: 12px;
+	font-family: sans-serif;
+	background-color:#444444;
+	cursor: pointer;
+	padding: 6px;
+	box-shadow: 1px 1px 1px rgba(0,0,0,.25);
+}
+
+#code-csp-warning:hover {
+	text-decoration: none;
+	background-color:#007acc;
+	box-shadow: 2px 2px 2px rgba(0,0,0,.25);
+}
+
+body.scrollBeyondLastLine {
+	margin-bottom: calc(100vh - 22px);
+}
+
+body.showEditorSelection .code-line {
+	position: relative;
+}
+
+body.showEditorSelection .code-active-line:before,
+body.showEditorSelection .code-line:hover:before {
+	content: "";
+	display: block;
+	position: absolute;
+	top: 0;
+	left: -12px;
+	height: 100%;
+}
+
+body.showEditorSelection li.code-active-line:before,
+body.showEditorSelection li.code-line:hover:before {
+	left: -30px;
+}
+
+.vscode-light.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.15);
+}
+
+.vscode-light.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.40);
+}
+
+.vscode-light.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-dark.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.4);
+}
+
+.vscode-dark.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.60);
+}
+
+.vscode-dark.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-high-contrast.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 160, 0, 0.7);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 160, 0, 1);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+img {
+	max-width: 100%;
+	max-height: 100%;
+}
+
+a {
+	text-decoration: none;
+}
+
+a:hover {
+	text-decoration: underline;
+}
+
+a:focus,
+input:focus,
+select:focus,
+textarea:focus {
+	outline: 1px solid -webkit-focus-ring-color;
+	outline-offset: -1px;
+}
+
+hr {
+	border: 0;
+	height: 2px;
+	border-bottom: 2px solid;
+}
+
+h1 {
+	padding-bottom: 0.3em;
+	line-height: 1.2;
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+}
+
+h1, h2, h3 {
+	font-weight: normal;
+}
+
+table {
+	border-collapse: collapse;
+}
+
+table > thead > tr > th {
+	text-align: left;
+	border-bottom: 1px solid;
+}
+
+table > thead > tr > th,
+table > thead > tr > td,
+table > tbody > tr > th,
+table > tbody > tr > td {
+	padding: 5px 10px;
+}
+
+table > tbody > tr + tr > td {
+	border-top: 1px solid;
+}
+
+blockquote {
+	margin: 0 7px 0 5px;
+	padding: 0 16px 0 10px;
+	border-left-width: 5px;
+	border-left-style: solid;
+}
+
+code {
+	font-family: Menlo, Monaco, Consolas, "Droid Sans Mono", "Courier New", monospace, "Droid Sans Fallback";
+	font-size: 1em;
+	line-height: 1.357em;
+}
+
+body.wordWrap pre {
+	white-space: pre-wrap;
+}
+
+pre:not(.hljs),
+pre.hljs code > div {
+	padding: 16px;
+	border-radius: 3px;
+	overflow: auto;
+}
+
+pre code {
+	color: var(--vscode-editor-foreground);
+	tab-size: 4;
+}
+
+/** Theming */
+
+.vscode-light pre {
+	background-color: rgba(220, 220, 220, 0.4);
+}
+
+.vscode-dark pre {
+	background-color: rgba(10, 10, 10, 0.4);
+}
+
+.vscode-high-contrast pre {
+	background-color: rgb(0, 0, 0);
+}
+
+.vscode-high-contrast h1 {
+	border-color: rgb(0, 0, 0);
+}
+
+.vscode-light table > thead > tr > th {
+	border-color: rgba(0, 0, 0, 0.69);
+}
+
+.vscode-dark table > thead > tr > th {
+	border-color: rgba(255, 255, 255, 0.69);
+}
+
+.vscode-light h1,
+.vscode-light hr,
+.vscode-light table > tbody > tr + tr > td {
+	border-color: rgba(0, 0, 0, 0.18);
+}
+
+.vscode-dark h1,
+.vscode-dark hr,
+.vscode-dark table > tbody > tr + tr > td {
+	border-color: rgba(255, 255, 255, 0.18);
+}
+
+</style>
+
+<style>
+/* Tomorrow Theme */
+/* http://jmblog.github.com/color-themes-for-google-code-highlightjs */
+/* Original theme - https://github.com/chriskempson/tomorrow-theme */
+
+/* Tomorrow Comment */
+.hljs-comment,
+.hljs-quote {
+	color: #8e908c;
+}
+
+/* Tomorrow Red */
+.hljs-variable,
+.hljs-template-variable,
+.hljs-tag,
+.hljs-name,
+.hljs-selector-id,
+.hljs-selector-class,
+.hljs-regexp,
+.hljs-deletion {
+	color: #c82829;
+}
+
+/* Tomorrow Orange */
+.hljs-number,
+.hljs-built_in,
+.hljs-builtin-name,
+.hljs-literal,
+.hljs-type,
+.hljs-params,
+.hljs-meta,
+.hljs-link {
+	color: #f5871f;
+}
+
+/* Tomorrow Yellow */
+.hljs-attribute {
+	color: #eab700;
+}
+
+/* Tomorrow Green */
+.hljs-string,
+.hljs-symbol,
+.hljs-bullet,
+.hljs-addition {
+	color: #718c00;
+}
+
+/* Tomorrow Blue */
+.hljs-title,
+.hljs-section {
+	color: #4271ae;
+}
+
+/* Tomorrow Purple */
+.hljs-keyword,
+.hljs-selector-tag {
+	color: #8959a8;
+}
+
+.hljs {
+	display: block;
+	overflow-x: auto;
+	color: #4d4d4c;
+	padding: 0.5em;
+}
+
+.hljs-emphasis {
+	font-style: italic;
+}
+
+.hljs-strong {
+	font-weight: bold;
+}
+</style>
+
+<style>
+/*
+ * Markdown PDF CSS
+ */
+
+ body {
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif, "Meiryo";
+	padding: 0 12px;
+}
+
+pre {
+	background-color: #f8f8f8;
+	border: 1px solid #cccccc;
+	border-radius: 3px;
+	overflow-x: auto;
+	white-space: pre-wrap;
+	overflow-wrap: break-word;
+}
+
+pre:not(.hljs) {
+	padding: 23px;
+	line-height: 19px;
+}
+
+blockquote {
+	background: rgba(127, 127, 127, 0.1);
+	border-color: rgba(0, 122, 204, 0.5);
+}
+
+.emoji {
+	height: 1.4em;
+}
+
+code {
+	font-size: 14px;
+	line-height: 19px;
+}
+
+/* for inline code */
+:not(pre):not(.hljs) > code {
+	color: #C9AE75; /* Change the old color so it seems less like an error */
+	font-size: inherit;
+}
+
+/* Page Break : use <div class="page"/> to insert page break
+-------------------------------------------------------- */
+.page {
+	page-break-after: always;
+}
+
+</style>
+
+<script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
+</head>
+<body>
+  <script>
+    mermaid.initialize({
+      startOnLoad: true,
+      theme: document.body.classList.contains('vscode-dark') || document.body.classList.contains('vscode-high-contrast')
+          ? 'dark'
+          : 'default'
+    });
+  </script>
+<h1 id="%E3%82%B7%E3%82%B9%E3%83%86%E3%83%A0%E4%BB%95%E6%A7%98%E6%9B%B8---cobol%E3%83%95%E3%82%A1%E3%82%A4%E3%83%AB%E6%A7%8B%E6%88%90%E3%81%A8%E9%80%A3%E6%90%BA%E3%81%AE%E4%BD%93%E7%B3%BB%E7%9A%84%E8%A8%AD%E8%A8%88">システム仕様書 - COBOLファイル構成と連携の体系的設計</h1>
+<h2 id="%E7%9B%AE%E6%AC%A1">目次</h2>
+<ol>
+<li><a href="#1-%E3%81%AF%E3%81%98%E3%82%81%E3%81%AB%E3%83%BB%E7%9B%AE%E7%9A%84%E3%81%A8%E7%AF%84%E5%9B%B2">はじめに・目的と範囲</a></li>
+<li><a href="#2-%E3%82%B7%E3%82%B9%E3%83%86%E3%83%A0%E5%85%A8%E4%BD%93%E3%82%A2%E3%83%BC%E3%82%AD%E3%83%86%E3%82%AF%E3%83%81%E3%83%A3%E3%81%A8%E6%A7%8B%E6%88%90%E8%A6%81%E7%B4%A0">システム全体アーキテクチャと構成要素</a></li>
+<li><a href="#3-%E5%90%84%E7%A8%AE%E3%82%B7%E3%82%B9%E3%83%86%E3%83%A0%E3%81%AB%E3%81%8A%E3%81%91%E3%82%8B%E3%83%95%E3%82%A1%E3%82%A4%E3%83%AB%E7%BE%A4%E3%81%AE%E4%BD%93%E7%B3%BB%E3%81%A8%E5%BD%B9%E5%89%B2%E5%88%86%E9%A1%9E">各種システムにおけるファイル群の体系と役割分類</a></li>
+<li><a href="#4-%E4%BB%A3%E8%A1%A8%E7%9A%84%E5%87%A6%E7%90%86%E3%83%95%E3%83%AD%E3%83%BC%E3%81%A8%E3%83%95%E3%82%A1%E3%82%A4%E3%83%AB%E9%80%A3%E6%90%BA%E3%81%AE%E5%85%A8%E4%BD%93%E5%83%8F">代表的処理フローとファイル連携の全体像</a></li>
+<li><a href="#5-%E3%83%87%E3%83%BC%E3%82%BF%E5%AE%9A%E7%BE%A9%E3%81%A8%E6%A7%8B%E9%80%A0%E3%81%AE%E9%80%A3%E6%90%BA%E3%83%BB%E6%95%B4%E5%90%88%E6%80%A7%E3%81%AB%E3%81%A4%E3%81%84%E3%81%A6">データ定義と構造の連携・整合性について</a></li>
+<li><a href="#6-%E3%82%BB%E3%82%AF%E3%82%B7%E3%83%A7%E3%83%B3%E5%90%8D:-%E3%83%93%E3%83%AB%E3%83%89%E3%81%A8%E9%81%8B%E7%94%A8%E3%81%AE%E5%85%A8%E4%BD%93%E5%83%8F">セクション名: ビルドと運用の全体像</a></li>
+<li><a href="#7-%E3%82%BB%E3%82%AF%E3%82%B7%E3%83%A7%E3%83%B3%EF%BC%9A%E3%82%B7%E3%82%B9%E3%83%86%E3%83%A0%E3%81%AE%E9%81%8B%E7%94%A8%E7%AE%A1%E7%90%86%E3%81%A8%E3%82%BB%E3%82%AD%E3%83%A5%E3%83%AA%E3%83%86%E3%82%A3">セクション：システムの運用管理とセキュリティ</a></li>
+<li><a href="#8-%E6%8B%A1%E5%BC%B5%E3%83%BB%E4%BF%9D%E5%AE%88%E3%81%AB%E5%90%91%E3%81%91%E3%81%9F%E8%A8%AD%E8%A8%88%E6%8C%87%E9%87%9D">拡張・保守に向けた設計指針</a></li>
+</ol>
+<hr>
+<h2 id="1-%E3%81%AF%E3%81%98%E3%82%81%E3%81%AB%E3%83%BB%E7%9B%AE%E7%9A%84%E3%81%A8%E7%AF%84%E5%9B%B2">1. はじめに・目的と範囲</h2>
+<p>本書は、医療・福祉システムにおける仕様書の一部として、各種システムファイル、レコード構造、処理フロー、およびビルド環境の定義を詳細に記述したドキュメントです。これらの記述は、システムの理解、開発、保守、運用に必要な基本方針を提示し、システム全体像の把握と、関連各部門や担当者間の共通理解を促進する目的があります。</p>
+<h3 id="%E7%9B%AE%E7%9A%84">目的</h3>
+<ul>
+<li>医療・福祉システムの各種ファイル構造・レコード定義を明示し、システム処理内容を理解しやすくする。</li>
+<li>ファイル管理、データ入出力、条件処理、帳票出力のフローを規定し、実装・開発・テスト・運用の指針とする。</li>
+<li>システムのビルドや設定に関するルールを整理し、ビルド環境の標準化と運用効率化を図る。</li>
+<li>セキュリティやセンシティブな情報の取り扱いに注意しつつ、システムの全体的な設計思想と基本方針を伝える。</li>
+</ul>
+<h3 id="%E9%81%A9%E7%94%A8%E7%AF%84%E5%9B%B2">適用範囲</h3>
+<ul>
+<li>医療・福祉における情報管理システムの各種ファイル定義、レコード構造、処理・フロー設計に関する仕様。</li>
+<li>COBOL、NetCOBOL、Visual Studioの設定ファイル・Makefile等のビルド管理設定。</li>
+<li>ユーザインタフェース（画面操作や帳票出力）、内部データの管理、外部連携に関わる仕様。</li>
+<li>システムメンテナンスや拡張、移行、運用監査に向けたドキュメント基準。</li>
+</ul>
+<h3 id="%E5%9F%BA%E6%9C%AC%E6%96%B9%E9%87%9D">基本方針</h3>
+<ul>
+<li>各種ファイルには明確なレイアウト・構造を持たせ、標準化された記述に基づき管理する。</li>
+<li>条件判定とループによる処理フローを徹底し、正確なデータ操作を実現する。</li>
+<li>セキュリティの観点から、センシティブ情報は適切な非公開・暗号化・アクセス制御とする。</li>
+<li>国や制度の変化に対応できる柔軟な資産管理と、保守コストの低減を意識した設計思想を持つ。</li>
+</ul>
+<hr>
+<p>以上、システムの理解と共通認識を促す導入部として、仕様の概要と設計思想を提示いたしました。</p>
+<h2 id="2-%E3%82%B7%E3%82%B9%E3%83%86%E3%83%A0%E5%85%A8%E4%BD%93%E3%82%A2%E3%83%BC%E3%82%AD%E3%83%86%E3%82%AF%E3%83%81%E3%83%A3%E3%81%A8%E6%A7%8B%E6%88%90%E8%A6%81%E7%B4%A0">2. システム全体アーキテクチャと構成要素</h2>
+<h3 id="%E4%BF%AF%E7%9E%B0%E5%9B%B3">俯瞰図</h3>
+<pre><code class="language-mermaid"><div class="mermaid">flowchart LR
+    ハードウェア -->|ネットワーク経由| サーバ/クラウド
+    サーバ/クラウド -->|API/通信| ソフトウェアシステム
+    ソフトウェアシステム -->|データベース| データストア
+    ソフトウェアシステム -->|ファイルシステム| ファイルストレージ
+    ソフトウェアシステム -->|インターフェース| ユーザ端末
+</div></code></pre>
+<p>###ハードウェア構成</p>
+<ul>
+<li>PC、サーバ、ネットワーク機器</li>
+<li>ストレージ装置</li>
+<li>周辺機器（プリンター等）</li>
+</ul>
+<p>###ネットワーク構成</p>
+<ul>
+<li>ローカルネットワーク</li>
+<li>インターネット経由のクラウド連携</li>
+<li>VPNや専用線によるセキュア接続</li>
+</ul>
+<p>###ソフトウェア構成</p>
+<ul>
+<li>オペレーティングシステム（例：Windows、Linux）</li>
+<li>ミドルウェア（例：Webサーバ、APサーバ）</li>
+<li>アプリケーション層
+<ul>
+<li>COBOLやC系言語によるシステムプログラム</li>
+<li>専用業務アプリケーション</li>
+<li>ライブラリ・コンポーネント（DLL、ライブラリファイル等）</li>
+</ul>
+</li>
+<li>データストア
+<ul>
+<li>ファイルシステム上のレコードデータ（COBOL用ファイル）</li>
+<li>RDBMSまたはシステム内のDBライクなデータ格納場所</li>
+</ul>
+</li>
+<li>ユーザインタフェース
+<ul>
+<li>画面操作（パソコン、タッチパネル）</li>
+<li>出力帳票（プリンタ等）</li>
+</ul>
+</li>
+</ul>
+<p>###データフロー</p>
+<ul>
+<li>ユーザ端末やシステム間の通信</li>
+<li>各種データファイルやレコードの読み書き</li>
+<li>データベースや内部データストアへのアクセス</li>
+<li>現場端末と中央システム間の情報同期</li>
+<li>出力帳票やレポートの生成・管理</li>
+</ul>
+<p>###連携モデル</p>
+<ul>
+<li>ネットワーク通信による外部システム連携</li>
+<li>CobolやC系ライブラリ利用による内部処理</li>
+<li>ファイルシステムからの入出力を中心としたデータ管理</li>
+<li>API、DLL呼び出し、外部プログラムとのインターフェース</li>
+</ul>
+<p>###動作概念
+システムは、ネットワークを介して外部と連携しながら、各種ファイルとレコードを管理・処理し、ユーザの操作や外部からのリクエストに応じて適切な処理と帳票出力を行います。ハードウェア・ソフトウェア間の連携により、システム全体の動作とデータ流れを確保します。</p>
+<h2 id="3-%E5%90%84%E7%A8%AE%E3%82%B7%E3%82%B9%E3%83%86%E3%83%A0%E3%81%AB%E3%81%8A%E3%81%91%E3%82%8B%E3%83%95%E3%82%A1%E3%82%A4%E3%83%AB%E7%BE%A4%E3%81%AE%E4%BD%93%E7%B3%BB%E3%81%A8%E5%BD%B9%E5%89%B2%E5%88%86%E9%A1%9E">3. 各種システムにおけるファイル群の体系と役割分類</h2>
+<p>本仕様書は、各種システムにおいて管理されるファイル群の分類と、それぞれの役割を明確に分類し整理したものである。以下に体系的なファイル分類と、その役割、相互の関連性を示す。</p>
+<h3 id="1-%E3%82%B7%E3%82%B9%E3%83%86%E3%83%A0%E6%83%85%E5%A0%B1%E7%AE%A1%E7%90%86%E7%94%A8%E3%83%95%E3%82%A1%E3%82%A4%E3%83%AB%E7%BE%A4">1. システム情報管理用ファイル群</h3>
+<p>システムの基本情報や設定情報を管理するファイル群。</p>
+<ul>
+<li>例： <code>H_booku.COB</code>, <code>H_seijo.COB</code>, <code>H_*</code> 系のマスターファイル</li>
+<li>役割： システム設定情報、マスタ管理情報、バージョン・環境データの格納</li>
+<li>特徴： これらのファイルは、システム全体の基盤データとして利用される。</li>
+</ul>
+<h3 id="2-%E5%8C%BB%E7%99%82%E3%83%87%E3%83%BC%E3%82%BF%E3%83%95%E3%82%A1%E3%82%A4%E3%83%AB%E7%BE%A4">2. 医療データファイル群</h3>
+<p>患者情報、施術情報、負傷情報、料金情報など医療に関わる実績データ。</p>
+<ul>
+<li>例： <code>H_hoken.COB</code>, <code>H_jouhou.COB</code>, <code>H_nousyu.COB</code>, <code>H_shinryo.COB</code></li>
+<li>役割： 医療・介護の実績データ保管・入出力</li>
+<li>特徴： それぞれのレコードには複雑な構造体や多次元配列による多情報管理。</li>
+</ul>
+<h3 id="3-%E5%B8%B3%E7%A5%A8%E4%BD%9C%E6%88%90%E7%94%A8%E3%83%95%E3%82%A1%E3%82%A4%E3%83%AB%E7%BE%A4">3. 帳票作成用ファイル群</h3>
+<p>請求書やレセプト、帳票用の出力データファイル群。</p>
+<ul>
+<li>例： <code>H_sei.COB</code>, <code>H_youshi.COB</code>, <code>H_zaikei.COB</code></li>
+<li>役割： 統計・請求書帳票作成・出力</li>
+<li>特徴： 出力用フォーマットや管理情報を含む。</li>
+</ul>
+<h3 id="4-%E8%A8%AD%E5%AE%9A%E3%83%BB%E3%83%93%E3%83%AB%E3%83%89%E3%83%BB%E7%92%B0%E5%A2%83%E5%88%B6%E5%BE%A1%E3%83%95%E3%82%A1%E3%82%A4%E3%83%AB%E7%BE%A4">4. 設定・ビルド・環境制御ファイル群</h3>
+<p>ビルド・コンパイル用設定や環境情報、ライブラリのパス管理。</p>
+<ul>
+<li>例： <code>KHTJYOS.COB</code>, <code>KHTJYOS.MAK</code>, <code>YEN.V</code></li>
+<li>役割： システムコンパイル・リンク設定、環境管理</li>
+<li>特徴： ビルドに必要なパス設定と環境パラメータを保持。</li>
+</ul>
+<h3 id="5-%E5%85%B1%E9%80%9A%E3%83%A9%E3%82%A4%E3%83%96%E3%83%A9%E3%83%AA%E3%83%BB%E5%A4%96%E9%83%A8%E3%83%AA%E3%83%B3%E3%82%AF%E3%83%A9%E3%82%A4%E3%83%96%E3%83%A9%E3%83%AA">5. 共通ライブラリ・外部リンクライブラリ</h3>
+<p>システム共通の関数や外部ユーティリティ。</p>
+<ul>
+<li>例： <code>uuid.Lib</code>, <code>F3BICBDM.OBJ</code>, <code>KERNEL32.LIB</code></li>
+<li>役割： コア関数呼び出し、ライブラリ依存</li>
+<li>特徴： 他のファイルから参照される外部DLL・OBJファイル群。</li>
+</ul>
+<h3 id="6-%E7%89%B9%E5%AE%9A%E7%94%A8%E9%80%94%E3%83%BB%E8%A3%9C%E5%8A%A9%E3%83%95%E3%82%A1%E3%82%A4%E3%83%AB">6. 特定用途・補助ファイル</h3>
+<p>特殊な処理や補助的な役割を持つファイル。</p>
+<ul>
+<li>例： <code>Yenpi1.COB</code>, <code>H_Soso.COB</code>, <code>YAMABOSI.COB</code></li>
+<li>役割： 補助処理、補完管理</li>
+<li>特徴： 具体的には伝票補正やシステム内部補助の役割。</li>
+</ul>
+<h3 id="7-%E5%A4%96%E9%83%A8%E3%83%AA%E3%82%BD%E3%83%BC%E3%82%B9%E3%83%BB%E3%83%86%E3%83%B3%E3%83%97%E3%83%AC%E3%83%BC%E3%83%88%E3%83%BB%E8%A8%AD%E5%AE%9A%E3%83%95%E3%82%A1%E3%82%A4%E3%83%AB">7. 外部リソース・テンプレート・設定ファイル</h3>
+<p>設定値やテンプレート、外部インタフェース定義。</p>
+<ul>
+<li>例： <code>.RES</code>, <code>.XML</code>, <code>.DAT</code>, <code>.PRC</code></li>
+<li>役割： システム設定、UI定義、インターフェース定義</li>
+<li>特徴： XMLや設定管理ファイル、マスタファイル。</li>
+</ul>
+<h3 id="8-%E9%80%A3%E6%90%BA%E3%83%BB%E9%80%9A%E4%BF%A1%E3%83%BB%E5%A4%96%E9%83%A8%E5%88%B6%E5%BE%A1%E3%83%95%E3%82%A1%E3%82%A4%E3%83%AB">8. 連携・通信・外部制御ファイル</h3>
+<p>他システム連携や通信制御を補助するファイル群。</p>
+<ul>
+<li>例： <code>JINJACK.COB</code>, <code>GETKYORI.COB</code>, <code>H_HEADER.COB</code></li>
+<li>役割： システム連携、通信管理</li>
+<li>特徴： 実行指示や通信設定を含む。</li>
+</ul>
+<h2 id="%E5%BD%B9%E5%89%B2%E3%81%AE%E7%9B%B8%E4%BA%92%E9%96%A2%E4%BF%82%E3%81%A8%E6%B5%81%E3%82%8C">役割の相互関係と流れ</h2>
+<ul>
+<li>システム構築には、「設定・ビルド系ファイル」を用いて、「共通ライブラリ」や「外部システム」依存のリンク・依存関係を整備。</li>
+<li>「マスター・システム情報」ファイルは、医療・請求実績ファイルの前提データを供給。</li>
+<li>実績ファイル群は、「帳票作成用」ファイルの出力基準となり、会計や請求情報に応じて利用。</li>
+<li>「外部資源・インタフェース定義」ファイルは、他システムとの連携や通信を制御。</li>
+</ul>
+<p>これらを体系化し、ファイルの役割と相互関係を文書化してシステムの実装と運用に役立てる。</p>
+<hr>
+<h2 id="4-%E4%BB%A3%E8%A1%A8%E7%9A%84%E5%87%A6%E7%90%86%E3%83%95%E3%83%AD%E3%83%BC%E3%81%A8%E3%83%95%E3%82%A1%E3%82%A4%E3%83%AB%E9%80%A3%E6%90%BA%E3%81%AE%E5%85%A8%E4%BD%93%E5%83%8F">4. 代表的処理フローとファイル連携の全体像</h2>
+<h3 id="%E6%A6%82%E8%A6%81">概要</h3>
+<p>本セクションでは、システムの主要処理フローとファイル間連携の全体像を体系的に整理します。処理の各ステップで用いるファイルや、それらの役割、入力・出力の関係性を明示します。処理の流れを理解するために、主な処理段階を段階的に示し、それに関連するファイルとその関係性を図示します。</p>
+<h3 id="%E5%85%A8%E4%BD%93%E5%87%A6%E7%90%86%E3%81%AE%E4%BD%93%E7%B3%BB%E7%9A%84%E6%95%B4%E7%90%86">全体処理の体系的整理</h3>
+<h4 id="1-%E5%88%9D%E6%9C%9F%E5%8C%96%E3%83%BB%E6%BA%96%E5%82%99%E6%AE%B5%E9%9A%8E">1. 初期化・準備段階</h4>
+<ul>
+<li><strong>対象ファイル</strong>: システム設定ファイル、環境設定ファイル</li>
+<li><strong>役割</strong>: システムの動作環境を整備。環境変数の設定、パスの定義、ライブラリの読み込み、処理モードの決定</li>
+<li><strong>入力</strong>: 設定ファイル（例：<code>YENV.DAT</code>, <code>YENV.LAN</code>）</li>
+<li><strong>出力</strong>: グローバル変数値、環境情報</li>
+</ul>
+<h4 id="2-%E3%83%87%E3%83%BC%E3%82%BF%E8%AA%AD%E8%BE%BC%E3%83%BB%E6%A4%9C%E8%A8%BC%E6%AE%B5%E9%9A%8E">2. データ読込・検証段階</h4>
+<ul>
+<li><strong>対象ファイル</strong>: 患者情報ファイル、負傷情報ファイル、施術記録ファイル、マスターデータファイル</li>
+<li><strong>役割</strong>: 必要なデータをファイルから読み込み、検証と整形を実施</li>
+<li><strong>入力例</strong>: <code>患者情報</code>, <code>負傷情報</code>、<code>施術記録</code></li>
+<li><strong>出力</strong>: 内部データ変数、処理状態フラグ</li>
+</ul>
+<h4 id="3-%E6%9D%A1%E4%BB%B6%E5%88%A4%E5%AE%9A%E3%83%BB%E5%87%A6%E7%90%86%E5%AE%9F%E8%A1%8C%E6%AE%B5%E9%9A%8E">3. 条件判定・処理実行段階</h4>
+<ul>
+<li><strong>対象</strong>: 内部変数、外部関数（API呼出しやDLL）</li>
+<li><strong>役割</strong>: 条件判定、演算、データの修正・整形</li>
+<li><strong>入力例</strong>: 計算条件、ステータスフラグ</li>
+<li><strong>出力</strong>: 更新済みの内部変数、次処理へのパラメータ</li>
+</ul>
+<h4 id="4-%E9%87%8D%E8%A6%81%E5%87%A6%E7%90%86%E3%83%BB%E8%A8%88%E7%AE%97%E6%AE%B5%E9%9A%8E">4. 重要処理・計算段階</h4>
+<ul>
+<li><strong>対象ファイル/データ</strong>: 計算対象レコード、合計・平均等の集計結果</li>
+<li><strong>役割</strong>: 計算、集計、条件別の設定対応</li>
+<li><strong>入力</strong>: 準備された途中データ</li>
+<li><strong>出力</strong>: 最終請求金額、帳票用データ</li>
+</ul>
+<h4 id="5-%E3%83%95%E3%82%A1%E3%82%A4%E3%83%AB%E6%9B%B8%E8%BE%BC%E3%81%BF%E3%83%BB%E5%B8%B3%E7%A5%A8%E5%87%BA%E5%8A%9B">5. ファイル書込み・帳票出力</h4>
+<ul>
+<li><strong>対象ファイル</strong>: 出力用帳票ファイル、請求書・レセプトファイル</li>
+<li><strong>役割</strong>: 集計結果や請求内容の書き出し</li>
+<li><strong>入力</strong>: 加工済みデータ、帳票フォーマット</li>
+<li><strong>出力</strong>: レポートファイル、出力結果のプリント</li>
+</ul>
+<h4 id="6-%E7%B5%82%E4%BA%86%E5%87%A6%E7%90%86%E3%83%BB%E3%82%AF%E3%83%AA%E3%83%BC%E3%83%B3%E3%82%A2%E3%83%83%E3%83%97">6. 終了処理・クリーンアップ</h4>
+<ul>
+<li><strong>対象ファイル</strong>: 一時・出力用ファイル</li>
+<li><strong>役割</strong>: ファイルクローズ、メモリ解放、システム状態のリセット</li>
+<li><strong>入力</strong>: 作業途中のデータ</li>
+<li><strong>出力</strong>: システムの閉じ状態</li>
+</ul>
+<h3 id="%E3%83%95%E3%82%A1%E3%82%A4%E3%83%AB%E9%96%93%E9%96%A2%E4%BF%82%E3%81%A8%E5%87%A6%E7%90%86%E3%83%95%E3%83%AD%E3%83%BC%E3%81%AE%E5%9B%B3%E7%A4%BA">ファイル間関係と処理フローの図示</h3>
+<pre><code class="language-mermaid"><div class="mermaid">graph TD
+    A[設定ファイル例：YENV.DAT] -->|環境情報取得| B[環境変数設定]
+    B --> C[患者情報ファイル]
+    B --> D[負傷情報ファイル]
+    B --> E[施術記録ファイル]
+    
+    C -->|レコード読込| F[内部変数に格納]
+    D -->|レコード読込| F
+    E -->|レコード読込| F
+    
+    F -->|条件判定| G[処理実行]
+    G -->|演算・条件分岐| H[集計 / 計算結果]
+    H -->|報告・請求書作成| I[帳票出力ファイル]
+    I -->|印刷/出力| J[最終帳票・請求書]
+    
+    J -->|クローズ・システム終了| K[クリーンアップ]
+</div></code></pre>
+<h3 id="%E5%87%A6%E7%90%86%E3%81%AE%E6%B5%81%E3%82%8C">処理の流れ</h3>
+<ol>
+<li><strong>初期設定</strong>
+<ul>
+<li>設定ファイル（例：<code>YENV.DAT</code>）を読み込み、システム環境やパスを設定</li>
+</ul>
+</li>
+<li><strong>データ読込・検証</strong>
+<ul>
+<li>患者、負傷情報、施術記録などのファイルを開き、レコードを読込</li>
+<li>必要に応じて検証と整形（例：年月日変換）</li>
+</ul>
+</li>
+<li><strong>条件判定と処理実行</strong>
+<ul>
+<li>内部変数による条件判定</li>
+<li>条件に応じた演算やフラグセット</li>
+</ul>
+</li>
+<li><strong>最終処理・帳票作成</strong>
+<ul>
+<li>結果の集計・計算</li>
+<li>帳票や請求書に出力</li>
+</ul>
+</li>
+<li><strong>終了・クリーンアップ</strong>
+<ul>
+<li>ファイルクローズ</li>
+<li>内部変数の解放・状態リセット</li>
+</ul>
+</li>
+</ol>
+<h3 id="%E8%A3%9C%E8%B6%B3">補足</h3>
+<ul>
+<li>具体的なファイルタイプは、ファイル名や役割から判断して、診療記録ファイル、負傷情報ファイル、マスターデータファイル、帳票出力ファイル、プリンタ制御ファイルなどに分類されます。</li>
+<li>各処理段階には複数のサブルーチンや条件式が付属し、業務ロジックに応じた処理がなされる。</li>
+</ul>
+<hr>
+<p>この全体像を踏まえ、各処理段階とファイルの関係性を理解し、システム設計や運用計画に反映させてください。</p>
+<h2 id="5-%E3%83%87%E3%83%BC%E3%82%BF%E5%AE%9A%E7%BE%A9%E3%81%A8%E6%A7%8B%E9%80%A0%E3%81%AE%E9%80%A3%E6%90%BA%E3%83%BB%E6%95%B4%E5%90%88%E6%80%A7%E3%81%AB%E3%81%A4%E3%81%84%E3%81%A6">5. データ定義と構造の連携・整合性について</h2>
+<h3 id="%E6%A6%82%E8%A6%81">概要</h3>
+<p>本セクションでは、システムにおいて用いられるデータ定義ファイル・レコード構造と、その業務運用における整合性維持の仕組みについて詳細に解説します。仕様書作成の観点から、各種データがどのように共有・変換され、どの処理・ファイル間で用いられるかを整理し、責任範囲や保守性を考慮した設計思想も併せて記述します。</p>
+<hr>
+<h3 id="1-%E3%83%87%E3%83%BC%E3%82%BF%E5%AE%9A%E7%BE%A9%E3%81%AE%E4%BD%93%E7%B3%BB">1. データ定義の体系</h3>
+<h4 id="11-%E3%83%87%E3%83%BC%E3%82%BF%E5%AE%9A%E7%BE%A9%E3%83%95%E3%82%A1%E3%82%A4%E3%83%AB%E3%81%AE%E6%A7%8B%E6%88%90">1.1 データ定義ファイルの構成</h4>
+<ul>
+<li><strong>ファイル種類</strong>：
+<ul>
+<li>システム設定用の構造体定義ファイル</li>
+<li>業務データ保持用のレコード定義ファイル</li>
+<li>管理・集計用のワークエリア定義ファイル</li>
+<li>リソース設定ファイル（順序・出力設定）</li>
+</ul>
+</li>
+<li><strong>主なファイルフォーマット</strong>：
+<ul>
+<li>固定長レコード</li>
+<li>可変長/読込可能レコード（階層的・多次元配列）</li>
+</ul>
+</li>
+<li><strong>データ項目</strong>：
+<ul>
+<li>文字列（例：氏名、住所）</li>
+<li>数値（例：料金、回数）</li>
+<li>日付・時間（例：施術年月、西暦・和暦変換）</li>
+<li>コード・フラグ（例：負傷種別、処置区分）</li>
+</ul>
+</li>
+</ul>
+<h4 id="12-%E3%83%AC%E3%82%B3%E3%83%BC%E3%83%89%E6%A7%8B%E9%80%A0%E3%83%BB%E8%A9%B3%E7%B4%B0">1.2 レコード構造・詳細</h4>
+<ul>
+<li><strong>構造の階層化</strong>：
+<ul>
+<li>個人情報レコード</li>
+<li>施術情報レコード</li>
+<li>負傷・診断レコード</li>
+<li>請求・支払い記録レコード</li>
+</ul>
+</li>
+<li><strong>キー設定・索引付</strong>：
+<ul>
+<li>主キー（例：患者番号、施術年月）</li>
+<li>代替キー</li>
+<li>複合キーの設定</li>
+</ul>
+</li>
+<li><strong>トリガー・制御用フラグ</strong>：
+<ul>
+<li>変更フラグ</li>
+<li>更新フラグ</li>
+<li>属性状態フラグ（例：長期、頻回）</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h3 id="2-%E5%85%B1%E6%9C%89%E3%83%BB%E5%A4%89%E6%8F%9B%E3%81%AE%E4%BB%95%E7%B5%84%E3%81%BF">2. 共有・変換の仕組み</h3>
+<h4 id="21-%E3%83%87%E3%83%BC%E3%82%BF%E3%81%AE%E5%85%B1%E6%9C%89%E7%AF%84%E5%9B%B2">2.1 データの共有範囲</h4>
+<ul>
+<li><strong>処理単位間のデータ共有</strong>：
+<ul>
+<li>システム全体の内部データ</li>
+<li>ファイル間 (読み込み／書き込み)</li>
+<li>サブルーチン／モジュール間</li>
+</ul>
+</li>
+<li><strong>共有データの同期</strong>：
+<ul>
+<li>バッチ処理による時点の情報整合</li>
+<li>逐次処理による一貫性保持</li>
+</ul>
+</li>
+</ul>
+<h4 id="22-%E3%83%87%E3%83%BC%E3%82%BF%E5%A4%89%E6%8F%9B%E3%83%BB%E5%A4%89%E6%8F%9B%E5%87%A6%E7%90%86">2.2 データ変換・変換処理</h4>
+<ul>
+<li><strong>仕様化された変換ルール</strong>：
+<ul>
+<li>和暦と西暦の相互変換（例：YMD→年月）</li>
+<li>コード・名称の変換（例：負傷種別→名称）</li>
+<li>金額・料率の加算・除算・端数処理</li>
+<li>コードのバージョン管理</li>
+</ul>
+</li>
+<li><strong>変換の責任範囲</strong>：
+<ul>
+<li>入力側（外部データ）</li>
+<li>処理側（内部計算・変換ルーチン）</li>
+<li>出力側（帳票、ファイルシステム）</li>
+</ul>
+</li>
+</ul>
+<h4 id="23-%E5%A4%89%E6%8F%9B%E3%83%BB%E6%95%B4%E5%90%88%E6%80%A7%E7%B6%AD%E6%8C%81%E3%81%AE%E4%BB%95%E7%B5%84%E3%81%BF">2.3 変換・整合性維持の仕組み</h4>
+<ul>
+<li><strong>一対一変換ルールの徹底化</strong>：
+<ul>
+<li>各コード・フィールド毎にマッピング定義</li>
+</ul>
+</li>
+<li><strong>データ整合性チェック</strong>：
+<ul>
+<li>入力値・出力値の範囲・長さ検査</li>
+<li>重複・矛盾の二重チェック</li>
+</ul>
+</li>
+<li><strong>バッチ・リアルタイム同期</strong>：
+<ul>
+<li>バッチ処理による定期整合</li>
+<li>即時更新による整合性維持</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h3 id="3-%E8%B2%AC%E4%BB%BB%E7%AF%84%E5%9B%B2%E3%81%A8%E4%BF%9D%E5%AE%88%E6%80%A7">3. 責任範囲と保守性</h3>
+<h4 id="31-%E3%83%87%E3%83%BC%E3%82%BF%E5%AE%9A%E7%BE%A9%E3%81%AE%E8%B2%AC%E4%BB%BB">3.1 データ定義の責任</h4>
+<ul>
+<li><strong>ドメイン所有者</strong>：
+<ul>
+<li>業務担当者</li>
+<li>システム設計者</li>
+</ul>
+</li>
+<li><strong>責任範囲</strong>：
+<ul>
+<li>データ項目の追加・修正</li>
+<li>コード・名称の更新</li>
+<li>固定長・可変長属性変更</li>
+</ul>
+</li>
+</ul>
+<h4 id="32-%E3%83%A1%E3%83%B3%E3%83%86%E3%83%8A%E3%83%B3%E3%82%B9%E3%81%AE%E5%8E%9F%E5%89%87">3.2 メンテナンスの原則</h4>
+<ul>
+<li><strong>仕様書の明示化</strong>：
+<ul>
+<li>各レコードの役割・用途の明文化</li>
+<li>変換ルール・制御フラグのドキュメント化</li>
+</ul>
+</li>
+<li><strong>バージョン管理</strong>：
+<ul>
+<li>変更履歴の管理</li>
+<li>旧データのバックアップ</li>
+</ul>
+</li>
+<li><strong>冗長性の排除と権限制御</strong>：
+<ul>
+<li>データの一意性担保</li>
+<li>更新権限の制御と追跡</li>
+</ul>
+</li>
+</ul>
+<h4 id="33-%E4%BF%9D%E5%AE%88%E6%80%A7%E3%82%92%E9%AB%98%E3%82%81%E3%82%8B%E8%A8%AD%E8%A8%88%E6%80%9D%E6%83%B3">3.3 保守性を高める設計思想</h4>
+<ul>
+<li><strong>モジュール化・分離設計</strong>
+<ul>
+<li>データ定義と変換処理の分離</li>
+<li>共有・変換ルールと実処理の明確区分</li>
+</ul>
+</li>
+<li><strong>標準化・規格化されたフォーマット</strong>
+<ul>
+<li>仕様書/コメントの徹底</li>
+<li>コード・FD(定義ファイル)の整備</li>
+</ul>
+</li>
+<li><strong>検証・試験の自動化</strong>
+<ul>
+<li>データ整合性チェックツール</li>
+<li>旧仕様との比較テスト</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h3 id="4-%E3%81%BE%E3%81%A8%E3%82%81">4. まとめ</h3>
+<ul>
+<li>本仕様は、システムの基本設計において、データ定義とその運用の整合性維持に関する枠組みとルールを示したものです。</li>
+<li>各ファイルの構造・内容を明文化し、責任範囲の限定・管理・変更履歴の追跡を徹底させることにより、長期的な保守性とシステムの信頼性向上を図ります。</li>
+<li>さらに、データの共有・変換における整合性を確保するためのルール設定と運用体制を整備し、安定したシステム運用とメンテナンスを実現します。</li>
+</ul>
+<hr>
+<h2 id="6-%E3%82%BB%E3%82%AF%E3%82%B7%E3%83%A7%E3%83%B3%E5%90%8D-%E3%83%93%E3%83%AB%E3%83%89%E3%81%A8%E9%81%8B%E7%94%A8%E3%81%AE%E5%85%A8%E4%BD%93%E5%83%8F">6. セクション名: ビルドと運用の全体像</h2>
+<h3 id="%E6%A6%82%E8%A6%81">概要</h3>
+<p>本システムのビルドと運用は、ソースコードのコンパイル、リンク、デプロイまでを自動化・標準化した工程により実現します。これらの工程は、Makefileやビルドスクリプトにより管理され、開発環境や運用環境に応じて適切なビルド処理と環境設定を行います。</p>
+<h3 id="1-%E3%82%BD%E3%83%BC%E3%82%B9%E3%82%B3%E3%83%BC%E3%83%89%E3%81%AE%E3%83%93%E3%83%AB%E3%83%89%E3%83%97%E3%83%AD%E3%82%BB%E3%82%B9">1. ソースコードのビルドプロセス</h3>
+<ul>
+<li><strong>コンパイル</strong>：ソースコード（COBOL、C、アセンブリなど）から中間オブジェクトファイル（.OBJ、.COBなど）を生成。</li>
+<li><strong>リンク</strong>：オブジェクトファイル群や外部ライブラリ（.LIB、.DLL、.OBJ）を結合し、最終実行可能ファイル（.EXE、.DLL、.LIB）を作成。</li>
+<li><strong>差分ビルド／インクリメンタルビルド</strong>：変更されたソースのみを対象に再ビルドを行い、ビルド時間の最適化を実現。</li>
+</ul>
+<h4 id="11-makefile%E3%81%AE%E5%BD%B9%E5%89%B2">1.1 Makefileの役割</h4>
+<ul>
+<li><strong>ビルドルールの定義</strong>：ソースファイルごとにコンパイルやリンクのコマンドを定義。</li>
+<li><strong>依存関係管理</strong>：ソースやライブラリ間の依存関係を記述し、正しいビルド順序を確保。</li>
+<li><strong>環境設定</strong>：ライブラリパスやコンパイルオプションを指定し、システムの環境に合わせたビルド設定を経済的に行う。</li>
+<li><strong>クリーンアップ</strong>：不要なファイル削除やビルドキャッシュのリセット。</li>
+</ul>
+<h4 id="12-%E4%BE%8B">1.2 例</h4>
+<pre class="hljs"><code><div><span class="hljs-comment">## 例：DLL生成ルール</span>
+<span class="hljs-section">dll_target: mylib.obj otherlib.obj</span>
+   link /dll /out:mydll.dll mylib.obj otherlib.obj
+
+<span class="hljs-comment">## 依存ファイル</span>
+<span class="hljs-section">myLib.obj: mylib.c mylib.h</span>
+</div></code></pre>
+<h3 id="2-%E3%83%AA%E3%82%BD%E3%83%BC%E3%82%B9%E3%81%A8%E3%83%A9%E3%82%A4%E3%83%96%E3%83%A9%E3%83%AA%E3%81%AE%E7%AE%A1%E7%90%86">2. リソースとライブラリの管理</h3>
+<ul>
+<li><strong>外部ライブラリのパス設定</strong>：<code>LIB</code>, <code>XFDLIB</code>, <code>IN/OF Libraries</code> セクションで外部依存性を明示。</li>
+<li><strong>バージョン管理</strong>：特定バージョンのライブラリを使用し、一貫性ある運用を支援。</li>
+<li><strong>ライブラリの配置</strong>：標準システムライブラリやシステムAPIへのパスを規定。</li>
+</ul>
+<h3 id="3-%E3%83%87%E3%83%97%E3%83%AD%E3%82%A4%E3%81%A8%E9%81%8B%E7%94%A8">3. デプロイと運用</h3>
+<ul>
+<li><strong>自動デプロイ</strong>：ビルド生成物（DLL、EXE、LIB）を運用環境へ自動的に配置。</li>
+<li><strong>バージョン管理</strong>：ビルド生成物のバージョン付与、タグ付けを行い、差分や履歴の追跡を可能に。</li>
+<li><strong>運用環境の初期設定</strong>：環境変数、パス設定、ランタイムの準備を自動化。</li>
+<li><strong>エラー監視・ログ管理</strong>：ビルド・デプロイ後の監視とログの定期取得／分析。</li>
+</ul>
+<h3 id="4-%E5%A4%89%E6%9B%B4%E7%AE%A1%E7%90%86%E3%81%A8%E5%B1%A5%E6%AD%B4">4. 変更管理と履歴</h3>
+<ul>
+<li><strong>バージョン管理システムとの連携</strong>：ソースコードやMakefileの変更履歴をGitやSVNで管理。</li>
+<li><strong>ビルド履歴</strong>：ビルド結果やエラー情報のログを履歴化し、システムの安定動作を保証。</li>
+<li><strong>差分・比較</strong>：バージョン間の差分チェックツールにより、変更点の明確化と影響範囲の把握。</li>
+</ul>
+<h3 id="5-%E9%81%8B%E7%94%A8%E6%89%8B%E9%A0%86%E3%81%AE%E6%A8%99%E6%BA%96%E5%8C%96">5. 運用手順の標準化</h3>
+<pre><code class="language-mermaid"><div class="mermaid">graph TD
+　本システムの運用体制
+　A[ソースコードの管理] --> B[ビルド工程]
+　B --> C[テスト/検証]
+　C --> D[本番デプロイ]
+　D --> E[運用監視]
+　E --> F[トラブル対応]
+　F --> A
+</div></code></pre>
+<ul>
+<li><strong>定期的なビルドとデプロイ</strong>：変更定期反映と安定版の維持。</li>
+<li><strong>障害対応</strong>：監視システムと連携し、異常時の対応とスナップショット取得。</li>
+<li><strong>手順書の整備</strong>：運用頻度の高い処理やトラブル対応手順のドキュメント化。</li>
+</ul>
+<hr>
+<p>以上により、システムのビルド・展開・運用の全体像を体系化し、安定運用とスムーズな変更・改修を支えます。</p>
+<h2 id="7-%E3%82%BB%E3%82%AF%E3%82%B7%E3%83%A7%E3%83%B3%E3%82%B7%E3%82%B9%E3%83%86%E3%83%A0%E3%81%AE%E9%81%8B%E7%94%A8%E7%AE%A1%E7%90%86%E3%81%A8%E3%82%BB%E3%82%AD%E3%83%A5%E3%83%AA%E3%83%86%E3%82%A3">7. セクション：システムの運用管理とセキュリティ</h2>
+<h3 id="%E6%A6%82%E8%A6%81">概要</h3>
+<p>本セクションでは、システムのセキュリティ対策および運用上の注意点について整理します。具体的には、パスワード管理、アクセス制御、外部連携の管理と運用に関わる事項について述べます。</p>
+<h3 id="%E3%83%91%E3%82%B9%E3%83%AF%E3%83%BC%E3%83%89%E7%AE%A1%E7%90%86">パスワード管理</h3>
+<ul>
+<li>パスワードの保存：システム内に平文や容易に推測可能な形式で保存しないこと。</li>
+<li>パスワードの複雑性：最低限の長さと文字種（数字、英字、大文字、小文字、記号）を設定し、セキュリティレベルを確保。</li>
+<li>パスワードの更新：定期的な変更の義務化と、使い回し防止のため別システムのパスワードと分離。</li>
+<li>パスワードの入力検証：入力時に妥当性をリアルタイムまたは定期的にチェック。</li>
+</ul>
+<h3 id="%E3%82%A2%E3%82%AF%E3%82%BB%E3%82%B9%E5%88%B6%E5%BE%A1">アクセス制御</h3>
+<ul>
+<li>ユーザー認証：強固な認証方式（多要素認証の導入検討）を推進。</li>
+<li>権限管理：必要最小限の権限付与原則（principle of least privilege）を遵守。</li>
+<li>ログ管理：アクセス履歴や操作履歴を監査ログとして記録し、不正アクセス追跡を容易に。</li>
+<li>システム分離：重要システムと一般システムのアクセス層を分離。</li>
+</ul>
+<h3 id="%E5%A4%96%E9%83%A8%E9%80%A3%E6%90%BA%E3%81%AE%E7%AE%A1%E7%90%86">外部連携の管理</h3>
+<ul>
+<li>外部APIやシステムとの接続：暗号化通信（SSL/TLS）を必須化し、認証情報は秘匿。</li>
+<li>ファイルの取り扱い：
+<ul>
+<li>センシティブデータに対してアクセス権限設定。</li>
+<li>コーデックや公開鍵暗号を用いたデータの暗号化。</li>
+</ul>
+</li>
+<li>外部システムの認証確保：システム間認証（OAuth、証明書認証等）の適用と管理。</li>
+<li>コミュニケーションの保守：定期的なセキュリティ点検と暗号鍵更新。</li>
+</ul>
+<h3 id="%E9%81%8B%E7%94%A8%E4%B8%8A%E3%81%AE%E6%B3%A8%E6%84%8F%E7%82%B9">運用上の注意点</h3>
+<ul>
+<li>定期監査：システムアクセス履歴および操作ログの確認。</li>
+<li>パッチ適用：セキュリティホール修正や運用改善のための定期パッチ適用。</li>
+<li>バックアップ：重要データの定期的なバックアップと、リカバリ手順の確立。</li>
+<li>密封管理：センシティブ情報の取り扱いには、密封管理とアクセス制御委託手順の徹底。</li>
+<li>緊急対応体制整備：不正アクセスや情報漏洩時の対応手順の策定と訓練。</li>
+</ul>
+<h3 id="%E3%81%BE%E3%81%A8%E3%82%81">まとめ</h3>
+<p>セキュリティと運用管理は、システムの安定運用と情報漏洩防止に直結します。これらのポイントを遵守するとともに、継続的な点検と改善を実施することが求められます。</p>
+<hr>
+<h2 id="%E8%A3%9C%E8%B6%B3">補足</h2>
+<ul>
+<li>仕様の詳細や具体的なコードの記述については、ソースコードから判断できる範囲に限定します。</li>
+<li>セキュリティ対策の適用にあたっては、規格やガイドライン（ISO/IEC 27001、NIST等）も考慮してください。</li>
+</ul>
+<hr>
+<p>このドキュメントは、システムの安全性と信頼性を高めるための基本的な運用とセキュリティ管理の要点をまとめたものです。</p>
+<h2 id="8-%E6%8B%A1%E5%BC%B5%E3%83%BB%E4%BF%9D%E5%AE%88%E3%81%AB%E5%90%91%E3%81%91%E3%81%9F%E8%A8%AD%E8%A8%88%E6%8C%87%E9%87%9D">8. 拡張・保守に向けた設計指針</h2>
+<h3 id="%E7%9B%AE%E7%9A%84%E3%81%A8%E5%9F%BA%E6%9C%AC%E7%90%86%E5%BF%B5">目的と基本理念</h3>
+<p>拡張・保守を容易に行うためには、システムの設計思想を基礎としたモジュール化、ファイル・データ構造の明確化、修正手順の標準化、及び注意点の体系化が不可欠です。これらは、今後の仕様追加や既存機能の改修に伴うリスク低減と効率的な対応を可能にします。</p>
+<hr>
+<h3 id="1-%E8%A8%AD%E8%A8%88%E6%80%9D%E6%83%B3%E3%81%A8%E5%9F%BA%E6%9C%AC%E3%82%A2%E3%83%97%E3%83%AD%E3%83%BC%E3%83%81">1. 設計思想と基本アプローチ</h3>
+<h4 id="11-%E3%83%A2%E3%82%B8%E3%83%A5%E3%83%BC%E3%83%AB%E6%80%A7%E3%81%A8%E7%96%8E%E7%B5%90%E5%90%88">1.1 モジュール性と疎結合</h4>
+<ul>
+<li><strong>責任分担の明確化:</strong> 各ファイル、モジュール、サブルーチンは一つの責務に集中し、単一責任の原則を促進。</li>
+<li><strong>インターフェースの明示:</strong> モジュール間の情報伝達は明示的なインターフェースにより制御。入力と出力のフォーマット定義をドキュメント化。</li>
+</ul>
+<h4 id="12-%E3%83%95%E3%82%A1%E3%82%A4%E3%83%AB%E3%83%BB%E3%83%87%E3%83%BC%E3%82%BF%E6%A7%8B%E9%80%A0%E3%81%AE%E6%98%8E%E7%A2%BA%E5%8C%96">1.2 ファイル・データ構造の明確化</h4>
+<ul>
+<li><strong>ファイルレイアウトの一元管理:</strong> 各ファイルのレイアウトは仕様書で定義し、コピーやパターン規則を共通化する。</li>
+<li><strong>データ結合と関係の明示:</strong> JOINや参照キーの連携方法を仕様に基づき正確に記述し、原因と結果の追跡容易化。</li>
+</ul>
+<h4 id="13-%E5%A4%89%E6%9B%B4%E5%AE%B9%E6%98%93%E6%80%A7%E3%81%A8%E5%AE%89%E5%85%A8%E6%80%A7">1.3 変更容易性と安全性</h4>
+<ul>
+<li><strong>フロントエンド・バックエンドの分離:</strong> UIとロジックは分離し、入力・出力・処理ロジックは独立させる。</li>
+<li><strong>パラメータ管理:</strong> 重要なパラメータは設定ファイルに集約し、修正は限定範囲で行う。</li>
+</ul>
+<h4 id="14-%E3%82%B3%E3%83%BC%E3%83%87%E3%82%A3%E3%83%B3%E3%82%B0%E3%83%BB%E5%91%BD%E5%90%8D%E8%A6%8F%E5%89%87">1.4 コーディング・命名規則</h4>
+<ul>
+<li><strong>命名規則の標準化:</strong> 変数名やレコード名称は意味が明示できるものとし、ドキュメント化。</li>
+<li><strong>コメントとドキュメント整備:</strong> 変更履歴、修正理由、想定範囲を記載したコメント体系の確立。</li>
+</ul>
+<hr>
+<h3 id="2-%E3%83%95%E3%82%A1%E3%82%A4%E3%83%AB%E3%83%BB%E3%83%A2%E3%82%B8%E3%83%A5%E3%83%BC%E3%83%AB%E6%A7%8B%E6%88%90">2. ファイル・モジュール構成</h3>
+<pre><code class="language-mermaid"><div class="mermaid">graph LR
+  subgraph core_system
+    A[仕様定義書]
+    B[データレイアウト定義ファイル]
+    C[モジュール／サブルーチン]
+    D[メイン処理プログラム]
+  end
+
+  subgraph 拡張モジュール
+    E[追加処理モジュール]
+    F[UI・入力処理]
+  end
+
+  subgraph 保守用設定
+    G[パラメータ・設定ファイル]
+    H[運用履歴・修正ログ]
+  end
+
+  A --仕様から→ B
+  B -- 仕様と連携→ C
+  C -- 呼び出し→ D
+  D -- 結果／エラー→ H
+  D -- UI連携→ F
+  G -- パラメータ供給→ D
+  E -- 拡張→ D
+</div></code></pre>
+<h4 id="21-%E3%83%95%E3%82%A1%E3%82%A4%E3%83%AB%E7%AE%A1%E7%90%86%E3%81%AE%E3%83%9D%E3%82%A4%E3%83%B3%E3%83%88">2.1 ファイル管理のポイント</h4>
+<ul>
+<li><strong>仕様書とレイアウト定義の整合性:</strong> 常に仕様書に基づくレイアウト変更を反映。</li>
+<li><strong>モジュール管理:</strong> 再利用性向上のため、汎用モジュールは共通フォルダに格納。</li>
+<li><strong>設定ファイル:</strong> パラメータや環境設定は外部化し、バージョン管理との連携を密に。</li>
+</ul>
+<hr>
+<h3 id="3-%E4%BF%AE%E6%AD%A3%E6%89%8B%E9%A0%86%E3%81%A8%E6%A8%99%E6%BA%96%E4%BD%9C%E6%A5%AD">3. 修正手順と標準作業</h3>
+<h4 id="31-%E5%A4%89%E6%9B%B4%E5%89%8D%E6%BA%96%E5%82%99">3.1 変更前準備</h4>
+<ul>
+<li>目的と変更範囲の明確化</li>
+<li>既存ソースと仕様書の整合性確認</li>
+<li>事前にテストケース作成または確認済み</li>
+</ul>
+<h4 id="32-%E4%BF%AE%E6%AD%A3%E4%BD%9C%E6%A5%AD%E6%B5%81%E3%82%8C">3.2 修正作業流れ</h4>
+<ol>
+<li><strong>仕様理解・定義の再確認:</strong> 仕様書・設計書の最新化</li>
+<li><strong>対象箇所の識別:</strong> 変更対象のシステム部分と影響範囲</li>
+<li><strong>入力・出力の整合性検証:</strong> データレイアウトやインタフェースの適合性</li>
+<li><strong>コード編集:</strong> 既存モジュール、定義、パラメータを修正</li>
+<li><strong>内部テスト:</strong> 該当モジュール単体、及び結合テスト</li>
+<li><strong>総合テスト:</strong> 全体仕様に応じて動作確認</li>
+<li><strong>変更履歴登録 &amp; ドキュメント更新:</strong> 追跡と情報共有</li>
+</ol>
+<hr>
+<h3 id="4-%E5%A4%89%E6%9B%B4%E6%99%82%E3%81%AE%E6%B3%A8%E6%84%8F%E7%82%B9%E3%83%BB%E7%AE%A1%E7%90%86%E4%BA%8B%E9%A0%85">4. 変更時の注意点・管理事項</h3>
+<h4 id="41-%E5%BD%B1%E9%9F%BF%E7%AF%84%E5%9B%B2%E3%81%AE%E6%8A%8A%E6%8F%A1">4.1 影響範囲の把握</h4>
+<ul>
+<li>既存の依存関係、コール関係のマッピングと管理</li>
+<li>変更速報を関係部署へ共有</li>
+</ul>
+<h4 id="42-%E3%83%90%E3%83%BC%E3%82%B8%E3%83%A7%E3%83%B3%E7%AE%A1%E7%90%86">4.2 バージョン管理</h4>
+<ul>
+<li>ファイル単位でバージョン付与(タグ付け)</li>
+<li>変更履歴と差分管理 ⇒ 差分比較ツールの利用</li>
+</ul>
+<h4 id="43-%E3%83%86%E3%82%B9%E3%83%88%E3%81%A8%E6%A4%9C%E8%A8%BC">4.3 テストと検証</h4>
+<ul>
+<li>修正箇所ごとの単体テスト計画</li>
+<li>修正後の適合性確認と結果記録</li>
+<li>回帰テストの徹底</li>
+</ul>
+<h4 id="44-%E3%83%AA%E3%82%B9%E3%82%AF%E3%81%A8%E5%9B%9E%E9%81%BF%E7%AD%96">4.4 リスクと回避策</h4>
+<ul>
+<li>小規模単位の修正で段階的に行う</li>
+<li>変更範囲の限定と影響分析の徹底</li>
+<li>バックアップの確実な取り扱い</li>
+</ul>
+<h4 id="45-%E3%83%89%E3%82%AD%E3%83%A5%E3%83%A1%E3%83%B3%E3%83%88%E3%81%A8%E9%80%A3%E6%90%BA">4.5 ドキュメントと連携</h4>
+<ul>
+<li>変更内容のドキュメント化</li>
+<li>仕様変更・修正内容を最新版に反映</li>
+<li>関係者間の情報共有</li>
+</ul>
+<hr>
+<h3 id="5-%E7%95%99%E6%84%8F%E7%82%B9%E3%83%BB%E8%A3%9C%E8%B6%B3%E4%BA%8B%E9%A0%85">5. 留意点・補足事項</h3>
+<ul>
+<li><strong>仕様変更は必ず仕様書側に記載し、関係者と共有。</strong></li>
+<li><strong>システムの一貫性を保つために、修正前・後の比較と差分管理を徹底。</strong></li>
+<li><strong>ビルド・修正ルールは自動化を意識し、スクリプトやMakefileの整備を継続。</strong></li>
+<li><strong>コードの命名・コメントの整備は、長期の理解とメンテナンスを支援。</strong></li>
+<li><strong>バージョン間の互換性を確認し、必要に応じてコードの移行計画を立てる。</strong></li>
+</ul>
+<hr>
+<p>以上、システム拡張・保守に際して押さえるべき設計思想と手順、注意点を体系的に整理しました。これらを踏まえて適正な管理と適時の対応を行うことが、効率と安全確保に繋がります。</p>
+
+</body>
+</html>
