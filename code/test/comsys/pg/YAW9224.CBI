@@ -1,0 +1,8 @@
+[Compile Options]
+ALPHAL=No
+DLOAD=Yes
+FORMLIB="P:\comsys\pg\obj"
+LIB="P:\cbl"
+SRF=VAR,VAR
+[IN/OF Libraries]
+XFDLIB="P:\cbl"

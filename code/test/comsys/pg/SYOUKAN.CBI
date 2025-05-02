@@ -1,0 +1,7 @@
+[Compile Options]
+ALPHAL=No ALL
+DLOAD=Yes
+LIB="P:\cbl"
+SRF=VAR,VAR
+[IN/OF Libraries]
+XFDLIB="P:\cbl"

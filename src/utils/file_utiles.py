@@ -62,6 +62,7 @@ def extract_text(file_path):
     """
     指定されたファイルからテキストを抽出する関数
     """
+    
     encoding, rawdata = guess_encoding(file_path)
     if not encoding:
         # print(f"{file_path}：エンコーディングを検出できませんでした。")

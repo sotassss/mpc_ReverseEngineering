@@ -1,4 +1,5 @@
 import re
+import os
 from uuid import uuid4
 from langchain_core.prompts import ChatPromptTemplate
 from langchain_core.documents import Document
@@ -34,6 +35,14 @@ class ScriptAnalysisNode:
 
         # LLMにパスワード情報などをアップロードしないようにするための処理
         for idx, source in enumerate(source_files):
+            max_file_size = self.config.get("max_file_size_bytes", 10 * 1024 * 1024)  # self.config を使用
+            
+            # ファイルサイズのチェック
+            file_size = os.path.getsize(source)
+            if file_size > max_file_size:
+                print(f"{idx + 1}/{len(source_files)} ※ スキップ  ファイル：{source}（ファイルサイズ {file_size} bytes が上限を超過）")
+                continue
+
             # 拡張子の確認
             if check_extension(source, self.config):
                 print(f"{idx + 1}/{len(source_files)} ※ スキップ  ファイル：{source} (拡張子により対象外)")
@@ -96,8 +105,8 @@ class ScriptAnalysisNode:
         chain = prompt | self.llm
 
         ##################################手法1: バッチ処理を使用して並列処理##################################
-        # バッチサイズを設定してバッチ処理を実行
-        # BATCH_SIZE = 50  # 一度に処理するファイル数を調整
+        # # バッチサイズを設定してバッチ処理を実行
+        # BATCH_SIZE = 10  # 一度に処理するファイル数を調整
 
         # results = []
         # # テキストをバッチに分割して処理
@@ -125,7 +134,7 @@ class ScriptAnalysisNode:
         # return results
     
 
-        ##################################手法2:トークン数を計算してバッチ処理##################################
+        # ##################################手法2:トークン数を計算してバッチ処理##################################
         MAX_PROMPT_TOKENS = 100000  # GPT-4.1-nanoの場合
         results = []
         batch = []

@@ -68,7 +68,8 @@ def load_config(config_path: str = "config.yml") -> Dict[str, Any]:
             "dae",  # DAEファイル
             "fbx",  # FBXファイル
             "urdf",  # URDFファイル
-        ]
+        ],
+         "max_file_size_bytes": 10 * 1024 * 1024,  # 最大ファイルサイズ（10MB）
    }
    try:
        # 設定ファイルが存在する場合は読み込む

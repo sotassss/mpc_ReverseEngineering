@@ -1,0 +1,51 @@
+*
+*        ウィンドウ情報ファイル(DSPF)
+*
+TITLE    "確認メッセージ"            *　タイトル名  
+*TTLBAR   "N"                        *　タイトル非表示
+SYSMENU  Y                           *　システムメニュー表示
+MAXBOX   N                           *　マキシムボックス表示
+MINBOX   N                           *　ミニマイズボックス表示
+MENUAREA Y                           *　メニュー表示域使用無し
+VSCRLBAR "N"                         *　垂直スクロールバー非表示
+HSCRLBAR "N"                         *　水平スクロールバー非表示
+SYNCSCRL "Y"                         *　スクロールバー同期スクロール
+INDICATE N                           *　インジケータバー表示
+WINBC    W                           *  背景色(白色)
+CARET    P                           *  カーソル形状
+BTFONTHIG 15                         *  ボタンフォントサイズ
+MEDSUF   smd                         *  定義体の拡張子
+SFTCNTL   Y                          *  シフト制御の有無
+WINPOSX   300                         *  横位置
+WINPOSY   100                         *  縦位置
+WINSIZEX  340                        *  横サイズ
+WINSIZEY  180                        *  縦サイズ
+WINOPEN   'M'                        *  開設モード（最大化モード）
+SYSMODE   'Y'                        *  開設モード（最大化モード）
+CTLFEP   N                           *  ＦＥＰ表示コントロール
+MIXLENG  N                           *  混在項目データ長情報の付加
+*WDFONTNAME "富士通ベクトルフォント"  *  フォントフェイス名
+*WDFONTNAME "富士通標準ゴシック"      *  フォントフェイス名
+WDFONTHIG 16                         *  フォントサイズ
+WDFONTNAME "ＭＳ ゴシック"           *  フォントフェイス名
+*WDFONTNAME "ｺﾞｼｯｸ"                   *  フォントフェイス名
+*RSSCRLSKY C+1                        *  画面単位(右スクロール)
+*RBSCRLSKY C+2                        *  基本単位(右スクロール)
+*DBSCRLSKY S+1                        *  画面単位(下スクロール)
+*DSSCRLSKY S+2                        *  基本単位(下スクロール)
+KEYDEF /ENTER/NEWLINE                *  実行キー割り付け
+KEYDEF /ENTER/PLUS                   *  実行キー割り付け
+KEYDEF /PF15/PAGEUP                  *  PageUpキー割り付け
+KEYDEF /PF16/PAGEDOWN                *  PageDownキー割り付け
+KEYDEF /PF17/CSRUP+S                 *  前項キー割り付け
+KEYDEF /PF18/CSRDOWN+S               *  前項キー割り付け
+KEYDEF /TAB/CSRDOWN                  *  ＴＡＢキー割り付け
+NOMVSLCT   Y                         * 選択項目へのカーソル移動抑止
+TOPMOST   Y                         * 最前面指定
+OWNER    LAST                        *  直前のウィンドウより前に表示
+* TRACEMODE 1                         * トレースＯＮ
+* 3DFLDI A|W                          * 入出力項目３Ｄ表示
+* 3DFLDO D|O                          * 出力項目３Ｄ表示
+* 3DFLDL W|A                          * 固定リテラル３Ｄ表示
+* 3DFLDM D|O                          * 組込メディア項目３Ｄ表示
+

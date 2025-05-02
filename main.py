@@ -9,14 +9,15 @@ from src.utils.write_output_md import write_output_md
 from src.utils.md_to_pdf import convert_md_to_pdf
 
 
-load_dotenv()
 
 def main():
+    load_dotenv()
+    
     # ソースコードが格納されているフォルダのパス
-    source_folder = "code/code_git_ROS"
+    # source_folder = "code/code_git_ROS"
     # source_folder = "code/code_git_langchain"
     # source_folder = "code/code_sample_python"
-    # source_folder = "code/code_cbl"
+    source_folder = "code/test"
 
     # chromaデータベースを初期化
     CHROMA_DIR = "./chroma_langchain_db"

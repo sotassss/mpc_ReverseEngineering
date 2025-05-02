@@ -1,0 +1,53 @@
+################################################################################
+#                               NetCOBOL V7.2L10
+################################################################################
+
+.SUFFIXES:
+
+COBOL_PATH = C:\Program Files\NetCOBOL
+PROJECT_PATH = P:\YAWARA\YAW
+OBJECT_PATH = 
+LINK_DEBUG_OPTION = 
+LINK_MAP_OPTION = 
+
+
+ALL : "OBJ\JOSEIMEI.DLL" "C:\makishisys\yawobj\JOSEIMEI.DLL" 
+
+REBUILD : CLEAN ALL
+CLEAN :
+	DEL "OBJ\JOSEIMEI.DLL" 
+	DEL "OBJ\JOSEIMEI.LIB" 
+	DEL "JOSEIMEI.OBJ" 
+	DEL "C:\makishisys\yawobj\JOSEIMEI.DLL" 
+	DEL "C:\makishisys\yawobj\JOSEIMEI.LIB" 
+
+
+"JOSEIMEI.OBJ" : "JOSEIMEI.COB" "JOSEIMEI.CBI"
+	COBOL32.EXE -i"JOSEIMEI.CBI" -NM "JOSEIMEI.COB"
+
+"OBJ\JOSEIMEI.DLL" : "JOSEIMEI.OBJ" 
+	"$(COBOL_PATH)\LINK.EXE" $(LINK_DEBUG_OPTION) $(LINK_MAP_OPTION) \
+	/ENTRY:COBDMAIN /DLL \
+	/OUT:"OBJ\JOSEIMEI.DLL" \
+	@"JOSEIMEI.001" 
+
+"OBJ\JOSEIMEI.LIB" : "JOSEIMEI.OBJ" 
+	"$(COBOL_PATH)\LINK.EXE" $(LINK_DEBUG_OPTION) $(LINK_MAP_OPTION) \
+	/ENTRY:COBDMAIN /DLL \
+	/OUT:"OBJ\JOSEIMEI.DLL" \
+	@"JOSEIMEI.001" 
+
+
+"C:\makishisys\yawobj\JOSEIMEI.DLL" : "JOSEIMEI.OBJ" 
+	"$(COBOL_PATH)\LINK.EXE" $(LINK_DEBUG_OPTION) $(LINK_MAP_OPTION) \
+	/ENTRY:COBDMAIN /DLL \
+	/OUT:"C:\makishisys\yawobj\JOSEIMEI.DLL" \
+	@"JOSEIMEI.002" 
+
+"C:\makishisys\yawobj\JOSEIMEI.LIB" : "JOSEIMEI.OBJ" 
+	"$(COBOL_PATH)\LINK.EXE" $(LINK_DEBUG_OPTION) $(LINK_MAP_OPTION) \
+	/ENTRY:COBDMAIN /DLL \
+	/OUT:"C:\makishisys\yawobj\JOSEIMEI.DLL" \
+	@"JOSEIMEI.002" 
+
+

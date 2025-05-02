@@ -1,0 +1,8 @@
+;; Fujitsu PowerCOBOL generated module-definition file.
+;;    $#Header: P:\yawara\yaw.option\Powercob\yawpas\Release\yawpas.def 2012/06/14 15:50#$
+;;
+
+
+EXPORTS
+                YAWPAS
+                PASSSET
