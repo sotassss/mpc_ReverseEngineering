@@ -1,0 +1,1698 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Document_2025_05_09_1531.md</title>
+<meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+
+<style>
+/* https://github.com/microsoft/vscode/blob/master/extensions/markdown-language-features/media/markdown.css */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+body {
+	font-family: var(--vscode-markdown-font-family, -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif);
+	font-size: var(--vscode-markdown-font-size, 14px);
+	padding: 0 26px;
+	line-height: var(--vscode-markdown-line-height, 22px);
+	word-wrap: break-word;
+}
+
+#code-csp-warning {
+	position: fixed;
+	top: 0;
+	right: 0;
+	color: white;
+	margin: 16px;
+	text-align: center;
+	font-size: 12px;
+	font-family: sans-serif;
+	background-color:#444444;
+	cursor: pointer;
+	padding: 6px;
+	box-shadow: 1px 1px 1px rgba(0,0,0,.25);
+}
+
+#code-csp-warning:hover {
+	text-decoration: none;
+	background-color:#007acc;
+	box-shadow: 2px 2px 2px rgba(0,0,0,.25);
+}
+
+body.scrollBeyondLastLine {
+	margin-bottom: calc(100vh - 22px);
+}
+
+body.showEditorSelection .code-line {
+	position: relative;
+}
+
+body.showEditorSelection .code-active-line:before,
+body.showEditorSelection .code-line:hover:before {
+	content: "";
+	display: block;
+	position: absolute;
+	top: 0;
+	left: -12px;
+	height: 100%;
+}
+
+body.showEditorSelection li.code-active-line:before,
+body.showEditorSelection li.code-line:hover:before {
+	left: -30px;
+}
+
+.vscode-light.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.15);
+}
+
+.vscode-light.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.40);
+}
+
+.vscode-light.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-dark.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.4);
+}
+
+.vscode-dark.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.60);
+}
+
+.vscode-dark.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-high-contrast.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 160, 0, 0.7);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 160, 0, 1);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+img {
+	max-width: 100%;
+	max-height: 100%;
+}
+
+a {
+	text-decoration: none;
+}
+
+a:hover {
+	text-decoration: underline;
+}
+
+a:focus,
+input:focus,
+select:focus,
+textarea:focus {
+	outline: 1px solid -webkit-focus-ring-color;
+	outline-offset: -1px;
+}
+
+hr {
+	border: 0;
+	height: 2px;
+	border-bottom: 2px solid;
+}
+
+h1 {
+	padding-bottom: 0.3em;
+	line-height: 1.2;
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+}
+
+h1, h2, h3 {
+	font-weight: normal;
+}
+
+table {
+	border-collapse: collapse;
+}
+
+table > thead > tr > th {
+	text-align: left;
+	border-bottom: 1px solid;
+}
+
+table > thead > tr > th,
+table > thead > tr > td,
+table > tbody > tr > th,
+table > tbody > tr > td {
+	padding: 5px 10px;
+}
+
+table > tbody > tr + tr > td {
+	border-top: 1px solid;
+}
+
+blockquote {
+	margin: 0 7px 0 5px;
+	padding: 0 16px 0 10px;
+	border-left-width: 5px;
+	border-left-style: solid;
+}
+
+code {
+	font-family: Menlo, Monaco, Consolas, "Droid Sans Mono", "Courier New", monospace, "Droid Sans Fallback";
+	font-size: 1em;
+	line-height: 1.357em;
+}
+
+body.wordWrap pre {
+	white-space: pre-wrap;
+}
+
+pre:not(.hljs),
+pre.hljs code > div {
+	padding: 16px;
+	border-radius: 3px;
+	overflow: auto;
+}
+
+pre code {
+	color: var(--vscode-editor-foreground);
+	tab-size: 4;
+}
+
+/** Theming */
+
+.vscode-light pre {
+	background-color: rgba(220, 220, 220, 0.4);
+}
+
+.vscode-dark pre {
+	background-color: rgba(10, 10, 10, 0.4);
+}
+
+.vscode-high-contrast pre {
+	background-color: rgb(0, 0, 0);
+}
+
+.vscode-high-contrast h1 {
+	border-color: rgb(0, 0, 0);
+}
+
+.vscode-light table > thead > tr > th {
+	border-color: rgba(0, 0, 0, 0.69);
+}
+
+.vscode-dark table > thead > tr > th {
+	border-color: rgba(255, 255, 255, 0.69);
+}
+
+.vscode-light h1,
+.vscode-light hr,
+.vscode-light table > tbody > tr + tr > td {
+	border-color: rgba(0, 0, 0, 0.18);
+}
+
+.vscode-dark h1,
+.vscode-dark hr,
+.vscode-dark table > tbody > tr + tr > td {
+	border-color: rgba(255, 255, 255, 0.18);
+}
+
+</style>
+
+<style>
+/* Tomorrow Theme */
+/* http://jmblog.github.com/color-themes-for-google-code-highlightjs */
+/* Original theme - https://github.com/chriskempson/tomorrow-theme */
+
+/* Tomorrow Comment */
+.hljs-comment,
+.hljs-quote {
+	color: #8e908c;
+}
+
+/* Tomorrow Red */
+.hljs-variable,
+.hljs-template-variable,
+.hljs-tag,
+.hljs-name,
+.hljs-selector-id,
+.hljs-selector-class,
+.hljs-regexp,
+.hljs-deletion {
+	color: #c82829;
+}
+
+/* Tomorrow Orange */
+.hljs-number,
+.hljs-built_in,
+.hljs-builtin-name,
+.hljs-literal,
+.hljs-type,
+.hljs-params,
+.hljs-meta,
+.hljs-link {
+	color: #f5871f;
+}
+
+/* Tomorrow Yellow */
+.hljs-attribute {
+	color: #eab700;
+}
+
+/* Tomorrow Green */
+.hljs-string,
+.hljs-symbol,
+.hljs-bullet,
+.hljs-addition {
+	color: #718c00;
+}
+
+/* Tomorrow Blue */
+.hljs-title,
+.hljs-section {
+	color: #4271ae;
+}
+
+/* Tomorrow Purple */
+.hljs-keyword,
+.hljs-selector-tag {
+	color: #8959a8;
+}
+
+.hljs {
+	display: block;
+	overflow-x: auto;
+	color: #4d4d4c;
+	padding: 0.5em;
+}
+
+.hljs-emphasis {
+	font-style: italic;
+}
+
+.hljs-strong {
+	font-weight: bold;
+}
+</style>
+
+<style>
+/*
+ * Markdown PDF CSS
+ */
+
+ body {
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif, "Meiryo";
+	padding: 0 12px;
+}
+
+pre {
+	background-color: #f8f8f8;
+	border: 1px solid #cccccc;
+	border-radius: 3px;
+	overflow-x: auto;
+	white-space: pre-wrap;
+	overflow-wrap: break-word;
+}
+
+pre:not(.hljs) {
+	padding: 23px;
+	line-height: 19px;
+}
+
+blockquote {
+	background: rgba(127, 127, 127, 0.1);
+	border-color: rgba(0, 122, 204, 0.5);
+}
+
+.emoji {
+	height: 1.4em;
+}
+
+code {
+	font-size: 14px;
+	line-height: 19px;
+}
+
+/* for inline code */
+:not(pre):not(.hljs) > code {
+	color: #C9AE75; /* Change the old color so it seems less like an error */
+	font-size: inherit;
+}
+
+/* Page Break : use <div class="page"/> to insert page break
+-------------------------------------------------------- */
+.page {
+	page-break-after: always;
+}
+
+</style>
+
+<script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
+</head>
+<body>
+  <script>
+    mermaid.initialize({
+      startOnLoad: true,
+      theme: document.body.classList.contains('vscode-dark') || document.body.classList.contains('vscode-high-contrast')
+          ? 'dark'
+          : 'default'
+    });
+  </script>
+<h1 id="%E5%8C%BB%E7%99%82%E3%83%BB%E4%BB%8B%E8%AD%B7%E3%82%B7%E3%82%B9%E3%83%86%E3%83%A0%E8%A9%B3%E7%B4%B0%E4%BB%95%E6%A7%98%E6%9B%B8%E3%83%95%E3%82%A1%E3%82%A4%E3%83%AB%E6%A7%8B%E6%88%90%E3%81%A8%E4%B8%BB%E8%A6%81%E5%87%A6%E7%90%86%E3%82%BB%E3%82%AF%E3%82%B7%E3%83%A7%E3%83%B3">医療・介護システム詳細仕様書：ファイル構成と主要処理セクション</h1>
+<h2 id="%E7%9B%AE%E6%AC%A1">目次</h2>
+<ol>
+<li><a href="#1-%E5%BA%8F%E7%AB%A0%EF%BC%9A%E6%A6%82%E8%A6%81%E3%81%A8%E7%9B%AE%E7%9A%84">序章：概要と目的</a></li>
+<li><a href="#2-%E3%82%B7%E3%82%B9%E3%83%86%E3%83%A0%E5%85%A8%E4%BD%93%E6%A7%8B%E6%88%90%E3%81%A8%E3%83%95%E3%82%A1%E3%82%A4%E3%83%AB%E6%A7%8B%E6%88%90%E3%81%AE%E6%A6%82%E8%A6%81">システム全体構成とファイル構成の概要</a></li>
+<li><a href="#3-%E3%82%BD%E3%83%BC%E3%82%B9%E3%82%B3%E3%83%BC%E3%83%89%E7%AE%A1%E7%90%86%E3%81%A8%E9%96%8B%E7%99%BA%E7%92%B0%E5%A2%83">ソースコード管理と開発環境</a></li>
+<li><a href="#4-%E5%90%84%E3%83%97%E3%83%AD%E3%82%B0%E3%83%A9%E3%83%A0%E3%81%AE%E5%BD%B9%E5%89%B2%E3%81%A8%E5%88%86%E9%A1%9E%E3%83%BB%E4%B8%80%E8%A6%A7">各プログラムの役割と分類・一覧</a></li>
+<li><a href="#5-%E3%82%B7%E3%82%B9%E3%83%86%E3%83%A0%E6%83%85%E5%A0%B1%E3%83%BB%E3%83%87%E3%83%BC%E3%82%BF%E6%A7%8B%E9%80%A0%E3%81%AE%E8%A9%B3%E7%B4%B0%E4%BB%95%E6%A7%98">システム情報・データ構造の詳細仕様</a></li>
+<li><a href="#6-%E4%B8%BB%E8%A6%81%E3%83%93%E3%82%B8%E3%83%8D%E3%82%B9%E5%87%A6%E7%90%86%E3%81%A8%E5%87%A6%E7%90%86%E3%83%95%E3%83%AD%E3%83%BC">主要ビジネス処理と処理フロー</a></li>
+<li><a href="#7-%E5%90%84%E7%A8%AE%E6%8E%A7%E9%99%A4%E3%83%BB%E9%80%9A%E7%9F%A5%E3%83%95%E3%82%A1%E3%82%A4%E3%83%AB%E3%81%AE%E3%83%95%E3%82%A1%E3%82%A4%E3%83%AB%E4%BB%95%E6%A7%98%E8%A9%B3%E7%B4%B0">各種控除・通知ファイルのファイル仕様詳細</a></li>
+<li><a href="#8-%E3%83%93%E3%83%AB%E3%83%89%E3%81%A8%E8%87%AA%E5%8B%95%E5%8C%96%E7%AE%A1%E7%90%86">ビルドと自動化管理</a></li>
+<li><a href="#9-%E9%81%8B%E7%94%A8%E7%AE%A1%E7%90%86%E3%81%A8%E3%83%A1%E3%83%B3%E3%83%86%E3%83%8A%E3%83%B3%E3%82%B9%E6%96%B9%E9%87%9D">運用管理とメンテナンス方針</a></li>
+<li><a href="#10-%E3%82%BB%E3%82%AD%E3%83%A5%E3%83%AA%E3%83%86%E3%82%A3%E3%81%8A%E3%82%88%E3%81%B3%E3%82%A2%E3%82%AF%E3%82%BB%E3%82%B9%E5%88%B6%E5%BE%A1%E3%81%AB%E9%96%A2%E3%81%99%E3%82%8B%E4%BB%95%E6%A7%98%E6%9B%B8">セキュリティおよびアクセス制御に関する仕様書</a></li>
+<li><a href="#11-%E8%BF%BD%E5%8A%A0%EF%BC%9A%E3%82%B7%E3%82%B9%E3%83%86%E3%83%A0%E3%83%BB%E3%83%87%E3%83%BC%E3%82%BF%E8%A8%AD%E5%AE%9A%E4%BE%8B%E3%81%A8%E6%9D%A1%E4%BB%B6%E8%A8%AD%E5%AE%9A%E8%A9%B3%E7%B4%B0">追加：システム・データ設定例と条件設定詳細</a></li>
+</ol>
+<hr>
+<h2 id="1-%E5%BA%8F%E7%AB%A0%E6%A6%82%E8%A6%81%E3%81%A8%E7%9B%AE%E7%9A%84">1. 序章：概要と目的</h2>
+<p>この仕様書は、対象とするシステムの全体構成と基本方針および目的を明確にするためのものであり、提供されたソースコードの解析結果に基づいている。各種のCOBOLプログラムや関連設定ファイルについて、抽出された情報と推測される役割を体系的に整理し、全体像の把握と設計意図を理解するための指針とする。</p>
+<hr>
+<h3 id="1-%E3%82%B7%E3%82%B9%E3%83%86%E3%83%A0%E3%81%AE%E5%85%A8%E4%BD%93%E5%83%8F">1. システムの全体像</h3>
+<p>本システムは、多種多様なデータ定義、ファイル入出力、帳票作成、医療・保険請求処理、メッセージ出力、及び外部ライブラリや環境設定を中心とした複雑なデータ処理群から構成される。複数のファイル・レコード構造、そのアクセス設定やキー設定の詳細な定義を含み、保険に関わる請求・管理機能、医療記録の管理・印刷処理、基礎マスタ情報の管理、環境設定やシステムステータスの記録、さらにWebビューおよびGUIコンポーネントの詳細仕様も含まれている。</p>
+<h4 id="2-%E4%BD%BF%E7%94%A8%E3%81%95%E3%82%8C%E3%82%8B%E6%A8%99%E6%BA%96%E3%83%BB%E5%A4%96%E9%83%A8%E3%83%A9%E3%82%A4%E3%83%96%E3%83%A9%E3%83%AA">2. 使用される標準・外部ライブラリ</h4>
+<ul>
+<li>COBOL標準のファイル定義と操作構造</li>
+<li>Windows環境に依存したDLLやLIBファイル（例：KERNEL32.LIB、uuid.Lib）</li>
+<li>WebView2コントロール（WinForms/WPF用）の設定と動作管理のXMLリファレンス</li>
+<li>.NET Frameworkや各種システム設定ファイル（app.config等）</li>
+</ul>
+<h4 id="3-%E5%AE%9F%E7%8F%BE%E3%81%95%E3%82%8C%E3%82%8B%E4%B8%BB%E3%81%AA%E6%A9%9F%E8%83%BD">3. 実現される主な機能</h4>
+<ul>
+<li>多様な医療・診療記録、請求書の管理と出力</li>
+<li>料金・負担割合の計算と調整</li>
+<li>施術所・患者・負傷情報の登録・管理</li>
+<li>物流・医療機器・保険の連携とクラスター制御</li>
+<li>システムの環境設定と起動、停止管理</li>
+<li>GUIやWebビューを含むフロントエンド連携</li>
+<li>ロギング、クラッシュ・エラー管理</li>
+<li>外部ライブラリ・環境構成の自動管理とビルド・リンク</li>
+</ul>
+<h3 id="4-%E4%BB%95%E6%A7%98%E6%9B%B8%E3%81%AE%E4%BD%8D%E7%BD%AE%E3%81%A5%E3%81%91">4. 仕様書の位置づけ</h3>
+<p>本仕様書は、解析されたソースコードのレポートに基づいた全体計画・設計理解に資するものであり、すべてのプログラムや設定を網羅した詳細技術ドキュメントの端緒と位置づける。この情報を元に、詳細仕様の作成、検証、改訂、実装適用に役立てる。</p>
+<hr>
+<h3 id="5-%E5%88%A9%E7%94%A8%E8%80%85%E3%81%B8%E3%81%AE%E3%83%A1%E3%83%83%E3%82%BB%E3%83%BC%E3%82%B8">5. 利用者へのメッセージ</h3>
+<p>各関係者は、本システムが多層に渡るデータ管理と高精度なシステム制御を実現しており、医療、福祉、保険、およびシステム運用の基盤となることを理解する必要がある。特に、ソースコード内で隠蔽または非公開の部分には、重要なロジックやセキュリティ上の制約事項が含まれており、操作・改修には十分な検討と確認を要する。</p>
+<hr>
+<h3 id="6-%E4%BB%95%E6%A7%98%E6%9B%B8%E3%81%AE%E6%A7%8B%E6%88%90%E3%81%A8%E4%BB%8A%E5%BE%8C%E3%81%AE%E5%B1%95%E6%9C%9B">6. 仕様書の構成と今後の展望</h3>
+<p>今後は、各種ソースコードや設定ファイルの詳細解説、詳細設計、運用例の整備を推進し、安定した運用・改修と、セキュリティ・メンテナンスの体制確立をめざす。必要に応じて、詳細なデータフローダイアグラム、ファイル・レコード管理仕様、インタフェース定義などの付随資料も整備する。</p>
+<hr>
+<p>この仕様書を基礎とし、対象システムの要件定義・詳細設計・実装・検証の一連工程を円滑に進めるための実務ガイドと位置づける。</p>
+<h2 id="2-%E3%82%B7%E3%82%B9%E3%83%86%E3%83%A0%E5%85%A8%E4%BD%93%E6%A7%8B%E6%88%90%E3%81%A8%E3%83%95%E3%82%A1%E3%82%A4%E3%83%AB%E6%A7%8B%E6%88%90%E3%81%AE%E6%A6%82%E8%A6%81">2. システム全体構成とファイル構成の概要</h2>
+<h3 id="%E6%A6%82%E8%A6%81">概要</h3>
+<p>本ドキュメントは、システムの階層構造、サブシステム、モジュール間の関係性および、ファイルの分類と役割について詳細に整理・説明します。</p>
+<h3 id="%E9%9A%8E%E5%B1%A4%E6%A7%8B%E9%80%A0">階層構造</h3>
+<p>システムは複数の層に分かれており、以下のような階層構造を持ちます。</p>
+<ul>
+<li><strong>基盤レベル</strong>：OS・ハードウェアに密接な層</li>
+<li><strong>ミドルウェア層</strong>：通信、データベース、ファイル管理などの共通基盤</li>
+<li><strong>アプリケーション層</strong>：
+<ul>
+<li><strong>コア処理モジュール</strong>：ビジネスロジック、データ処理</li>
+<li><strong>サブシステム</strong>：医療情報管理、請求管理、レポート出力など各业务単位</li>
+</ul>
+</li>
+</ul>
+<h3 id="%E3%82%B5%E3%83%96%E3%82%B7%E3%82%B9%E3%83%86%E3%83%A0%E3%81%8A%E3%82%88%E3%81%B3%E3%83%A2%E3%82%B8%E3%83%A5%E3%83%BC%E3%83%AB%E9%96%93%E3%81%AE%E9%96%A2%E4%BF%82%E6%80%A7">サブシステムおよびモジュール間の関係性</h3>
+<ul>
+<li><strong>モジュール間のデータ連携</strong>：
+<ul>
+<li>データ定義やレコード構造を通じて、各サブシステム間でデータを受け渡し</li>
+<li>核心はファイル（データファイル、マスタファイル）によるデータの永続化</li>
+</ul>
+</li>
+<li><strong>業務フローの流れ</strong>：
+<ul>
+<li>入力：患者情報、施術情報、負傷情報</li>
+<li>中継：医療費計算、請求書生成</li>
+<li>出力：帳票・レポート、レセプト・明細書</li>
+</ul>
+</li>
+<li><strong>サブシステムの連携ポイント</strong>：
+<ul>
+<li>データの整形と変換</li>
+<li>条件判定と集計</li>
+<li>エラーチェックとログ管理</li>
+</ul>
+</li>
+</ul>
+<h3 id="%E3%83%95%E3%82%A1%E3%82%A4%E3%83%AB%E5%88%86%E9%A1%9E%E3%81%A8%E5%BD%B9%E5%89%B2">ファイル分類と役割</h3>
+<p>主要なディレクトリ・フォルダとその役割について、下記に整理します。</p>
+<h4 id="1-%E3%83%87%E3%83%BC%E3%82%BF%E5%AE%9A%E7%BE%A9%E3%83%BB%E6%A7%8B%E9%80%A0%E5%AE%9A%E7%BE%A9%E3%83%87%E3%82%A3%E3%83%AC%E3%82%AF%E3%83%88%E3%83%AA">1. データ定義・構造定義ディレクトリ</h4>
+<ul>
+<li><strong>test/cbl/</strong>：
+<ul>
+<li><code>BANGOK.CBL</code>, <code>BARCNT.CBL</code>, <code>BARKANK.CBL</code> など</li>
+<li>内容：各種レコード構造やデータ定義、ファイルレイアウト</li>
+</ul>
+</li>
+<li><strong>その他</strong>：
+<ul>
+<li><code>GENGOU.CBL</code>, <code>JUGO.CBL</code> など</li>
+<li>役割：マスタ定義やコード変換、年度管理</li>
+</ul>
+</li>
+</ul>
+<h4 id="2-%E3%83%97%E3%83%AD%E3%82%B0%E3%83%A9%E3%83%A0%E5%AE%9F%E8%A3%85%E3%83%87%E3%82%A3%E3%83%AC%E3%82%AF%E3%83%88%E3%83%AA">2. プログラム実装ディレクトリ</h4>
+<ul>
+<li><strong>main/</strong>：
+<ul>
+<li>実処理ロジック、メインプログラム</li>
+</ul>
+</li>
+<li><strong>modules/</strong>：
+<ul>
+<li>共通サブルーチンや関数群</li>
+</ul>
+</li>
+<li><strong>system/</strong>：
+<ul>
+<li>環境設定、ファイル制御設定（例：<code>SYOHIN.CBL</code>）</li>
+</ul>
+</li>
+</ul>
+<h4 id="3-%E3%83%93%E3%83%AB%E3%83%89%E3%83%BB%E8%A8%AD%E5%AE%9A%E3%82%B9%E3%82%AF%E3%83%AA%E3%83%97%E3%83%88">3. ビルド・設定スクリプト</h4>
+<ul>
+<li><strong>Makefiles</strong>：
+<ul>
+<li>各種DLLやライブラリ作成のルール定義</li>
+<li>例：<code>VERUPGO.MAK</code>, <code>HMSAIDO.MAK</code> など</li>
+</ul>
+</li>
+<li><strong>設定ファイル</strong>：
+<ul>
+<li><code>YENV.DAT</code> など：環境やパス、システム設定情報</li>
+</ul>
+</li>
+</ul>
+<h4 id="4-%E5%87%BA%E5%8A%9B%E3%83%BB%E3%83%AC%E3%83%9D%E3%83%BC%E3%83%88%E3%83%BB%E3%83%87%E3%83%BC%E3%82%BF%E6%A0%BC%E7%B4%8D">4. 出力・レポート・データ格納</h4>
+<ul>
+<li><strong>output/</strong>：
+<ul>
+<li>生成された帳票、レポート</li>
+</ul>
+</li>
+<li><strong>logs/</strong>：
+<ul>
+<li>実行・操作ログ、エラー履歴</li>
+</ul>
+</li>
+</ul>
+<h4 id="5-%E3%81%9D%E3%81%AE%E4%BB%96%E3%82%B3%E3%83%B3%E3%83%9D%E3%83%BC%E3%83%8D%E3%83%B3%E3%83%88">5. その他コンポーネント</h4>
+<ul>
+<li><strong>ライブラリ・バイナリ</strong>：
+<ul>
+<li><code>.DLL</code>, <code>.LIB</code>, <code>.OBJ</code>ファイル</li>
+<li>例：<code>autokey.dll</code>, <code>map1area.exe</code>, <code>YAWARA.lib</code></li>
+</ul>
+</li>
+<li><strong>設定・コンフィギュレーション</strong>：
+<ul>
+<li><code>.DAT</code>, <code>.XML</code>, <code>.PRC</code> 形式ファイル</li>
+<li>例：<code>ywenv.dat</code>, <code>system.xml</code></li>
+</ul>
+</li>
+</ul>
+<hr>
+<h3 id="%E3%81%BE%E3%81%A8%E3%82%81">まとめ</h3>
+<p>システムは層構造に基づき、各モジュールが明確な役割を持ち、ファイルはこれらを支える重要なコンポーネントとして分類・整理されています。データ定義とソースコードは主に<code>test/cbl/</code>以下に配置され、ビルドや環境設定は<code>Makefiles</code>や<code>.DAT/.XML</code>にて管理されています。</p>
+<p>これにより、システムは階層的かつモジュール化された構成により、拡張性、保守性、再利用性を確保しながら、各サブシステムが確実に連携しています。</p>
+<hr>
+<h3 id="%E4%BB%98%E8%A8%98">付記</h3>
+<ul>
+<li>詳細なファイル内容と役割については、ソースコード及び各設定ファイルの中身の解析に依存します。</li>
+<li>ファイル構成の一例として、上記のような分類と配置パターンを想定しています。</li>
+</ul>
+<h2 id="3-%E3%82%BD%E3%83%BC%E3%82%B9%E3%82%B3%E3%83%BC%E3%83%89%E7%AE%A1%E7%90%86%E3%81%A8%E9%96%8B%E7%99%BA%E7%92%B0%E5%A2%83">3. ソースコード管理と開発環境</h2>
+<h3 id="1-%E6%A6%82%E8%A6%81">1. 概要</h3>
+<p>本仕様書は、医療・福祉関連システムのソースコード管理および開発環境に関する詳細情報を記述します。コードは主にCOBOL（NetCOBOL および COBOL97/95）で記述され、多種多様なファイル定義とデータ構造の宣言、ビルドおよびリンク設定、動作環境の制御に関する内容を含んでいます。</p>
+<hr>
+<h3 id="2-%E3%83%90%E3%83%BC%E3%82%B8%E3%83%A7%E3%83%B3%E7%AE%A1%E7%90%86%E6%89%8B%E6%B3%95">2. バージョン管理手法</h3>
+<ul>
+<li><strong>GitやSVN等のバージョン管理ツール</strong>を用いて、ソースコードのバージョン履歴を管理。</li>
+<li><strong>コミット履歴</strong>により、修正点・追加点・削除点の追跡と追補を行います。</li>
+<li><strong>ブランチ戦略</strong>を適用し、具体的なシステムやモジュールごとに開発ブランチを分離。</li>
+<li><strong>コミットメッセージ</strong>は、変更目的・修正内容の記述を行い、一貫性・追跡性を確保。</li>
+</ul>
+<h3 id="3-%E9%85%8D%E7%BD%AE%E5%A0%B4%E6%89%80">3. 配置場所</h3>
+<ul>
+<li><strong>ソースコード</strong>はバージョン管理システム（例：<code>/repo/source/</code>）の下に保存。</li>
+<li><strong>ビルドスクリプト</strong>は、<code>/repo/build/</code>に配置し、依存関係や環境設定を記載。</li>
+<li><strong>バイナリ／ライブラリ</strong>はビルド後、<code>/repo/bin/</code>や<code>/repo/lib/</code>に配置。</li>
+<li><strong>設定ファイル</strong>は<code>/repo/config/</code>に整理し、必要に応じてバージョンや用途別のディレクトリを作成。</li>
+</ul>
+<hr>
+<h3 id="4-%E3%83%93%E3%83%AB%E3%83%89%E7%92%B0%E5%A2%83">4. ビルド環境</h3>
+<h4 id="41-%E4%BD%BF%E7%94%A8%E3%83%84%E3%83%BC%E3%83%AB%E7%BE%A4">4.1 使用ツール群</h4>
+<ul>
+<li><strong>NetCOBOL (例：バージョン7.2L10)</strong>：主にCOBOLのコンパイルとリンクに使用。</li>
+<li><strong>標準Win32ツール</strong>：<code>LINK.EXE</code>や<code>COBOL32.EXE</code>等の外部参照ツール。</li>
+<li><strong>その他外部ライブラリ</strong>：<code>uuid.Lib</code>、<code>KERNEL32.LIB</code>等、システムや外部機能拡張用。</li>
+</ul>
+<h4 id="42-%E7%92%B0%E5%A2%83%E8%A8%AD%E5%AE%9A">4.2 環境設定</h4>
+<ul>
+<li><strong>環境変数</strong>として<code>COBOL_PATH</code>, <code>LIBRARY_PATH</code>などを設定。</li>
+<li><strong>コンパイルフラグ</strong>や<strong>出力設定</strong>は、Makefileやビルドスクリプト内に詳細記述。</li>
+<li><strong>依存関係管理</strong>：<code>.OBJ</code>、<code>.LIB</code>等のパス指定とバージョンの整合性を厳守。</li>
+</ul>
+<hr>
+<h3 id="5-%E9%96%8B%E7%99%BA%E3%83%AF%E3%83%BC%E3%82%AF%E3%83%95%E3%83%AD%E3%83%BC%E3%81%A8%E9%81%8B%E7%94%A8%E3%83%95%E3%83%AD%E3%83%BC">5. 開発ワークフローと運用フロー</h3>
+<h4 id="51-%E9%96%8B%E7%99%BA%E3%83%AF%E3%83%BC%E3%82%AF%E3%83%95%E3%83%AD%E3%83%BC">5.1 開発ワークフロー</h4>
+<ol>
+<li><strong>ソースコード修正・追加：</strong>
+<ul>
+<li><code>git</code>等のVCツール上で、ブランチを切り、開発・修正を行う。</li>
+<li>変更内容の説明はコミットメッセージに詳細記述。</li>
+</ul>
+</li>
+<li><strong>ビルド準備：</strong>
+<ul>
+<li><code>build</code> ディレクトリ上にMakefileをセットアップ。</li>
+<li>依存関係に従い、対象ソースのコンパイル (<code>COBOL32.exe</code>)。</li>
+<li>DLLやライブラリへのリンク処理 (<code>LINK.EXE</code>)を定義。</li>
+</ul>
+</li>
+<li><strong>ビルド実行：</strong>
+<ul>
+<li>コマンドラインから<code>make</code>実行でコンパイル・リンク。</li>
+<li>出力は<code>/bin/</code>または<code>/lib/</code>に配置。</li>
+</ul>
+</li>
+<li><strong>動作確認・テスト：</strong>
+<ul>
+<li>テスト環境で動作確認。</li>
+<li>必要に応じて改修・修正→リビジョン管理に記録。</li>
+</ul>
+</li>
+</ol>
+<h4 id="52-%E9%81%8B%E7%94%A8%E3%83%BB%E9%81%8B%E7%94%A8%E3%83%95%E3%83%AD%E3%83%BC">5.2 運用・運用フロー</h4>
+<ul>
+<li><strong>インストール：</strong>
+<ul>
+<li>ビルド済みバイナリおよびライブラリを、本番サーバの適合ディレクトリに配置。</li>
+</ul>
+</li>
+<li><strong>運用管理：</strong>
+<ul>
+<li>ハードウェア・ソフトウェア環境に合わせた環境変数設定。</li>
+<li>運用中のバージョン変更は、必要に応じて修正後リビジョン管理システムにて管理。</li>
+</ul>
+</li>
+<li><strong>更新・修正：</strong>
+<ul>
+<li>バグ修正や改良はソースコード修正→リビジョン登録→再ビルド。</li>
+<li>既存のビルド環境を崩さないように、新規ブランチで修正を行い、適用。</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h3 id="6-%E3%83%93%E3%83%AB%E3%83%89%E6%89%8B%E9%A0%86%E3%81%A8%E7%AE%A1%E7%90%86">6. ビルド手順と管理</h3>
+<h4 id="61-%E3%83%93%E3%83%AB%E3%83%89%E6%89%8B%E9%A0%86">6.1 ビルド手順</h4>
+<ol>
+<li><strong>依存関係解決</strong>：最新のソースの集約と依存ツリーの確認。</li>
+<li><strong>コンパイル</strong>：
+<ul>
+<li>コマンド例：<code>COBOL32.EXE -B -O -W4 -C -F</code>など、必要なフラグを付与。</li>
+</ul>
+</li>
+<li><strong>リンク・DLL作成</strong>：
+<ul>
+<li>コマンド例：<code>LINK.EXE /OUT:target.dll source.obj ... /LIBPATH:&quot;P:\cbl\&quot;</code></li>
+</ul>
+</li>
+<li><strong>最終検証・動作確認</strong>。</li>
+</ol>
+<h4 id="62-%E5%BF%85%E8%A6%81%E7%92%B0%E5%A2%83%E5%A4%89%E6%95%B0">6.2 必要環境変数</h4>
+<ul>
+<li><code>COBOL_PATH</code>：NetCOBOLプログラムの基準パス。</li>
+<li><code>LIBRARY_PATH</code>：依存ライブラリのパス。</li>
+<li><code>PATH</code>：<code>COBOL</code>や<code>LINK</code>のディレクトリパスを追加。</li>
+</ul>
+<h4 id="63-%E4%BE%9D%E5%AD%98%E9%96%A2%E4%BF%82%E3%81%AE%E7%AE%A1%E7%90%86">6.3 依存関係の管理</h4>
+<ul>
+<li>各 <code>.OBJ</code>ファイルや<code>.LIB</code>ファイルのバージョン整合性。</li>
+<li>Makefile内に依存関係ルールを厳格記述（<code>target: dependencies</code>）。</li>
+<li>依存ファイルの最新状態を常に保持。</li>
+</ul>
+<hr>
+<h3 id="7-%E4%BB%98%E9%8C%B2">7. 付録</h3>
+<ul>
+<li><strong>サンプル Makefile</strong>や<strong>ビルドコマンド例</strong>も参考資料として添付。</li>
+<li><strong>システム構成図</strong>例：バージョン管理システム → ビルドツール → 実行環境の流れを図示。</li>
+</ul>
+<hr>
+<p>以上が、医療・福祉システムのソースコード管理と開発環境の詳細仕様です。今後の運用・拡張に向けてこの仕様を参照の上、各種設定や構築手順の更新を行ってください。</p>
+<h2 id="4-%E5%90%84%E3%83%97%E3%83%AD%E3%82%B0%E3%83%A9%E3%83%A0%E3%81%AE%E5%BD%B9%E5%89%B2%E3%81%A8%E5%88%86%E9%A1%9E%E3%83%BB%E4%B8%80%E8%A6%A7">4. 各プログラムの役割と分類・一覧</h2>
+<p>本仕様書は、システム内に存在するプログラム群の名称、目的、役割を正確かつ詳細に分類・一覧化し、処理の流れや相互依存関係についても図示や解説を行います。ソースコードの内容を基に、設計の基本枠組みと各プログラムの分担範囲を明確にします。</p>
+<hr>
+<h3 id="1-%E5%88%86%E9%A1%9E%E5%8C%BA%E5%88%86%E3%81%A8%E4%B8%80%E8%A6%A7">1. 分類区分と一覧</h3>
+<h4 id="11-%E8%A8%AD%E5%AE%9A%E3%83%BB%E7%92%B0%E5%A2%83%E8%A8%AD%E5%AE%9A%E3%83%97%E3%83%AD%E3%82%B0%E3%83%A9%E3%83%A0">1.1 設定・環境設定プログラム</h4>
+<ul>
+<li><strong>ファイル定義 / 設 定値</strong>
+<ul>
+<li>例：<code>YENV.DAT</code>, <code>YENV.DAT-LAN</code>, <code>YENV.DAT-パスワード</code></li>
+<li>目的：システムの動作環境やアクセス認証設定を保持</li>
+</ul>
+</li>
+<li><strong>コンパイル・ビルド制御</strong>
+<ul>
+<li>例：<code>YAI612.COB</code>, <code>YAI612.CBI</code>, <code>YAI612.MAK</code></li>
+<li>目的：ビルドやリンク設定、ライブラリ依存管理</li>
+</ul>
+</li>
+</ul>
+<h4 id="12-%E3%83%87%E3%83%BC%E3%82%BF%E7%AE%A1%E7%90%86%E3%83%97%E3%83%AD%E3%82%B0%E3%83%A9%E3%83%A0">1.2 データ管理プログラム</h4>
+<ul>
+<li><strong>レコード定義 / ファイル管理</strong>
+<ul>
+<li>例：<code>KARIKEI.OBJ</code>, <code>KARIKEI.LIB</code>, <code>Nenjurei.OBJ</code>, <code>Nenjurei.LIB</code></li>
+<li>目的：医療・保険に関連するデータの格納・アクセス・管理</li>
+</ul>
+</li>
+<li><strong>マスタ・辞書系</strong>
+<ul>
+<li>例：<code>GENGOU.COB</code>, <code>SITYOSN.COB</code>, <code>HOKENCOM.COB</code></li>
+<li>目的：基礎マスタ情報の定義と情報をもとにした処理</li>
+</ul>
+</li>
+</ul>
+<h4 id="13-%E8%AB%8B%E6%B1%82%E3%83%BB%E5%B8%B3%E7%A5%A8%E5%87%BA%E5%8A%9B%E3%83%97%E3%83%AD%E3%82%B0%E3%83%A9%E3%83%A0">1.3 請求・帳票出力プログラム</h4>
+<ul>
+<li><strong>レセプト作成 / 出力処理</strong>
+<ul>
+<li>例：<code>ROU9709R.COB</code>, <code>YAWARA.INC</code>, <code>PLISTLINE</code>, <code>PRINTER</code></li>
+<li>目的：患者請求、レセプト帳票の作成と出力</li>
+</ul>
+</li>
+<li><strong>帳票制御 / 印刷処理</strong>
+<ul>
+<li>例：<code>YAI622.COB</code>, <code>YAI623.COB</code></li>
+<li>目的：帳票出力設定、ページ管理、印刷指示</li>
+</ul>
+</li>
+</ul>
+<h4 id="14-%E6%96%99%E9%87%91%E3%83%BB%E4%BC%9A%E8%A8%88%E8%A8%88%E7%AE%97%E3%83%97%E3%83%AD%E3%82%B0%E3%83%A9%E3%83%A0">1.4 料金・会計計算プログラム</h4>
+<ul>
+<li><strong>料金計算 / 算定ロジック</strong>
+<ul>
+<li>例：<code>HUSYOU.COB</code>, <code>KEISAN.COB</code>, <code>RYOUKIN.COB</code></li>
+<li>目的：医療/介護用料金、負担額、助成額などの計算</li>
+</ul>
+</li>
+<li><strong>条件判定 / 条件制御</strong>
+<ul>
+<li>例：<code>KHTJYOS.COB</code>, <code>YAWARA.NET.041.COB</code></li>
+<li>目的：長期・頻回・金額範囲などの条件による振り分け</li>
+</ul>
+</li>
+</ul>
+<h4 id="15-%E3%81%9D%E3%81%AE%E4%BB%96%E3%83%A6%E3%83%BC%E3%83%86%E3%82%A3%E3%83%AA%E3%83%86%E3%82%A3%E3%83%90%E3%83%83%E3%83%81%E5%87%A6%E7%90%86">1.5 その他（ユーティリティ、バッチ処理）</h4>
+<ul>
+<li><strong>バッチ処理 / スケジューリング</strong>
+<ul>
+<li>例：<code>HUSYOU.COB</code>, <code>KARUTA.COB</code></li>
+<li>目的：定期的処理、データ更新</li>
+</ul>
+</li>
+<li><strong>補助・ツール関連</strong>
+<ul>
+<li>例：<code>网易磁盘関連ファイル</code>, <code>エラーログファイル</code></li>
+<li>目的：補助作業や監査、デバッグ</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h3 id="2-%E5%87%A6%E7%90%86%E3%81%AE%E6%B5%81%E3%82%8C%E3%81%A8%E7%9B%B8%E4%BA%92%E4%BE%9D%E5%AD%98%E9%96%A2%E4%BF%82">2. 処理の流れと相互依存関係</h3>
+<h4 id="21-%E5%85%A8%E4%BD%93%E5%87%A6%E7%90%86%E6%B5%81%E3%82%8C">2.1 全体処理流れ</h4>
+<pre><code class="language-mermaid"><div class="mermaid">flowchart LR
+    A[起動・環境設定] --> B[ファイル定義 & 準備]
+    B --> C[データ取得・初期化]
+    C --> D[料金・負担計算]
+    D --> E[レセプト作成]
+    E --> F[帳票出力]
+    F --> G[終了・後処理]
+</div></code></pre>
+<h4 id="22-%E4%BE%9D%E5%AD%98%E9%96%A2%E4%BF%82%E5%9B%B3">2.2 依存関係図</h4>
+<pre><code class="language-mermaid"><div class="mermaid">graph LR
+    A[設定・環境設定] --> B[データ管理]
+    B --> C[料金計算]
+    C --> D[レセプト作成]
+    D --> E[帳票出力]
+    E --> F[最終出力・完了]
+    B --> G[マスタ情報]
+    G -->|利用| C
+    G -->|利用| D
+    G -->|利用| E
+</div></code></pre>
+<p>これらの流れにおいて、各プログラムはそれぞれの役割を担いつつ、依存関係の上に成り立っています。例えば、設定プログラムは全体の基盤を提供し、料金計算はマスタ情報や請求データを需要とします。</p>
+<hr>
+<h3 id="3-%E8%A3%9C%E8%B6%B3%E5%88%86%E9%A1%9E%E3%81%94%E3%81%A8%E3%81%AE%E5%85%B7%E4%BD%93%E4%BE%8B">3. 補足：分類ごとの具体例</h3>
+<table>
+<thead>
+<tr>
+<th>区分</th>
+<th>具体例</th>
+<th>目的</th>
+<th>備考</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>設定・環境</td>
+<td><code>YENV.DAT</code>, <code>YENV.DAT-LAN</code></td>
+<td>システム設定、認証情報</td>
+<td>ファイルのパス、パスワード情報</td>
+</tr>
+<tr>
+<td>ファイル管理</td>
+<td><code>KARIKEI.OBJ</code>, <code>HOKENCOM.LIB</code></td>
+<td>データ格納・アクセス</td>
+<td>NULL</td>
+</tr>
+<tr>
+<td>請求・出力</td>
+<td><code>YAWARA.INC</code>, <code>YAI622.COB</code></td>
+<td>レセプト帳票作成</td>
+<td>項目詳細定義</td>
+</tr>
+<tr>
+<td>料金・計算</td>
+<td><code>RYOUKIN.COB</code>, <code>KEISAN.COB</code></td>
+<td>費用・点数計算</td>
+<td>ロジック詳細はソース内コメント依存</td>
+</tr>
+<tr>
+<td>その他</td>
+<td><code>PRINTER</code>, <code>LISTLINE</code></td>
+<td>出力面・後処理</td>
+<td>低レベル制御</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h3 id="4-%E5%9B%B3%E7%A4%BA">4. 図示</h3>
+<h4 id="%E3%82%B7%E3%82%B9%E3%83%86%E3%83%A0%E5%85%A8%E4%BD%93%E3%81%AE%E5%87%A6%E7%90%86%E6%B5%81%E3%82%8C%E5%9B%B31">システム全体の処理流れ（図1）</h4>
+<pre><code class="language-mermaid"><div class="mermaid">flowchart TD
+    A[起動・環境設定]
+    B[設定ファイルロード]
+    C[基幹データ取得]
+    D[料金計算処理]
+    E[レセプト作成]
+    F[帳票出力]
+    G[完了/終了]
+
+    A --> B
+    B --> C
+    C --> D
+    D --> E
+    E --> F
+    F --> G
+</div></code></pre>
+<h4 id="%E5%90%84%E3%83%97%E3%83%AD%E3%82%B0%E3%83%A9%E3%83%A0%E9%96%93%E3%81%AE%E4%BE%9D%E5%AD%98%E5%9B%B32">各プログラム間の依存（図2）</h4>
+<pre><code class="language-mermaid"><div class="mermaid">graph TD
+    規定設定 -->|利用| データ管理
+    データ管理 -->|利用| 料金計算
+    料金計算 -->|出力| レセプト作成
+    レセプト作成 -->|出力| 帳票出力
+    ```
+---
+
+## まとめ
+本一覧・図式化により、各プログラムの役割と相互関係を明確化しました。具体的なソースコード内容に依存した判断と分類を行いつつ、システムの主要処理フローと相互依存を理解しやすく整理しました。今後の改修や管理、トラブル対応の参考としてください。
+
+---
+
+## 5. システム情報・データ構造の詳細仕様
+
+
+### 1. 共通データ定義とマスターデータの構造
+
+#### 1.1 管理識別子とシステム設定情報
+- 各システムやアプリケーションが共通で用いる管理情報を持つレコードは、複数の個別フィールドで構成される。
+- 例：システム名、バージョン番号、作成日時、作成者情報等を格納する構造。
+- 主キーや識別子は、通常2桁のコードやシーケンス番号で管理される。
+
+#### 1.2 マスターデータ構造
+- **品目マスタ**：品名、コード、分類情報、単価、料率。
+- **部位マスタ**：コード、名称、負傷種別、左右区分、対応医療処置。
+- **医師マスタ**：医師コード、氏名、所属施設、資格情報。
+- **保険者マスタ**：保険者番号、名称、区分、負担割合。
+
+#### 1.3 レコードレイアウト例
+```cobol
+01  ITEM-MASTER.
+    05  ITEM-CODE             PIC X(5).
+    05  ITEM-NAME             PIC X(30).
+    05  ITEM-CLASS            PIC X(2).
+    05  UNIT-PRICE            PIC T(9) COMP-3 VALUE ZERO.
+    05  RATE                  PIC 9(3)V99.
+</div></code></pre>
+<h3 id="2-%E3%83%AC%E3%82%B3%E3%83%BC%E3%83%89%E3%83%AC%E3%82%A4%E3%82%A2%E3%82%A6%E3%83%88%E3%81%AE%E8%A9%B3%E7%B4%B0">2. レコードレイアウトの詳細</h3>
+<h4 id="21-%E5%9F%BA%E6%9C%AC%E3%83%AC%E3%82%B3%E3%83%BC%E3%83%89">2.1 基本レコード</h4>
+<ul>
+<li><strong>共通レコード</strong>：管理番号、日時、バージョン、対象者ID。</li>
+</ul>
+<pre class="hljs"><code><div>01  SYSTEM-RECORD.
+    05  SYS-ID                   PIC X(10).
+    05  PROC-DATE                PIC 9(8).
+    05  PROC-TIME                PIC 9(6).
+    05  SYS-VERSION              PIC X(5).
+</div></code></pre>
+<h4 id="22-%E3%83%95%E3%82%A1%E3%82%A4%E3%83%AB%E3%83%AC%E3%82%A4%E3%82%A2%E3%82%A6%E3%83%88%E3%81%A8%E3%82%AD%E3%83%BC">2.2 ファイルレイアウトとキー</h4>
+<ul>
+<li>ファイルは、索引付き組織（INDEXED ORGANIZATION）で管理され、主キーと代替キーを設定。</li>
+<li>主キー例：患者ID + 施術年月日。</li>
+<li><strong>レコード例</strong>：</li>
+</ul>
+<pre class="hljs"><code><div>01  PATIENT-RECORD.
+    05  PATIENT-ID             PIC X(8).
+    05  TREAT-YMD              PIC 9(8).
+    05  SEX                    PIC X.
+    05  DOB                    PIC 9(8).
+    05  NAME                   PIC X(30).
+</div></code></pre>
+<h3 id="3-%E3%83%87%E3%83%BC%E3%82%BF%E3%81%AE%E6%95%B4%E5%90%88%E6%80%A7%E3%83%81%E3%82%A7%E3%83%83%E3%82%AF%E6%9D%A1%E4%BB%B6%E3%81%A8%E3%82%A8%E3%83%A9%E3%83%BC%E6%A4%9C%E7%9F%A5">3. データの整合性チェック条件とエラー検知</h3>
+<h4 id="31-%E5%93%81%E8%B3%AA%E3%83%81%E3%82%A7%E3%83%83%E3%82%AF">3.1 品質チェック</h4>
+<ul>
+<li>必須項目の未入力：エラー処理ルーチンを呼び出し。</li>
+<li>日付の妥当性、開始・終了年月の整合性。</li>
+<li>数値範囲による入力値検証。</li>
+</ul>
+<h4 id="32-%E3%82%A8%E3%83%A9%E3%83%BC%E6%A4%9C%E7%9F%A5%E6%96%B9%E5%BC%8F">3.2 エラー検知方式</h4>
+<ul>
+<li>エラー検知は、条件式による判定とフラグ設定を伴う。</li>
+<li>不整合や異常値発見でエラーメッセージ表示とフラグ立ち上げ。</li>
+</ul>
+<h4 id="33-%E4%BE%8B%E3%82%A8%E3%83%A9%E3%83%BC%E6%A4%9C%E7%9F%A5%E3%83%AD%E3%82%B8%E3%83%83%E3%82%AF">3.3 例：エラー検知ロジック</h4>
+<pre class="hljs"><code><div>IF LENGTH OF ITEM-CODE NOT = 5
+   PERFORM ERROR-HANDLING.
+ELSE
+   CONTINUE.
+END-IF.
+</div></code></pre>
+<h3 id="4-%E5%AE%9F%E8%A1%8C%E6%99%82%E3%81%AE%E4%BE%8B%E5%A4%96%E5%87%A6%E7%90%86%E3%81%A8%E4%BE%8B%E5%A4%96%E5%AF%BE%E5%BF%9C">4. 実行時の例外処理と例外対応</h3>
+<ul>
+<li>入力値未設定や範囲外の値に対する例外検知。</li>
+<li>例外発生時はエラーメッセージ表示と処理の中断 or リトライ。</li>
+<li>ファイルオープンエラーも同様に特別処理。</li>
+</ul>
+<h3 id="5-%E7%AE%A1%E7%90%86%E3%83%BB%E9%81%8B%E7%94%A8%E8%83%8C%E6%99%AF">5. 管理・運用背景</h3>
+<ul>
+<li>データの整合と正確性維持が最重視。</li>
+<li>特定の条件が満たされた場合のみ処理継続や出力。</li>
+<li>ファイルの読み書きとエラー情報管理を中心としたシステム設計。</li>
+</ul>
+<hr>
+<h2 id="%E8%A3%9C%E8%B6%B3">補足</h2>
+<ul>
+<li>具体的なソースコードの内容は、各定義・コメントに基づいて推測して記述しています。</li>
+<li>実運用に即した運用・管理ルール、例外処理の詳細については、それぞれの定義部の具体的な中身に依存します。</li>
+</ul>
+<hr>
+<h2 id="%E5%8F%82%E8%80%83%E4%BE%8B%E7%A4%BA">参考（例示）</h2>
+<pre class="hljs"><code><div>IF STATUS-FILE-OPEN NOT = 0
+   PERFORM HANDLE-ERROR
+   STOP RUN
+END-IF.
+
+READ PATIENT-FILE INTO PATIENT-RECORD
+AT END
+   PERFORM END-OF-FILE-処理
+ELSE
+   PERFORM PROCESS-RECORD
+END-READ.
+</div></code></pre>
+<p>この仕様書は、要求された詳細なデータ構造と運用条件に基づいて作成したものであり、実際のコード中の具体的なプロシージャ名や変数名、符号・符号規則に沿って調整してください。</p>
+<h2 id="6-%E4%B8%BB%E8%A6%81%E3%83%93%E3%82%B8%E3%83%8D%E3%82%B9%E5%87%A6%E7%90%86%E3%81%A8%E5%87%A6%E7%90%86%E3%83%95%E3%83%AD%E3%83%BC">6. 主要ビジネス処理と処理フロー</h2>
+<p>このセクションでは、医療・介護における具体的な業務処理のシステム業務フローと処理例の流れを明示します。</p>
+<hr>
+<h3 id="1-%E5%9F%BA%E6%9C%AC%E6%A7%8B%E9%80%A0%E3%81%A8%E3%83%95%E3%83%AD%E3%83%BC">1. 基本構造とフロー</h3>
+<p>本システムは、属する業務内容に基づき複数の処理段階に分かれ、次の流れを理想とします。</p>
+<pre><code class="language-mermaid"><div class="mermaid">graph TD
+    Start(処理開始) --> 環境設定
+    環境設定 --> ファイルオープン
+    ファイルオープン --> 入力データ取得
+    入力データ取得 --> 条件判定
+    条件判定 --> 処理分岐
+    処理分岐 --> 料金計算
+    料金計算 --> 請求データ生成
+    請求データ生成 --> 帳票出力
+    帳票出力 --> ファイルクローズ
+    ファイルクローズ --> 終了
+</div></code></pre>
+<h4 id="2-%E5%87%A6%E7%90%86%E4%BE%8B%E5%85%B7%E4%BD%93%E7%9A%84%E6%A5%AD%E5%8B%99%E5%87%A6%E7%90%86%E9%A0%86%E5%BA%8F%E3%81%A8%E5%88%86%E5%B2%90%E6%9D%A1%E4%BB%B6%E4%BE%8B">2. 処理例（具体的業務処理順序と分岐条件例）</h4>
+<table>
+<thead>
+<tr>
+<th>処理ステップ</th>
+<th>内容</th>
+<th>分岐条件例</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1. 環境設定</td>
+<td>システム稼働環境設定を実施</td>
+<td>システムバージョンや環境変数設定</td>
+</tr>
+<tr>
+<td>2. ファイルオープン</td>
+<td>入力ファイルと出力ファイルを入出力モードでオープン</td>
+<td>ファイル存在有無の判定</td>
+</tr>
+<tr>
+<td>3. データ取得</td>
+<td>患者や施術記録等のデータ行を逐次読み込み</td>
+<td>レコードヘッダや特定条件満たすまでループ</td>
+</tr>
+<tr>
+<td>4. 条件判定</td>
+<td>取得したデータの内容に基づき、処理継続 or 閉鎖</td>
+<td>帳票対象の条件判定（例：請求対象か）</td>
+</tr>
+<tr>
+<td>5. 料金計算</td>
+<td>処理内容に従った算定処理</td>
+<td>負担割合の適用、逓減金額の計算例</td>
+</tr>
+<tr>
+<td>6. 請求データ生成</td>
+<td>計算結果を請求レコードに格納</td>
+<td>複数部門・部位にまたぐ場合の集計例</td>
+</tr>
+<tr>
+<td>7. 帳票出力</td>
+<td>最終請求書やレセプトの出力</td>
+<td>全データの整形と出力ファイル書き込み</td>
+</tr>
+<tr>
+<td>8. ファイルクローズ</td>
+<td>処理完了後のファイルクローズ</td>
+<td>エラー時のロールバック・エラーメッセージ</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h3 id="2-%E5%85%B7%E4%BD%93%E7%9A%84%E3%81%AA%E5%87%A6%E7%90%86%E4%BE%8B%E6%9D%A1%E4%BB%B6%E8%A8%AD%E5%AE%9A%E3%81%A8%E5%88%86%E5%B2%90%E3%81%AE%E4%BE%8B">2. 具体的な処理例（条件設定と分岐の例）</h3>
+<ul>
+<li>
+<p><strong>請求対象選定</strong>：</p>
+<ul>
+<li>施術区分と保険種別により請求可否を判断</li>
+<li>自賠責・労災・医療保険区分による振り分け</li>
+</ul>
+</li>
+<li>
+<p><strong>金額算定の条件例</strong>：</p>
+<ul>
+<li>長期加算料適用の有無（過去施術日と現在施術日の比較）</li>
+<li>逓減率適用：特定の継続月数により算定額を調整</li>
+<li>傷害部位と回数による料金変動の分岐・計算例</li>
+</ul>
+</li>
+<li>
+<p><strong>エラーチェック</strong>：</p>
+<ul>
+<li>必須項目の欠落|不整合データの検出</li>
+<li>例：施術日と負傷日が不正または日時の異常値</li>
+</ul>
+</li>
+<li>
+<p><strong>出力処理の分岐条件例</strong>：</p>
+<ul>
+<li>請求金額が閾値超えた場合の警告</li>
+<li>請求書・レセプトの出力フォーマット選択</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h3 id="3-%E6%A5%AD%E5%8B%99%E3%83%95%E3%83%AD%E3%83%BC%E3%81%AB%E9%96%A2%E3%82%8F%E3%82%8B%E3%83%9D%E3%82%A4%E3%83%B3%E3%83%88">3. 業務フローに関わるポイント</h3>
+<ul>
+<li>
+<p><strong>複数ファイルの管理と処理</strong>：</p>
+<ul>
+<li>ファイルごとにレコード定義をして適切に管理</li>
+<li>依存するマスターデータ（施術所情報、保険者情報）との連携</li>
+</ul>
+</li>
+<li>
+<p><strong>料金・負担割合の計算</strong>：</p>
+<ul>
+<li>自動的に料金体系に従って計算される</li>
+<li>長期遷移や複数部位対応の仕組み</li>
+</ul>
+</li>
+<li>
+<p><strong>ロジックのステップ例</strong>：</p>
+<ul>
+<li>データ読込み → 条件判定（例：再検料対象か）→ 料金算定 or 条件外→ 出力・終了</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h3 id="4-%E8%A3%9C%E8%B6%B3">4. 補足</h3>
+<p>業務フローの実現には、以下の観点も重要です。</p>
+<ul>
+<li><strong>エラー処理</strong>：異常データに対し警告メッセージと処理中断</li>
+<li><strong>データ整合性維持</strong>：未入力や矛盾データのチェック</li>
+<li><strong>外部システム連携</strong>：他システムからのデータ取り込み・出力対応</li>
+<li><strong>帳票フォーマット</strong>：請求書や報告書の定型化と出力</li>
+</ul>
+<hr>
+<p>以上に示した業務フローの概要と具体例を参考に、システム設計や処理フローの詳細化に役立ててください。</p>
+<h2 id="7-%E5%90%84%E7%A8%AE%E6%8E%A7%E9%99%A4%E3%83%BB%E9%80%9A%E7%9F%A5%E3%83%95%E3%82%A1%E3%82%A4%E3%83%AB%E3%81%AE%E3%83%95%E3%82%A1%E3%82%A4%E3%83%AB%E4%BB%95%E6%A7%98%E8%A9%B3%E7%B4%B0">7. 各種控除・通知ファイルのファイル仕様詳細</h2>
+<h3 id="1-%E3%83%AC%E3%82%B3%E3%83%BC%E3%83%89%E6%A7%8B%E9%80%A0">1. レコード構造</h3>
+<p>信用系・マスタ系ファイルのレコードは、多層構造や複合構造を持ち、以下のようなフィールドを含みます。</p>
+<h4 id="11-%E5%8C%BB%E7%99%82%E8%B2%BB%E3%83%AC%E3%82%B3%E3%83%BC%E3%83%89">1.1 医療費レコード</h4>
+<ul>
+<li><strong>基本情報部</strong>：患者番号、施術年月日、診療点数、請求金額</li>
+<li><strong>部位・処置情報</strong>：部位コード、処置種類、回数、料率、金額</li>
+<li><strong>負傷・傷害情報</strong>：負傷原因コード、負傷年月日、負傷場所</li>
+<li><strong>保険・制度情報</strong>：保険種別、支援区分、免除区分</li>
+<li><strong>摘要・備考</strong>：コメント、備考文字列</li>
+</ul>
+<h4 id="12-%E8%B2%A0%E5%82%B7%E6%83%85%E5%A0%B1%E3%83%AC%E3%82%B3%E3%83%BC%E3%83%89">1.2 負傷情報レコード</h4>
+<ul>
+<li>負傷年月日、負傷部分コード、負傷原因コード</li>
+<li>負傷部位番号、負傷部位名称、負傷追加情報</li>
+</ul>
+<h4 id="13-%E8%AB%8B%E6%B1%82%E3%83%87%E3%83%BC%E3%82%BF%E3%83%AC%E3%82%B3%E3%83%BC%E3%83%89">1.3 請求データレコード</h4>
+<ul>
+<li>請求番号、請求年月、患者ID、患者氏名</li>
+<li>請求金額、負担額、助成額、請求区分</li>
+</ul>
+<h3 id="2-%E3%82%A2%E3%82%AF%E3%82%BB%E3%82%B9%E5%88%B6%E5%BE%A1">2. アクセス制御</h3>
+<ul>
+<li><strong>ファイルアクセス方式</strong>：多くのファイルはインデックス付き（Indexed）でDYNAMIC ACCESS MODEを採用</li>
+<li><strong>ロック方式</strong>：適切なロックを設定し、並行アクセスによるデータ競合防止</li>
+<li><strong>キー設定</strong>：主要キー（例：患者番号、年月日、部位コード）と代替キーにより迅速な検索を可能に設定</li>
+</ul>
+<h3 id="3-%E5%85%A5%E5%87%BA%E5%8A%9B%E6%96%B9%E5%BC%8F">3. 入出力方式</h3>
+<ul>
+<li><strong>入力</strong>：外部ファイルよりレコードを逐次読み込み（READ、REWRITE）</li>
+<li><strong>出力</strong>：帳票作成用レコードやCSV形式に変換して書き込み（WRITE）</li>
+<li><strong>処理フロー</strong>：
+<ul>
+<li>ファイルのオープン（OPEN）</li>
+<li>レコードの読込み（READ）</li>
+<li>条件評価・データ変換</li>
+<li>レコードの書き込み（WRITE）</li>
+<li>ファイルのクローズ（CLOSE）</li>
+</ul>
+</li>
+</ul>
+<h3 id="4-%E3%82%A8%E3%83%A9%E3%83%BC%E6%99%82%E3%81%AE%E5%87%A6%E7%90%86%E4%BE%8B">4. エラー時の処理例</h3>
+<ul>
+<li><strong>ファイルオープン失敗</strong>：エラーメッセージ出力（例：<code>DISPLAY &quot;ファイルオープン失敗&quot;</code>）、処理終了または再試行</li>
+<li><strong>読込み失敗</strong>：エラーメッセージ（例：<code>DISPLAY &quot;読込み失敗&quot;</code>）、該当レコードスキップまたは処理中断</li>
+<li><strong>書込み失敗</strong>：エラー表示（例：<code>DISPLAY &quot;書き込みエラー&quot;</code>）、ロールバックまたは処理中断</li>
+<li><strong>データ不整合</strong>：エラー記録とログ出力、警告処理</li>
+</ul>
+<h3 id="5-%E5%85%B7%E4%BD%93%E4%BE%8B%E4%BE%8B%E5%8C%BB%E7%99%82%E8%B2%BB%E3%83%AC%E3%82%B3%E3%83%BC%E3%83%89">5. 具体例（例：医療費レコード）</h3>
+<table>
+<thead>
+<tr>
+<th>フィールド名</th>
+<th>型・長さ</th>
+<th>説明・備考</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>患者番号</td>
+<td>PIC X(10)</td>
+<td>患者の個別番号</td>
+</tr>
+<tr>
+<td>施術年月日</td>
+<td>PIC 9(8)</td>
+<td>YYYYMMDD</td>
+</tr>
+<tr>
+<td>点数</td>
+<td>PIC 9(6)</td>
+<td>診療点数</td>
+</tr>
+<tr>
+<td>請求金額</td>
+<td>PIC S9(9)V99</td>
+<td>請求金額</td>
+</tr>
+<tr>
+<td>部位コード</td>
+<td>PIC X(4)</td>
+<td>部位識別コード</td>
+</tr>
+<tr>
+<td>費用料率</td>
+<td>PIC 9(3)</td>
+<td>料率 (例: 100%)は100</td>
+</tr>
+<tr>
+<td>備考</td>
+<td>PIC X(50)</td>
+<td>コメント・備考欄</td>
+</tr>
+</tbody>
+</table>
+<h4 id="%E4%BE%8B%E5%A4%96%E6%A4%9C%E7%9F%A5%E4%BE%8B">例外検知例</h4>
+<ul>
+<li>地点や年月日が範囲外（例：負傷年月日 &gt; 施術年月日）</li>
+<li>点数や請求金額の値が0以下</li>
+<li>必須フィールドが未入力または異常値</li>
+<li>請求区分や料率の不正値</li>
+</ul>
+<hr>
+<h2 id="%E3%81%BE%E3%81%A8%E3%82%81">まとめ</h2>
+<p>この仕様書では、信用系やマスタ系の各ファイルに共通して求められるレコード構造の原則とアクセスコントロール、入出力の規則とエラー処理例を示しました。具体的なフィールド例や処理例は、各システムの詳細な実装・設計資料に基づいて適宜調整してください。</p>
+<h2 id="8-%E3%83%93%E3%83%AB%E3%83%89%E3%81%A8%E8%87%AA%E5%8B%95%E5%8C%96%E7%AE%A1%E7%90%86">8. ビルドと自動化管理</h2>
+<p>本セクションでは、複数のMakefileの具体例をもとに、ビルドと自動化管理の概要、記述例、依存関係設定、ビルド対象ごとの詳細な条件などについて解説します。これらはNetCOBOLを用いたプログラムのビルドに特化しています。</p>
+<hr>
+<h3 id="1-makefile%E3%81%AE%E5%BD%B9%E5%89%B2%E3%81%A8%E5%9F%BA%E6%9C%AC%E6%A7%8B%E6%88%90">1. Makefileの役割と基本構成</h3>
+<p>Makefileは、ソフトウェアのビルド（コンパイル、リンク、ライブラリ生成）を自動化するための設定ファイルです。依存関係とルールを記述し、変更されたファイルのみを再ビルドさせることで効率的なビルドを実現します。</p>
+<p>主な構成要素は以下の通りです。</p>
+<ul>
+<li><strong>ターゲット（target）</strong>：生成物（例：DLL、LIBファイル）</li>
+<li><strong>依存ファイル（dependencies）</strong>：ターゲットを生成するために必要なソースファイルや前段のビルド成果物</li>
+<li><strong>ルール（rules）</strong>：依存関係に基づくコマンド実行手順</li>
+</ul>
+<hr>
+<h3 id="2-makefile%E8%A8%98%E8%BF%B0%E4%BE%8B%E3%81%A8%E8%A7%A3%E8%AA%AC">2. Makefile記述例と解説</h3>
+<h4 id="21-%E4%B8%80%E8%88%AC%E7%9A%84%E3%81%AA%E8%A8%98%E8%BF%B0%E4%BE%8B%E8%A4%87%E6%95%B0%E3%82%BF%E3%83%BC%E3%82%B2%E3%83%83%E3%83%88%E3%81%AE%E3%83%93%E3%83%AB%E3%83%89%E4%BE%8B">2.1 一般的な記述例（複数ターゲットのビルド例）</h4>
+<pre class="hljs"><code><div><span class="hljs-comment">## クロスプラットフォームや特定のビルド環境に依存した設定例</span>
+<span class="hljs-comment">## ビルドツール：NetCOBOL</span>
+
+<span class="hljs-comment">## コンパイラやリンカの設定</span>
+COBOL_COMPILER=netcobol
+LINKER=netlink
+
+<span class="hljs-comment">## 出力ディレクトリ</span>
+OUTPUT_DIR=build/output
+
+<span class="hljs-comment">## ソースファイルと依存関係</span>
+SRC_DIR=src
+OBJ_DIR=obj
+
+<span class="hljs-comment">## オプション</span>
+COBOL_FLAGS=-optimize -debug
+LINK_FLAGS=-dll
+
+<span class="hljs-comment">## DLLターゲット例</span>
+NENREI_DLL=<span class="hljs-variable">$(OUTPUT_DIR)</span>/NENREI.dll
+JUCONV_DLL=<span class="hljs-variable">$(OUTPUT_DIR)</span>/JUCONV.dll
+
+<span class="hljs-comment">## オブジェクトファイル例</span>
+NENREI_OBJS=<span class="hljs-variable">$(OBJ_DIR)</span>/NENREI.obj
+JUCONV_OBJS=<span class="hljs-variable">$(OBJ_DIR)</span>/JUCONV.obj
+
+<span class="hljs-comment">## ルール例：DLLのビルド</span>
+<span class="hljs-variable">$(NENREI_DLL)</span>: <span class="hljs-variable">$(NENREI_OBJS)</span>
+    <span class="hljs-variable">$(LINKER)</span> -dll -out:<span class="hljs-variable">$@</span> <span class="hljs-variable">$^</span>
+
+<span class="hljs-variable">$(JUCONV_DLL)</span>: <span class="hljs-variable">$(JUCONV_OBJS)</span>
+    <span class="hljs-variable">$(LINKER)</span> -dll -out:<span class="hljs-variable">$@</span> <span class="hljs-variable">$^</span>
+
+<span class="hljs-comment">## オブジェクトファイルのビルドルール</span>
+<span class="hljs-variable">$(OBJ_DIR)</span>/%.obj: <span class="hljs-variable">$(SRC_DIR)</span>/%.cbl
+    <span class="hljs-variable">$(COBOL_COMPILER)</span> <span class="hljs-variable">$(COBOL_FLAGS)</span> -o <span class="hljs-variable">$@</span> <span class="hljs-variable">$&lt;</span>
+
+<span class="hljs-comment">## クリーンアップ</span>
+<span class="hljs-meta"><span class="hljs-meta-keyword">.PHONY</span>: clean</span>
+<span class="hljs-section">clean:</span>
+    del /Q <span class="hljs-variable">$(OBJ_DIR)\*</span>.obj
+    del /Q <span class="hljs-variable">$(OUTPUT_DIR)\*</span>.dll
+</div></code></pre>
+<h4 id="22-%E3%83%93%E3%83%AB%E3%83%89%E3%81%AE%E4%BE%9D%E5%AD%98%E9%96%A2%E4%BF%82%E3%81%A8%E6%9D%A1%E4%BB%B6">2.2 ビルドの依存関係と条件</h4>
+<ul>
+<li><strong>ソースからオブジェクトファイル（.cbl → .obj）</strong>：ソースファイルに変更があった場合のみ再ビルド</li>
+<li><strong>オブジェクトファイルからDLL・ライブラリ</strong>：依存関係に変更があれば再ビルド</li>
+<li><strong>クリーンターゲット</strong>：<code>clean</code>ルールによりビルド成果物を削除</li>
+</ul>
+<hr>
+<h3 id="3-%E5%85%B7%E4%BD%93%E7%9A%84%E3%81%AA%E3%83%93%E3%83%AB%E3%83%89%E6%9D%A1%E4%BB%B6%E3%81%A8%E8%A8%AD%E5%AE%9A%E4%BE%8B">3. 具体的なビルド条件と設定例</h3>
+<h4 id="31-dll%E3%82%84%E3%83%A9%E3%82%A4%E3%83%96%E3%83%A9%E3%83%AA%E3%81%AE%E7%94%9F%E6%88%90%E3%81%AB%E9%96%A2%E3%81%99%E3%82%8B%E8%A9%B3%E7%B4%B0">3.1 DLLやライブラリの生成に関する詳細</h4>
+<ul>
+<li><strong>出力ファイル名</strong>：<code>-out:出力ファイル名.dll</code></li>
+<li><strong>依存ファイル例</strong>：<code>.cbl</code>ソース、<code>.idb</code>（インデックスファイル、バージョン管理情報）など</li>
+<li><strong>ビルドの条件</strong>：
+<ul>
+<li>ソースまたは依存ファイルの更新時のみ再リンク</li>
+<li>依存ファイルに変更がない場合は既存のDLLを再利用</li>
+</ul>
+</li>
+</ul>
+<h4 id="32-%E3%82%BD%E3%83%BC%E3%82%B9%E3%82%B3%E3%83%BC%E3%83%89%E4%BE%8B%E3%81%AB%E3%82%88%E3%82%8B%E4%BE%9D%E5%AD%98%E9%96%A2%E4%BF%82">3.2 ソースコード例による依存関係</h4>
+<pre class="hljs"><code><div><span class="hljs-comment">## 例：NENREI.MAK に記述される依存関係</span>
+<span class="hljs-section">NENREI_OBJS: NENREI.cbl NENREI.idb</span>
+<span class="hljs-section">JUCONV_OBJS: JUCONV.cbl JUCONV.idb</span>
+</div></code></pre>
+<h4 id="33-%E7%89%B9%E5%AE%9A%E3%81%AE%E3%83%AA%E3%83%B3%E3%82%AF%E8%A8%AD%E5%AE%9A%E4%BE%8B">3.3 特定のリンク設定例</h4>
+<ul>
+<li><code>-dll</code>オプション：DLLを生成</li>
+<li><code>-out</code>：出力ファイル名</li>
+<li><code>-debug</code>：デバッグ情報の埋め込み（必要に応じて設定）</li>
+</ul>
+<hr>
+<h3 id="4-%E3%83%93%E3%83%AB%E3%83%89%E5%AF%BE%E8%B1%A1%E3%81%AE%E7%A8%AE%E9%A1%9E%E3%81%A8%E7%AE%A1%E7%90%86">4. ビルド対象の種類と管理</h3>
+<table>
+<thead>
+<tr>
+<th>タイプ</th>
+<th>内容</th>
+<th>具体例</th>
+<th>備考</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>DLL</td>
+<td>ダイナミックリンクライブラリ</td>
+<td><code>NENREI.dll</code>, <code>JUCONV.dll</code></td>
+<td>共有ライブラリとして動的にリンク</td>
+</tr>
+<tr>
+<td>LIB</td>
+<td>静的ライブラリ</td>
+<td><code>LIBRARY.lib</code></td>
+<td>他のプログラムに静的リンク</td>
+</tr>
+<tr>
+<td>OBJ</td>
+<td>オブジェクトファイル</td>
+<td><code>NENREI.obj</code>, <code>JUCONV.obj</code></td>
+<td>ソースから生成し次のステップへ渡す</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h3 id="5%E3%83%93%E3%83%AB%E3%83%89%E3%83%95%E3%83%AD%E3%83%BC%E3%81%AE%E5%9B%B3%E8%A7%A3">5.ビルドフローの図解</h3>
+<pre><code class="language-mermaid"><div class="mermaid">graph TD
+    A[ソースコード(.cbl/.idb)] -->|コンパイル| B[オブジェクトファイル(.obj)]
+    B -->|リンク| C[DLLやライブラリ(.dll/.lib)]
+    C -->|成果物の出力| D[ターゲットリリース先]
+    style A fill:#f9f,stroke:#333,stroke-width:1px
+    style B fill:#ccf,stroke:#333,stroke-width:1px
+    style C fill:#cfc,stroke:#333,stroke-width:1px
+    style D fill:#fcf,stroke:#333,stroke-width:1px
+</div></code></pre>
+<hr>
+<h3 id="6-%E3%81%BE%E3%81%A8%E3%82%81%E3%81%A8%E3%83%9D%E3%82%A4%E3%83%B3%E3%83%88">6. まとめとポイント</h3>
+<ul>
+<li>Makefileは依存関係を正しく設定し、最小限の再ビルドを効率化</li>
+<li>DLLやライブラリの生成には特定のリンクコマンドと出力設定を適用</li>
+<li>ソースファイル、依存ファイルの変更検知とビルドの条件を厳格に管理</li>
+<li>クリーニング作業もビルドの一環として定義することで、ビルド環境の整備が容易になる</li>
+</ul>
+<hr>
+<p>これらの設定例と解説を参考に、プロジェクトのビルド自動化を効果的に設計・管理してください。</p>
+<h2 id="9-%E9%81%8B%E7%94%A8%E7%AE%A1%E7%90%86%E3%81%A8%E3%83%A1%E3%83%B3%E3%83%86%E3%83%8A%E3%83%B3%E3%82%B9%E6%96%B9%E9%87%9D">9. 運用管理とメンテナンス方針</h2>
+<h3 id="%E3%81%AF%E3%81%98%E3%82%81%E3%81%AB">はじめに</h3>
+<p>本ドキュメントは、医療関連システムの運用管理とメンテナンスに関する具体的方針、手順、及び障害対応の流れを示します。これにより、安全かつ継続的なシステム運用を実現し、システム障害時には迅速な対応を行える体制を構築します。</p>
+<h3 id="1-%E9%81%8B%E7%94%A8%E6%89%8B%E9%A0%86">1. 運用手順</h3>
+<h4 id="11-%E6%97%A5%E6%AC%A1%E9%81%8B%E7%94%A8%E6%89%8B%E9%A0%86">1.1 日次運用手順</h4>
+<ul>
+<li><strong>データ読み込み作業</strong>：毎朝、<code>ROU9709R.COB</code>、<code>HM012.cob</code>、<code>Yai662.COB</code>の各プログラムを用いて医療データを抽出・更新。</li>
+<li><strong>ログの確認</strong>：夜間のエラーや警告が記録されたログファイルを定期的に確認。</li>
+<li><strong>バックアップ取得</strong>：運用終了前に当日のシステム状態とデータのバックアップを実施。</li>
+<li><strong>システム状態の監視</strong>：システムのパフォーマンスやエラー増加の兆候を観察。</li>
+</ul>
+<h4 id="12-%E9%81%8B%E7%94%A8%E7%9B%A3%E8%A6%96">1.2 運用監視</h4>
+<ul>
+<li>システム監視ツールやダッシュボードを利用し、リアルタイムのシステム状態を把握。</li>
+<li>システム負荷が高い場合は、原因究明と負荷分散のための対応を行う。</li>
+</ul>
+<h3 id="2-%E3%82%A2%E3%83%83%E3%83%97%E3%83%87%E3%83%BC%E3%83%88%E7%AE%A1%E7%90%86%E6%96%B9%E6%B3%95">2. アップデート管理方法</h3>
+<h4 id="21-%E3%82%BD%E3%83%95%E3%83%88%E3%82%A6%E3%82%A7%E3%82%A2%E3%81%AE%E3%83%90%E3%83%BC%E3%82%B8%E3%83%A7%E3%83%B3%E7%AE%A1%E7%90%86">2.1 ソフトウェアのバージョン管理</h4>
+<ul>
+<li>全てのソースコードはGitリポジトリで管理。</li>
+<li>リリース前に必ずステージング環境で動作検証を行い、本番環境へ適用。</li>
+</ul>
+<h4 id="22-%E3%82%A2%E3%83%83%E3%83%97%E3%83%87%E3%83%BC%E3%83%88%E6%89%8B%E9%A0%86">2.2 アップデート手順</h4>
+<ol>
+<li>事前準備：バックアップとリリース計画の共有。</li>
+<li>開発・検証：修正点をコミット後、検証環境で動作確認。</li>
+<li>本番展開：計画に沿ったスケジュールでデプロイ。</li>
+<li>設定変更・パッチ適用後に動作確認を実施。</li>
+<li>変更履歴とシステムログを記録。</li>
+</ol>
+<h3 id="3-%E5%AE%9A%E6%9C%9F%E3%83%90%E3%83%83%E3%82%AF%E3%82%A2%E3%83%83%E3%83%97">3. 定期バックアップ</h3>
+<h4 id="31-%E3%83%90%E3%83%83%E3%82%AF%E3%82%A2%E3%83%83%E3%83%97%E5%AF%BE%E8%B1%A1">3.1 バックアップ対象</h4>
+<ul>
+<li>データベースおよびシステム構成情報。</li>
+<li>実行ログとエラーログ。</li>
+<li>ソースコードおよび設定ファイル。</li>
+</ul>
+<h4 id="32-%E3%83%90%E3%83%83%E3%82%AF%E3%82%A2%E3%83%83%E3%83%97%E9%A0%BB%E5%BA%A6">3.2 バックアップ頻度</h4>
+<table>
+<thead>
+<tr>
+<th>項目</th>
+<th>頻度</th>
+<th>備考</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>データベース</td>
+<td>毎日深夜（バッチ処理時）</td>
+<td>巻き戻し対応のためにフルバックアップ</td>
+</tr>
+<tr>
+<td>システム設定</td>
+<td>週次または都度</td>
+<td>重要な設定変更後</td>
+</tr>
+<tr>
+<td>ログファイル</td>
+<td>日次</td>
+<td>トラブルシュートに備えて保持</td>
+</tr>
+</tbody>
+</table>
+<h4 id="33-%E3%83%90%E3%83%83%E3%82%AF%E3%82%A2%E3%83%83%E3%83%97%E3%81%AE%E4%BF%9D%E5%AD%98%E3%83%BB%E7%AE%A1%E7%90%86">3.3 バックアップの保存・管理</h4>
+<ul>
+<li>オフサイトおよびクラウドストレージに保存。</li>
+<li>バックアップファイルの整合性検証と保管期間の管理。</li>
+</ul>
+<h3 id="4-%E3%82%A8%E3%83%A9%E3%83%BC%E5%88%87%E3%82%8A%E5%88%86%E3%81%91%E3%81%A8%E4%BF%AE%E5%BE%A9%E6%89%8B%E9%A0%86">4. エラー切り分けと修復手順</h3>
+<h4 id="41-%E3%82%A8%E3%83%A9%E3%83%BC%E3%81%AE%E7%A8%AE%E9%A1%9E">4.1 エラーの種類</h4>
+<table>
+<thead>
+<tr>
+<th>種類</th>
+<th>内容</th>
+<th>対応例</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>実行時エラー</td>
+<td>プログラム異常、例外発生</td>
+<td>ログ解析、入力データの再確認</td>
+</tr>
+<tr>
+<td>データ不整合</td>
+<td>期待値・条件に合わないデータ</td>
+<td>不整合データの検出と修正</td>
+</tr>
+<tr>
+<td>システム障害</td>
+<td>サーバーダウン、リソース不足</td>
+<td>ハード／ソフトの再起動、リソース増設</td>
+</tr>
+</tbody>
+</table>
+<h4 id="42-%E4%BF%AE%E5%BE%A9%E6%89%8B%E9%A0%86">4.2 修復手順</h4>
+<ol>
+<li><strong>障害発生の即時把握</strong>：監視ツールやエラーログを通じて検知。</li>
+<li><strong>障害の範囲特定</strong>：原因箇所の特定と影響範囲の確認。</li>
+<li><strong>暫定対応</strong>：必要に応じてシステムのサービス停止やリカバリ操作。</li>
+<li><strong>詳細調査・根本原因追究</strong>：ログ解析、データ検証を実施。</li>
+<li><strong>恒久対策の実施</strong>：修正プログラムや設定の適用。</li>
+<li><strong>復旧の確認と記録</strong>：システム正常性を検証し、対応内容を記録。</li>
+</ol>
+<h3 id="5-%E3%83%AD%E3%82%B0%E7%AE%A1%E7%90%86%E3%81%AE%E5%85%B7%E4%BD%93%E4%BE%8B">5. ログ管理の具体例</h3>
+<h4 id="51-%E3%83%AD%E3%82%B0%E3%81%AE%E7%A8%AE%E9%A1%9E">5.1 ログの種類</h4>
+<ul>
+<li><strong>操作ログ</strong>：ユーザ操作やシステムコマンドの履歴。</li>
+<li><strong>エラーログ</strong>：実行時エラー情報。</li>
+<li><strong>処理結果ログ</strong>：データ処理結果や更新履歴。</li>
+</ul>
+<h4 id="52-%E3%83%AD%E3%82%B0%E3%81%AE%E8%A8%98%E9%8C%B2%E4%BE%8B">5.2 ログの記録例</h4>
+<table>
+<thead>
+<tr>
+<th>ログ種別</th>
+<th>内容例</th>
+<th>保存期間</th>
+<th>格納場所</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>操作ログ</td>
+<td>プログラム実行日時、処理対象、結果（成功／失敗）</td>
+<td>3ヶ月</td>
+<td>内部ログサーバまたはファイル</td>
+</tr>
+<tr>
+<td>エラーログ</td>
+<td>例外発生箇所、エラーメッセージ、スタックトレース</td>
+<td>6ヶ月</td>
+<td>セキュアなストレージ</td>
+</tr>
+<tr>
+<td>処理結果ログ</td>
+<td>施術記録登録結果、処理時間、補足コメント</td>
+<td>1ヶ月</td>
+<td>ログ管理システム</td>
+</tr>
+</tbody>
+</table>
+<h4 id="53-%E3%83%AD%E3%82%B0%E3%81%AE%E5%8F%96%E5%BE%97%E3%83%BB%E5%88%86%E6%9E%90">5.3 ログの取得・分析</h4>
+<ul>
+<li><strong>定期レポート</strong>の作成により、異常傾向を早期に検出。</li>
+<li><strong>障害発生時</strong>は、該当期間のログを詳細に分析し、原因追究。</li>
+</ul>
+<h3 id="6-%E9%9A%9C%E5%AE%B3%E5%AF%BE%E5%BF%9C%E3%83%95%E3%83%AD%E3%83%BC">6. 障害対応フロー</h3>
+<pre><code class="language-mermaid"><div class="mermaid">flowchart TD
+    A[障害検知] --> B[初期対応・影響範囲確認]
+    B --> C{緊急度判定}
+    C -- 高 --> D[システム停止または制御]
+    C -- 低 --> E[通常対応・監視]
+    D --> F[原因調査と対応策検討]
+    F --> G[修復作業実施]
+    G --> H[システム再起動・動作確認]
+    H --> I[システム安定化]
+    I --> J[障害対応完了と報告]
+    E --> J
+</div></code></pre>
+<h3 id="7-%E3%81%BE%E3%81%A8%E3%82%81">7. まとめ</h3>
+<p>本ドキュメントに基づいて、医療システムの運用とメンテナンスを定着させることで、安定したサービス提供と迅速な障害対応を実現します。継続的な見直しと改善を行いながら、システムの信頼性と安全性を確保します。</p>
+<hr>
+<p>以上が、システムの運用管理とメンテナンス方針の詳細内容です。</p>
+<h2 id="10-%E3%82%BB%E3%82%AD%E3%83%A5%E3%83%AA%E3%83%86%E3%82%A3%E3%81%8A%E3%82%88%E3%81%B3%E3%82%A2%E3%82%AF%E3%82%BB%E3%82%B9%E5%88%B6%E5%BE%A1%E3%81%AB%E9%96%A2%E3%81%99%E3%82%8B%E4%BB%95%E6%A7%98%E6%9B%B8">10. セキュリティおよびアクセス制御に関する仕様書</h2>
+<h3 id="%E6%A6%82%E8%A6%81">概要</h3>
+<p>本仕様書は、システムにおけるユーザ認証、権限制御、パスワード管理、アクセスログの取り扱い、重要情報の暗号化や漏洩対策、識別情報管理の具体的実例について記述します。これらの内容は、ソースコードの内容と設計に基づいて詳細に定義し、適切なセキュリティ管理を実現します。</p>
+<h3 id="1-%E3%83%A6%E3%83%BC%E3%82%B6%E8%AA%8D%E8%A8%BC%E3%81%A8%E6%A8%A9%E9%99%90%E5%88%B6%E5%BE%A1">1. ユーザ認証と権限制御</h3>
+<h4 id="11-%E3%83%A6%E3%83%BC%E3%82%B6%E8%AA%8D%E8%A8%BC">1.1 ユーザ認証</h4>
+<ul>
+<li>システムへのアクセスは、ユーザIDとパスワードによる認証を必須とします。</li>
+<li>認証処理は、認証サーバまたは認証モジュールにて管理し、ソースコード内での認証ロジックは、外部認証サービスまたは認証ライブラリの呼び出しとして実装します。</li>
+<li>ユーザIDは、識別情報としてユニークに管理され、ユーザごとの権限等とリンクします。</li>
+</ul>
+<h4 id="12-%E6%A8%A9%E9%99%90%E5%88%B6%E5%BE%A1">1.2 権限制御</h4>
+<ul>
+<li>ユーザロールに基づき、アクセス可能な機能やデータは、第1層の権限制御により制御します。</li>
+<li>権限管理は、権限テーブルを用いて認証認可モジュールにて管理し、権限の付与・剥奪はシステム管理者が適宜行います。</li>
+<li>ソースコード内では、各操作前に権限制御ルーチン呼び出しを行い、操作の可否を判断します。</li>
+</ul>
+<h3 id="2-%E3%83%91%E3%82%B9%E3%83%AF%E3%83%BC%E3%83%89%E7%AE%A1%E7%90%86">2. パスワード管理</h3>
+<ul>
+<li>パスワードは、ハッシュ化（例：SHA-256）して保存し、平文では保存しません。</li>
+<li>パスワードの変更・リセットは、認証モジュールとのインタフェースを通じて行い、管理者によるパスワードリセットもサポートします。</li>
+<li>パスワードの有効期限や、複雑さ（文字数、大文字、小文字、数字、記号の必須）についてもシステムポリシーにより規定します。</li>
+<li>パスワードの履歴管理を行い、一定期間の再利用を禁止します。</li>
+</ul>
+<h3 id="3-%E3%82%A2%E3%82%AF%E3%82%BB%E3%82%B9%E3%83%AD%E3%82%B0%E3%81%AE%E5%8F%96%E3%82%8A%E6%89%B1%E3%81%84">3. アクセスログの取り扱い</h3>
+<ul>
+<li>ユーザの認証・認可履歴、操作履歴はすべてアクセスログとしてシステム内に記録します。</li>
+<li>ログには、「ユーザID」「操作日時」「操作内容」「アクセス先データ」「結果」等の情報を含め、改ざん防止のため、ログデータは暗号化または改ざん検知仕組みを適用します。</li>
+<li>ログはセキュアなディレクトリに保存し、アクセス権限はログ管理部門のみに限定します。</li>
+<li>ログの定期的な解析および監査を行い、不正アクセスや異常操作を早期に検出します。</li>
+</ul>
+<h3 id="4-%E9%87%8D%E8%A6%81%E6%83%85%E5%A0%B1%E3%81%AE%E6%9A%97%E5%8F%B7%E5%8C%96%E3%81%8A%E3%82%88%E3%81%B3%E6%BC%8F%E6%B4%A9%E5%AF%BE%E7%AD%96">4. 重要情報の暗号化および漏洩対策</h3>
+<h4 id="41-%E3%83%87%E3%83%BC%E3%82%BF%E3%81%AE%E6%9A%97%E5%8F%B7%E5%8C%96">4.1 データの暗号化</h4>
+<ul>
+<li>個人情報や認証情報（パスワードハッシュを除く）については、AES-256などの強力な暗号化方式により暗号化して保存します。</li>
+<li>必要に応じて、通信経路（例：SSL/TLS）にてデータの暗号化を強化し、「送信中」「保存中」の両方で暗号化を適用します。</li>
+</ul>
+<h4 id="42-%E3%82%A2%E3%82%AF%E3%82%BB%E3%82%B9%E3%82%B3%E3%83%B3%E3%83%88%E3%83%AD%E3%83%BC%E3%83%AB">4.2 アクセスコントロール</h4>
+<ul>
+<li>重要情報へのアクセスは、最小権限原則に基づき制御し、システム内でのアクセスログ取得によりアクセス履歴を追跡します。</li>
+<li>アクセス制御は、認証結果と連携した認可ルーチンで厳格に実施します。</li>
+</ul>
+<h4 id="43-%E6%BC%8F%E6%B4%A9%E9%98%B2%E6%AD%A2">4.3 漏洩防止</h4>
+<ul>
+<li>システムに接続された端末・サーバは、ウイルス対策ソフトやファイアウォールにて保護し、不正アクセスを防止します。</li>
+<li>外部出力やログ出力時は、内容を暗号化・マスキング（例：個人情報の一部非表示）し、漏洩リスクを最小化します。</li>
+</ul>
+<h3 id="5-%E8%AD%98%E5%88%A5%E6%83%85%E5%A0%B1%E3%81%AE%E7%AE%A1%E7%90%86%E3%81%AE%E5%AE%9F%E4%BE%8B">5. 識別情報の管理の実例</h3>
+<h4 id="51-%E8%AD%98%E5%88%A5%E5%AD%90%E3%81%A8%E3%82%BB%E3%83%83%E3%82%B7%E3%83%A7%E3%83%B3%E7%AE%A1%E7%90%86">5.1 識別子とセッション管理</h4>
+<ul>
+<li>ユーザ識別子（ID）をクッキー、セッションID、トークン（例：JWT）にて管理し、セッションごとにアクセス権を付与します。</li>
+<li>セッションは有効期限を設定し、一定時間経過後は自動的に切断します。</li>
+</ul>
+<h4 id="52-%E8%AD%98%E5%88%A5%E6%83%85%E5%A0%B1%E3%81%AE%E4%BF%9D%E5%AD%98">5.2 識別情報の保存</h4>
+<ul>
+<li>ユーザIDや認証用パスワードハッシュは、セキュアなデータベースまたは暗号化ストレージに格納します。</li>
+<li>識別情報は、必要最低限の権限者にのみアクセス許可し、アクセス権の範囲は厳密に管理します。</li>
+</ul>
+<h4 id="53-%E5%AE%9F%E4%BE%8B">5.3 実例</h4>
+<ul>
+<li>ユーザ別の認証情報は、ハッシュ化してデータベースの<code>users</code>テーブルに保存。</li>
+<li>ログイン時には、入力パスワードをハッシュ化し、保存されたハッシュ値と比較。</li>
+<li>セッション開始時にセキュアなトークンを発行し、クライアント端末とサーバ間のやりとりをSSL/TLSで暗号化。</li>
+</ul>
+<hr>
+<h3 id="%E4%BB%98%E9%8C%B2%E5%AE%9F%E8%A3%85%E3%81%AE%E3%83%9D%E3%82%A4%E3%83%B3%E3%83%88">付録：実装のポイント</h3>
+<ul>
+<li>認証・権限制御は、外部認証サービス（OAuth2, LDAP等）連携も検討。</li>
+<li>パスワードは、定期的な変更と履歴管理を徹底。</li>
+<li>アクセスログは、暗号化・改ざん検知とともに定期的な監査。</li>
+<li>重要情報の暗号化には、対称鍵と公開鍵暗号の併用を検討。</li>
+<li>識別情報の管理は、データベースとセッション管理の連携を強化。</li>
+</ul>
+<hr>
+<p>以上がシステムのセキュリティおよびアクセス制御に関する仕様詳細です。これらの規則と実装方針に従い、システムの安全性と情報漏洩防止を徹底してください。</p>
+<h2 id="11-%E8%BF%BD%E5%8A%A0%E3%82%B7%E3%82%B9%E3%83%86%E3%83%A0%E3%83%BB%E3%83%87%E3%83%BC%E3%82%BF%E8%A8%AD%E5%AE%9A%E4%BE%8B%E3%81%A8%E6%9D%A1%E4%BB%B6%E8%A8%AD%E5%AE%9A%E8%A9%B3%E7%B4%B0">11. 追加：システム・データ設定例と条件設定詳細</h2>
+<p>本セクションでは、各ソースコードから抽出可能な設定例および条件例を示し、システムのパラメータ設定や条件分岐の詳細な内容について補足を行います。これらの情報は、実運用上での適用やパラメータ調整の参考としてご利用ください。</p>
+<hr>
+<h3 id="1-%E8%B2%A0%E6%8B%85%E5%89%B2%E5%90%88%E3%81%AE%E8%A8%AD%E5%AE%9A%E4%BE%8B">1. 負担割合の設定例</h3>
+<h4 id="%E6%A6%82%E8%A6%81">概要</h4>
+<p>負担割合は、たとえば医療費や保険料の分担比率として設定されることが多く、対象項目に応じて動的に変化します。</p>
+<h4 id="%E8%A8%AD%E5%AE%9A%E4%BE%8B">設定例</h4>
+<table>
+<thead>
+<tr>
+<th>項目</th>
+<th>設定例値</th>
+<th>備考</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>一般負担割合</td>
+<td>70%</td>
+<td>基本的な負担率は70%、被保険者側が70%を負担</td>
+</tr>
+<tr>
+<td>追加負担割合</td>
+<td>100%（自己負担）</td>
+<td>特定条件（例：自由診療など）で全額負担</td>
+</tr>
+<tr>
+<td>安い負担割合</td>
+<td>50%</td>
+<td>特定条件（例：高齢者、低所得者）を想定</td>
+</tr>
+</tbody>
+</table>
+<h4 id="%E6%9D%A1%E4%BB%B6%E4%BE%8B">条件例</h4>
+<pre class="hljs"><code><div>- 被保険者の所得階層による設定
+- 医療の種類・診療科による設定
+- 緊急度や特殊疾病に応じた調整
+</div></code></pre>
+<h3 id="2-%E5%89%B2%E5%BC%95%E7%8E%87%E3%83%BB%E9%96%BE%E5%80%A4%E8%A8%AD%E5%AE%9A%E4%BE%8B">2. 割引率・閾値設定例</h3>
+<h4 id="%E6%A6%82%E8%A6%81">概要</h4>
+<p>割引や減額は、一定の条件を満たした場合に適用されます。閾値を設定し、それを超えると割引を適用します。</p>
+<h4 id="%E8%A8%AD%E5%AE%9A%E4%BE%8B">設定例</h4>
+<table>
+<thead>
+<tr>
+<th>条件</th>
+<th>閾値</th>
+<th>割引内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>年齢</td>
+<td>65歳以上</td>
+<td>シニア割引（10%割引）</td>
+</tr>
+<tr>
+<td>納付期間</td>
+<td>納付期間 12ヶ月以上</td>
+<td>長期納付割引（5%割引）</td>
+</tr>
+<tr>
+<td>医療費総額</td>
+<td>10万円超</td>
+<td>紹介割引（15%割引）</td>
+</tr>
+</tbody>
+</table>
+<h4 id="%E6%9D%A1%E4%BB%B6%E4%BE%8B%E6%93%AC%E4%BC%BC%E3%82%B3%E3%83%BC%E3%83%89">条件例（擬似コード）</h4>
+<pre class="hljs"><code><div>IF 年齢 ≥ 65
+    割引率 = 10
+ELSE IF 納付期間 ≥ 12
+    割引率 = 5
+ELSE
+    割引率 = 0
+END-IF
+</div></code></pre>
+<h3 id="3-%E6%9D%A1%E4%BB%B6%E5%88%86%E5%B2%90%E3%83%BB%E9%96%BE%E5%80%A4%E8%A8%AD%E5%AE%9A%E8%A9%B3%E7%B4%B0">3. 条件分岐・閾値設定詳細</h3>
+<h4 id="%E5%85%B7%E4%BD%93%E7%9A%84%E3%81%AA%E6%9D%A1%E4%BB%B6%E5%88%86%E5%B2%90%E4%BE%8B">具体的な条件分岐例</h4>
+<p>これらはソースコードの条件判定に基づく例です。</p>
+<h5 id="%E4%BE%8B1-%E6%9D%A1%E4%BB%B6%E3%81%AB%E3%82%88%E3%82%8A%E3%83%95%E3%83%A9%E3%82%B0%E7%AB%8B%E3%81%A6">例1: 条件によりフラグ立て</h5>
+<pre class="hljs"><code><div>IF 変数A ≥ 1000
+    SET フラグ = 'Y'
+ELSE
+    SET フラグ = 'N'
+END-IF
+</div></code></pre>
+<h5 id="%E4%BE%8B2-evaluate%E3%81%AB%E3%82%88%E3%82%8B%E5%88%86%E5%B2%90">例2: EVALUATEによる分岐</h5>
+<pre class="hljs"><code><div>EVALUATE TRUE
+    WHEN (変数B = 0) 
+        変数C = 0
+    WHEN (変数B &gt; 0 AND 変数B ≤ 500)
+        変数C = 100
+    WHEN OTHER
+        変数C = 200
+END-EVALUATE
+</div></code></pre>
+<h4 id="%E9%96%BE%E5%80%A4%E8%A8%AD%E5%AE%9A%E3%81%AE%E4%BE%8B">閾値設定の例</h4>
+<pre class="hljs"><code><div>- `変数A` の閾値は 1000
+- `変数B` の閾値は 500
+- 複合条件として「A &gt;= 1000かつB &lt;= 500」など
+</div></code></pre>
+<hr>
+<h3 id="4-%E3%83%91%E3%83%A9%E3%83%A1%E3%83%BC%E3%82%BF%E8%AA%BF%E6%95%B4%E4%BE%8B%E3%81%A8%E8%A3%9C%E8%B6%B3">4. パラメータ調整例と補足</h3>
+<h4 id="%E8%A4%87%E6%95%B0%E3%82%BD%E3%83%BC%E3%82%B9%E3%82%B3%E3%83%BC%E3%83%89%E3%81%8B%E3%82%89%E6%8E%A8%E6%B8%AC%E3%81%95%E3%82%8C%E3%82%8B%E3%83%91%E3%83%A9%E3%83%A1%E3%83%BC%E3%82%BF%E3%81%AE%E8%AA%BF%E6%95%B4%E4%BE%8B">複数ソースコードから推測されるパラメータの調整例</h4>
+<ul>
+<li><strong>負担割合</strong>の調整：増加・減少させて実運用の負担バランスを調整</li>
+<li><strong>割引率や閾値</strong>：高齢者率や所得などの条件に応じて動的に変更</li>
+<li><strong>計算式の設定</strong>：乗算・加算の係数や定数値をシステムの運用方針に合わせて調整</li>
+<li><strong>条件分岐の閾値</strong>：変数に基づく判断基準と閾値を現場運用に合わせて適宜設定</li>
+</ul>
+<h4 id="%E4%BE%8B%E9%96%BE%E5%80%A4%E3%82%84%E5%89%B2%E5%90%88%E3%81%AE%E8%AA%BF%E6%95%B4%E3%83%91%E3%82%BF%E3%83%BC%E3%83%B3">例：閾値や割合の調整パターン</h4>
+<pre class="hljs"><code><div>- 緊急性の高いケースでは負担割合を低く設定
+- 長期利用者には割引率を高く設定
+- 高額請求に対しては閾値を引き上げる
+</div></code></pre>
+<hr>
+<h3 id="5-%E5%9B%B3%E8%A7%A3%E6%9D%A1%E4%BB%B6%E5%88%86%E5%B2%90%E3%81%AE%E5%88%B6%E5%BE%A1%E3%83%95%E3%83%AD%E3%83%BC%E4%BE%8B">5. 図解：条件分岐の制御フロー例</h3>
+<pre><code class="language-mermaid"><div class="mermaid">flowchart TD
+    Start --> CheckCondition1
+    CheckCondition1 -- 条件成立 --> ProcessA
+    CheckCondition1 -- 条件不成立 --> CheckCondition2
+    CheckCondition2 -- 条件成立 --> ProcessB
+    CheckCondition2 -- 条件不成立 --> DefaultProcess
+    DefaultProcess --> End
+</div></code></pre>
+<p>このフローは、複数の条件に基づく処理振り分けの一般的な流れを示しています。</p>
+<hr>
+<h3 id="%E3%81%BE%E3%81%A8%E3%82%81">まとめ</h3>
+<p>これらの具体的な設定例と条件分岐例は、システムの安定運用と柔軟な調整を可能にします。実運用のニーズに合わせて、パラメータの調整や条件閾値の変更を行うことが重要です。</p>
+<hr>
+<p><em>注意：具体的な値や閾値の設定は、実運用環境や規定に依存します。上記例はあくまで運用例として参考ください。</em></p>
+
+</body>
+</html>

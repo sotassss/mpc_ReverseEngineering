@@ -1,5 +1,6 @@
 import os
 from datetime import datetime
+import re
 
 def write_output_md(output):
     # ファイル名に日時を付ける
@@ -7,7 +8,7 @@ def write_output_md(output):
     current_time = datetime.now().strftime("%Y_%m_%d_%H%M")
     output_folder = f"Output_{current_date}"
     output_filename = f"Document_{current_time}.md"
-  
+    
     # 保存先ディレクトリ作成
     save_directory = os.path.join("./Output", output_folder)
     os.makedirs(save_directory, exist_ok=True)
@@ -18,27 +19,30 @@ def write_output_md(output):
     toc = [f"# {output.title}\n\n## 目次\n"]
     doc_titles = []
     
-    # 各ドキュメントの最初の行（タイトル）を抽出
+    # 各ドキュメントのタイトルを適切に抽出
     for i, doc in enumerate(output.documents, 1):
         if doc:
             lines = doc.split('\n')
-            title = lines[0].strip()
-            # '#' で始まる場合は Markdown のタイトル形式を処理
+            first_line = lines[0].strip()
+            
+            # Markdownのタイトル形式を処理
+            title = first_line
             if title.startswith('#'):
-                title = title.lstrip('#').strip()
+                # '#'記号を除去
+                title = re.sub(r'^#+\s*', '', title)
+            
+            # 先頭の数字とピリオドのパターンを削除（例：「1. 」）
+            title = re.sub(r'^\d+\.\s*', '', title)
+            
             doc_titles.append((i, title))
     
-    # 目次項目を追加（番号を除去）
+    # 目次項目を追加
     for i, title in doc_titles:
-        # タイトルからすでに含まれている数字や記号を取り除く
-        clean_title = title
-        # 先頭の数字とピリオドのパターン（例：「1. 」）を削除
-        if clean_title.strip() and clean_title[0].isdigit():
-            parts = clean_title.strip().split('.', 1)
-            if len(parts) > 1 and parts[0].isdigit():
-                clean_title = parts[1].strip()
-        
-        toc.append(f"{i}. [{clean_title}](#{i}-{clean_title.lower().replace(' ', '-').replace('.', '').replace('(', '').replace(')', '')})\n")
+        # 目次リンク用のアンカー生成
+        anchor = title.lower().replace(' ', '-')
+        # 特殊文字を削除
+        anchor = re.sub(r'[^\w\-]', '', anchor)
+        toc.append(f"{i}. [{title}](#{i}-{anchor})\n")
     
     toc.append("\n---\n\n")
     
@@ -46,48 +50,36 @@ def write_output_md(output):
     content = []
     for i, doc in enumerate(output.documents, 1):
         if doc:
-            # セクション番号を追加
             title = doc_titles[i-1][1]
-            
-            # タイトルから既存の番号を削除
-            clean_title = title
-            if clean_title.strip() and clean_title[0].isdigit():
-                parts = clean_title.strip().split('.', 1)
-                if len(parts) > 1 and parts[0].isdigit():
-                    clean_title = parts[1].strip()
             
             # ドキュメント内容を処理
             doc_lines = doc.split('\n')
             processed_lines = []
             
             # 先頭行（タイトル）をスキップ
-            skip_first = True
+            first_line = True
             
             for line in doc_lines:
-                if skip_first:
-                    skip_first = False
+                if first_line:
+                    first_line = False
                     continue
                 
-                # 他のヘッダーを1レベル下げる（H2→H3、H3→H4など）
-                if line.strip().startswith('#'):
-                    header_level = 0
-                    for char in line:
-                        if char == '#':
-                            header_level += 1
-                        else:
-                            break
-                    
-                    # ヘッダーレベルを1つ増やす（より小さく）
-                    if header_level >= 1:
-                        new_header = '#' * (header_level + 1) + line[header_level:]
-                        processed_lines.append(new_header)
-                    else:
-                        processed_lines.append(line)
+                # ヘッダーを調整（H1→H2、H2→H3など）
+                header_match = re.match(r'^(#+)\s+(.*)', line)
+                if header_match:
+                    # 既存のヘッダーレベルを1つ増やす
+                    hash_marks = header_match.group(1) + '#'
+                    header_content = header_match.group(2)
+                    processed_lines.append(f"{hash_marks} {header_content}")
                 else:
                     processed_lines.append(line)
             
-            # セクションタイトルを H2 に（数字付き）
-            content.append(f"## {i}. {clean_title}\n\n" + '\n'.join(processed_lines) + "\n\n")
+            # セクションのアンカー生成
+            anchor = title.lower().replace(' ', '-')
+            anchor = re.sub(r'[^\w\-]', '', anchor)
+            
+            # セクションタイトルを H2 に（アンカー付き）
+            content.append(f"<h2 id=\"{i}-{anchor}\">{i}. {title}</h2>\n\n" + '\n'.join(processed_lines) + "\n\n")
     
     # 目次と内容を結合して書き込み
     with open(output_filepath, "w", encoding="utf-8") as file:
