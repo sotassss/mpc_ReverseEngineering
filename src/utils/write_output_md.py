@@ -20,7 +20,6 @@ def write_output_md(output):
     
     # 各ドキュメントの最初の行（タイトル）を抽出
     for i, doc in enumerate(output.documents, 1):
-        # 最初の行をタイトルとして抽出
         if doc:
             lines = doc.split('\n')
             title = lines[0].strip()
